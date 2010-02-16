@@ -3443,8 +3443,9 @@ DWORD MOD_GRADIENT::getmixcolor(int tx, int ty, int i) // too slow T.T
 		ty += b_images[i].yoffset;
 		while(tx>b_images[i].width-1) tx-=b_images[i].width;
 		while(ty>b_images[i].height-1) ty-=b_images[i].height;
-		//int sz = sizeof(b_images[i].pointer[ty]);
-		BYTE* dst = b_images[i].pointer[ty]+tx*b_images[i].bpp;
+		// now tx and ty are valid array indexes
+		// rows are inverted last,...,n,...,1,0
+		BYTE* dst = b_images[i].pointer[b_images[i].height-1-ty]+tx*b_images[i].bpp;
 		BYTE r = dst[0];
 		BYTE g = dst[1];
 		BYTE b = dst[2];
