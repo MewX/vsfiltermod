@@ -696,6 +696,8 @@ CRect CLine::PaintShadow(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CPo
 			CPoint mod_jitter = w->m_style.mod_jitter.getOffset(rt);
 			x += mod_jitter.x;
 			y += mod_jitter.y;
+			// patch m010. png background
+			// subpixel positioning
 			w->m_style.mod_grad.subpixx = x&7;
 			w->m_style.mod_grad.subpixy = y&7;
 #endif
@@ -761,6 +763,8 @@ CRect CLine::PaintOutline(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CP
 			CPoint mod_jitter = w->m_style.mod_jitter.getOffset(rt);
 			x += mod_jitter.x;
 			y += mod_jitter.y;
+			// patch m010. png background
+			// subpixel positioning
 			w->m_style.mod_grad.subpixx = x&7;
 			w->m_style.mod_grad.subpixy = y&7;
 #endif
@@ -868,6 +872,8 @@ CRect CLine::PaintBody(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CPoin
 			CPoint mod_jitter = w->m_style.mod_jitter.getOffset(rt);
 			x += mod_jitter.x;
 			y += mod_jitter.y;
+			// patch m010. png background
+			// subpixel positioning
 			w->m_style.mod_grad.subpixx = x&7;
 			w->m_style.mod_grad.subpixy = y&7;
 #endif
@@ -1699,9 +1705,10 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 				: org.alpha[i];
 #ifdef _VSMOD // patch m004. gradient colors
 			style.mod_grad.alphas[i] = style.alpha[i];
+			style.mod_grad.b_images[i].alpha = 255-style.alpha[i];
 			if (!fAnimate) 
 			{
-				style.mod_grad.mode[i] = 0;
+				//style.mod_grad.mode[i] = 0;
 				for (int j=0;j<4;j++)
 				{
 					style.mod_grad.alpha[i][j] = !p.IsEmpty()
@@ -1845,12 +1852,13 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 				style.mod_grad.alphas[i] = style.alpha[i];
 				if (!fAnimate) 
 				{
-					style.mod_grad.mode[i] = 0;
+					//style.mod_grad.mode[i] = 0;
 					for (int j=0;j<4;j++)
 					{
 						style.mod_grad.alpha[i][j] = !p.IsEmpty()
 						? al
 						: org.mod_grad.alpha[i][j];
+						style.mod_grad.b_images[i].alpha = 255-al;
 					}
 				}
 				else if(style.mod_grad.mode[i] != 0)
@@ -1860,6 +1868,7 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 						style.mod_grad.alpha[i][j] = !p.IsEmpty()
 						? (((int)CalcAnimation(al, style.mod_grad.alpha[i][j], fAnimate)))
 						: org.alpha[i];
+						style.mod_grad.b_images[i].alpha = 255-style.alpha[i];
 					}
 				}
 #endif

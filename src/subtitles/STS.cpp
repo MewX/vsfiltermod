@@ -3277,6 +3277,9 @@ MOD_PNGIMAGE::MOD_PNGIMAGE()
 	yoffset = 0;
 
 	pointer = NULL;
+
+	// rasterizer
+	alpha = 0xFF;
 }
 
 bool MOD_PNGIMAGE::operator == (MOD_PNGIMAGE& png)
@@ -3485,6 +3488,8 @@ DWORD MOD_GRADIENT::getmixcolor(int tx, int ty, int i) // too slow T.T
 			b = (((dst21[2]*(8-subpixx)+dst22[2]*subpixx)>>3)*(subpixy)+((b*(8-subpixx)+dst12[2]*subpixx)>>3)*(8-subpixy))>>3;
 			a = (b_images[i].bpp==4) ? (((dst21[3]*(8-subpixx)+dst22[3]*subpixx)>>3)*(subpixy)+((a*(8-subpixx)+dst12[3]*subpixx)>>3)*(8-subpixy))>>3 : 0xFF;
 		}
+		// alpha fix
+		a = (a*b_images[i].alpha)>>8;
 		colorb = a<<24 | r<<16 | g<<8 | b;
 
 		return colorb;

@@ -58,6 +58,8 @@ public:
 
 	int		bpp;
 
+	BYTE	alpha;
+
 	png_byte color_type;
 	png_byte bit_depth;
 
@@ -89,6 +91,8 @@ public:
 
  BYTE		subpixx;
  BYTE		subpixy;
+
+ BYTE		img_alpha;
 
  // for background image
  MOD_PNGIMAGE	b_images[4];
