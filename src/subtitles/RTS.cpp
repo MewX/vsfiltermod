@@ -696,6 +696,8 @@ CRect CLine::PaintShadow(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CPo
 			CPoint mod_jitter = w->m_style.mod_jitter.getOffset(rt);
 			x += mod_jitter.x;
 			y += mod_jitter.y;
+			w->m_style.mod_grad.subpixx = x&7;
+			w->m_style.mod_grad.subpixy = y&7;
 #endif
 			w->Paint(CPoint(x, y), org);
 
@@ -759,6 +761,8 @@ CRect CLine::PaintOutline(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CP
 			CPoint mod_jitter = w->m_style.mod_jitter.getOffset(rt);
 			x += mod_jitter.x;
 			y += mod_jitter.y;
+			w->m_style.mod_grad.subpixx = x&7;
+			w->m_style.mod_grad.subpixy = y&7;
 #endif
 
 			w->Paint(CPoint(x, y), org);
@@ -864,6 +868,8 @@ CRect CLine::PaintBody(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CPoin
 			CPoint mod_jitter = w->m_style.mod_jitter.getOffset(rt);
 			x += mod_jitter.x;
 			y += mod_jitter.y;
+			w->m_style.mod_grad.subpixx = x&7;
+			w->m_style.mod_grad.subpixy = y&7;
 #endif
 
 		w->Paint(CPoint(x, y), org);
@@ -1341,7 +1347,6 @@ bool CRenderedTextSubtitle::Init(CSize size, CRect vidrect)
 	Deinit();
 
 	m_size = CSize(size.cx*8, size.cy*8);
-	mod_img_count = 0;
 	m_vidrect = CRect(vidrect.left*8, vidrect.top*8, vidrect.right*8, vidrect.bottom*8);
 
 	m_sla.Empty();
@@ -1764,7 +1769,6 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 							style.mod_grad.mode[i] = 2;
 							style.mod_grad.b_images[i] = t_temp;
 							mod_images.Add(t_temp);
-							mod_img_count++;
 						}
 						else if(t_temp.initImage(fpath+params[0])) // path+relativepath
 						{ 
@@ -1772,7 +1776,6 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 							style.mod_grad.b_images[i] = t_temp;
 							mod_images.Add(t_temp);
 							//mod_images[mod_img_count] = (size_t)&t_temp;
-							mod_img_count++;
 						}
 					}
 				}

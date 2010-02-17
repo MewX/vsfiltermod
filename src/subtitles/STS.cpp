@@ -3353,6 +3353,11 @@ void MOD_PNGIMAGE::freeImage()
 	if(pointer!=NULL) delete [] pointer;
 }
 
+MOD_GRADIENT::MOD_GRADIENT()
+{
+	clear();
+}
+
 bool MOD_GRADIENT::operator == (MOD_GRADIENT& mg)
 {
 	return (color[0][0] == mg.color[0][0] // T.T
@@ -3411,6 +3416,8 @@ void MOD_GRADIENT::clear()
 	height = 0;
 	xoffset = 0;
 	yoffset = 0;
+	subpixx = 0;
+	subpixy = 0;
 }
 
 DWORD MOD_GRADIENT::getmixcolor(int tx, int ty, int i) // too slow T.T
@@ -3439,17 +3446,45 @@ DWORD MOD_GRADIENT::getmixcolor(int tx, int ty, int i) // too slow T.T
 	// png background
 	if(mode[i]==2)
 	{
+
 		tx += b_images[i].xoffset;
 		ty += b_images[i].yoffset;
 		while(tx>b_images[i].width-1) tx-=b_images[i].width;
 		while(ty>b_images[i].height-1) ty-=b_images[i].height;
 		// now tx and ty are valid array indexes
 		// rows are inverted last,...,n,...,1,0
-		BYTE* dst = b_images[i].pointer[b_images[i].height-1-ty]+tx*b_images[i].bpp;
-		BYTE r = dst[0];
-		BYTE g = dst[1];
-		BYTE b = dst[2];
-		BYTE a = (b_images[i].bpp==4) ? dst[3] : 0xFF;
+		bool nlastpixx = (tx>0);
+		bool nlastpixy = (ty<b_images[i].height-1);
+		BYTE* dst11 = b_images[i].pointer[b_images[i].height-1-ty]+tx*b_images[i].bpp;
+		BYTE* dst12 = (nlastpixx) ? b_images[i].pointer[b_images[i].height-1-ty]+(tx-1)*b_images[i].bpp : NULL;
+		BYTE* dst21 = (nlastpixy) ? b_images[i].pointer[b_images[i].height-ty-2]+tx*b_images[i].bpp : NULL;
+		BYTE* dst22 = (nlastpixx&&nlastpixy) ? b_images[i].pointer[b_images[i].height-ty-2]+(tx-1)*b_images[i].bpp : NULL;
+		BYTE r = dst11[0];
+		BYTE g = dst11[1];
+		BYTE b = dst11[2];
+		BYTE a = (b_images[i].bpp==4) ? dst11[3] : 0xFF;
+		// subpixel positioning
+		if(nlastpixx&&!nlastpixy) // last row
+		{
+			r = (r*(8-subpixx)+dst12[0]*subpixx)>>3;
+			g = (g*(8-subpixx)+dst12[1]*subpixx)>>3;
+			b = (b*(8-subpixx)+dst12[2]*subpixx)>>3;
+			a = (b_images[i].bpp==4) ? (a*(8-subpixx)+dst12[3]*subpixx)>>3 : 0xFF;
+		}
+		else if(nlastpixy&&!nlastpixx) // last col
+		{
+			r = (r*(subpixy)+dst21[0]*(8-subpixy))>>3;
+			g = (g*(subpixy)+dst21[1]*(8-subpixy))>>3;
+			b = (b*(subpixy)+dst21[2]*(8-subpixy))>>3;
+			a = (b_images[i].bpp==4) ? (a*(subpixy)+dst21[3]*(8-subpixy))>>3 : 0xFF;
+		}
+		else if(nlastpixy&&nlastpixx)
+		{// T.T
+			r = (((dst21[0]*(8-subpixx)+dst22[0]*subpixx)>>3)*(subpixy)+((r*(8-subpixx)+dst12[0]*subpixx)>>3)*(8-subpixy))>>3;
+			g = (((dst21[1]*(8-subpixx)+dst22[1]*subpixx)>>3)*(subpixy)+((g*(8-subpixx)+dst12[1]*subpixx)>>3)*(8-subpixy))>>3;
+			b = (((dst21[2]*(8-subpixx)+dst22[2]*subpixx)>>3)*(subpixy)+((b*(8-subpixx)+dst12[2]*subpixx)>>3)*(8-subpixy))>>3;
+			a = (b_images[i].bpp==4) ? (((dst21[3]*(8-subpixx)+dst22[3]*subpixx)>>3)*(subpixy)+((a*(8-subpixx)+dst12[3]*subpixx)>>3)*(8-subpixy))>>3 : 0xFF;
+		}
 		colorb = a<<24 | r<<16 | g<<8 | b;
 
 		return colorb;

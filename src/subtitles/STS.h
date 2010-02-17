@@ -87,10 +87,13 @@ public:
  int		xoffset;
  int		yoffset;
 
+ BYTE		subpixx;
+ BYTE		subpixy;
+
  // for background image
  MOD_PNGIMAGE	b_images[4];
 
- //MOD_GRADIENT();
+ MOD_GRADIENT();
  bool operator == (MOD_GRADIENT& mg);
 
  void clear();
