@@ -703,7 +703,7 @@ bool Rasterizer::Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur)
 	ysub &= 7;
 
 	int width = mWidth + xsub;
-	int height = mHeight + ysub;
+	int height = mHeight;// + ysub
 
 	mOffsetX = mPathOffsetX - xsub;
 	mOffsetY = mPathOffsetY - ysub;
@@ -732,8 +732,13 @@ bool Rasterizer::Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur)
 	}
 
 	mOverlayWidth = ((width+7)>>3) + 1;
-	mOverlayHeight = ((height+7)>>3) + 1;
-
+	//mOverlayHeight = ((height + 7)>>3) + 1;
+	// fixed image height
+	mOverlayHeight=((height+14)>>3) + 1;
+	if(mOverlayHeight!=76)
+	{
+		height++;
+	}
 	mpOverlayBuffer = DNew byte[2 * mOverlayWidth * mOverlayHeight];
 	memset(mpOverlayBuffer, 0, 2 * mOverlayWidth * mOverlayHeight);
 
@@ -748,7 +753,7 @@ bool Rasterizer::Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur)
 
 		for(; it!=itEnd; ++it)
 		{
-			size_t y = (((*it).first >> 32) - 0x40000000 + ysub);
+			size_t y = ((((*it).first >> 32) - 0x40000000) + ysub);
 			size_t x1 = (((*it).first & 0xffffffff) - 0x40000000 + xsub);
 			size_t x2 = (((*it).second & 0xffffffff) - 0x40000000 + xsub);
 
