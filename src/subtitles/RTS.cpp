@@ -1499,7 +1499,14 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 		if(str[j] == '(')
 		{
 			CStringW param;
-			for(WCHAR c = str[++j]; c && c != ')'; param += c, c = str[++j]);
+			//for(WCHAR c = str[++j]; c && c != ')'; param += c, c = str[++j]);
+			// complex tags search
+			int br = 1; // 1 bracket
+			for(WCHAR c = str[++j];c && br>0;param += c, c = str[++j])
+			{
+				if (c=='(') br++;
+				if (c==')') br--;
+			}
 			param.Trim();
 
 			while(!param.IsEmpty())
@@ -1736,10 +1743,10 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 			{
 				DWORD c;
 				style.mod_grad.b_images[i].xoffset = !p.IsEmpty()
-					? (BYTE)CalcAnimation(wcstol(params[1], NULL, 16), style.mod_grad.b_images[i].xoffset, fAnimate)
+					? (BYTE)CalcAnimation(wcstol(params[1], NULL, 10), style.mod_grad.b_images[i].xoffset, fAnimate)
 					: org.mod_grad.b_images[i].xoffset;
 				style.mod_grad.b_images[i].yoffset = !p.IsEmpty()
-					? (BYTE)CalcAnimation(wcstol(params[2], NULL, 16), style.mod_grad.b_images[i].yoffset, fAnimate)
+					? (BYTE)CalcAnimation(wcstol(params[2], NULL, 10), style.mod_grad.b_images[i].yoffset, fAnimate)
 					: org.mod_grad.b_images[i].yoffset;
 				if (!fAnimate)
 				{
