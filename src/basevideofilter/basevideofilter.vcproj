@@ -47,6 +47,7 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\include;..\BaseClasses"
 				PreprocessorDefinitions="WIN32;_DEBUG"
+				EnableEnhancedInstructionSet="1"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -293,6 +294,7 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\include;..\BaseClasses"
 				PreprocessorDefinitions="WIN32;_DEBUG"
+				EnableEnhancedInstructionSet="1"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"

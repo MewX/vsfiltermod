@@ -46,6 +46,7 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\include;..\BaseClasses"
 				PreprocessorDefinitions="WIN32;_DEBUG;"
+				EnableEnhancedInstructionSet="1"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -290,6 +291,7 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\include;..\BaseClasses;..\zlib;..\libpng"
 				PreprocessorDefinitions="WIN32;_DEBUG;_VSMOD"
+				EnableEnhancedInstructionSet="1"
 				OpenMP="true"
 			/>
 			<Tool
@@ -413,7 +415,7 @@
 				AdditionalIncludeDirectories="..\..\include;..\BaseClasses;..\libpng;..\zlib"
 				PreprocessorDefinitions="WIN32;NDEBUG;_VSMOD"
 				BufferSecurityCheck="true"
-				EnableEnhancedInstructionSet="2"
+				EnableEnhancedInstructionSet="1"
 				DisableSpecificWarnings="4244"
 			/>
 			<Tool

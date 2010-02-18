@@ -111,6 +111,7 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\zlib"
 				PreprocessorDefinitions="_WIN64;_DEBUG;_LIB"
+				EnableEnhancedInstructionSet="1"
 				UsePrecompiledHeader="0"
 				WarningLevel="2"
 				DebugInformationFormat="3"
@@ -238,7 +239,7 @@
 				AdditionalIncludeDirectories="..\zlib"
 				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB"
 				BufferSecurityCheck="true"
-				EnableEnhancedInstructionSet="0"
+				EnableEnhancedInstructionSet="1"
 				UsePrecompiledHeader="0"
 				WarningLevel="2"
 			/>
@@ -363,6 +364,7 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\zlib"
 				PreprocessorDefinitions="_WIN64;_DEBUG;_LIB"
+				EnableEnhancedInstructionSet="1"
 				UsePrecompiledHeader="0"
 				WarningLevel="2"
 				DebugInformationFormat="3"
@@ -490,7 +492,7 @@
 				AdditionalIncludeDirectories="..\zlib"
 				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB"
 				BufferSecurityCheck="true"
-				EnableEnhancedInstructionSet="0"
+				EnableEnhancedInstructionSet="1"
 				UsePrecompiledHeader="0"
 				WarningLevel="2"
 			/>

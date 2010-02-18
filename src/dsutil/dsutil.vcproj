@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="dsutil"
+	Name="DSUtil"
 	ProjectGUID="{FC70988B-1AE5-4381-866D-4F405E28AC42}"
 	RootNamespace="dsutil"
 	Keyword="Win32Proj"
@@ -46,6 +46,7 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\include;..\BaseClasses"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;"
+				EnableEnhancedInstructionSet="1"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -296,6 +297,7 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\include;..\BaseClasses"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;"
+				EnableEnhancedInstructionSet="1"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -593,7 +595,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="yasm -X vc -g cv8 -f &quot;$(PlatformName)&quot; -o &quot;$(OutDir)\$(InputName).ob&quot;j &quot;$(InputPath)&quot;"
-						CommandLine="yasm -X vc -g cv8 -f &quot;$(PlatformName)&quot; -o &quot;$(OutDir)\$(InputName).ob&quot;j &quot;$(InputPath)&quot;"
+						CommandLine="yasm -X vc -g cv8 -f &quot;$(PlatformName)&quot; -o &quot;$(OutDir)\$(InputName).ob&quot;j &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputName).obj"
 					/>
 				</FileConfiguration>
@@ -785,7 +787,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="cpuid64.asm"
-						CommandLine="ml64 /c /Cx /nologo /Fo&quot;$(OutDir)\$(InputName).obj&quot; &quot;$(InputPath)&quot;"
+						CommandLine="ml64 /c /Cx /nologo /Fo&quot;$(OutDir)\$(InputName).obj&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputName).obj"
 					/>
 				</FileConfiguration>
@@ -803,7 +805,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="cpuid64.asm"
-						CommandLine="ml64 /c /Cx /nologo /Fo&quot;$(OutDir)\$(InputName).obj&quot; &quot;$(InputPath)&quot;"
+						CommandLine="ml64 /c /Cx /nologo /Fo&quot;$(OutDir)\$(InputName).obj&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputName).obj"
 					/>
 				</FileConfiguration>
@@ -821,7 +823,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="cpuid64.asm"
-						CommandLine="ml64 /c /Cx /nologo /Fo&quot;$(OutDir)\$(InputName).obj&quot; &quot;$(InputPath)&quot;"
+						CommandLine="ml64 /c /Cx /nologo /Fo&quot;$(OutDir)\$(InputName).obj&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputName).obj"
 					/>
 				</FileConfiguration>
@@ -839,7 +841,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="cpuid64.asm"
-						CommandLine="ml64 /c /Cx /nologo /Fo&quot;$(OutDir)\$(InputName).obj&quot; &quot;$(InputPath)&quot;"
+						CommandLine="ml64 /c /Cx /nologo /Fo&quot;$(OutDir)\$(InputName).obj&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputName).obj"
 					/>
 				</FileConfiguration>

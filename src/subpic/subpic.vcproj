@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="subpic"
+	Name="SubPic"
 	ProjectGUID="{D514EA4D-EAFB-47A9-A437-A582CA571251}"
 	RootNamespace="subpic"
 	Keyword="Win32Proj"
@@ -46,6 +46,7 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\include;..\BaseClasses;..\..\include\dx"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;"
+				EnableEnhancedInstructionSet="1"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -294,6 +295,7 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\include;..\BaseClasses;..\..\include\dx"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;"
+				EnableEnhancedInstructionSet="1"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"

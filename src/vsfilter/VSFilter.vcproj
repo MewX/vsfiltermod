@@ -45,6 +45,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\include;..\..\include\virtualdub;..\BaseClasses"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;_USRDLL;ISOLATION_AWARE_ENABLED;_WIN32_WINNT=0x0600;_CRT_SECURE_NO_WARNINGS"
+				EnableEnhancedInstructionSet="1"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -356,7 +357,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\include;..\..\include\virtualdub;..\BaseClasses;..\zlib;..\libpng"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;_USRDLL;ISOLATION_AWARE_ENABLED;_WIN32_WINNT=0x0600;_VSMOD;_CRT_SECURE_NO_WARNINGS"
-				EnableEnhancedInstructionSet="2"
+				EnableEnhancedInstructionSet="1"
 				OpenMP="true"
 			/>
 			<Tool
@@ -512,7 +513,7 @@
 				BasicRuntimeChecks="0"
 				RuntimeLibrary="0"
 				BufferSecurityCheck="true"
-				EnableEnhancedInstructionSet="2"
+				EnableEnhancedInstructionSet="1"
 				Detect64BitPortabilityProblems="false"
 			/>
 			<Tool
