@@ -325,7 +325,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Copy to VirtualDub catalog"
-				CommandLine="del D:\Dev\VirtualDub\plugins64\$(ProjectName).dll /Q&#x0D;&#x0A;del D:\Dev\VirtualDub\plugins64\$(ProjectName).vdf /Q&#x0D;&#x0A;xcopy ..\..\bin\x64\$(ProjectName).dll D:\Dev\VirtualDub\plugins64\&#x0D;&#x0A;rename D:\Dev\VirtualDub\plugins64\$(ProjectName).dll $(ProjectName).vdf"
+				CommandLine="del D:\Dev\VirtualDub\plugins64\$(ProjectName).dll /Q&#x0D;&#x0A;del D:\Dev\VirtualDub\plugins64\$(ProjectName).vdf /Q&#x0D;&#x0A;xcopy ..\..\bin\x64\$(ProjectName).dll D:\Dev\VirtualDub\plugins64\&#x0D;&#x0A;rename D:\Dev\VirtualDub\plugins64\$(ProjectName).dll $(ProjectName).vdf&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -448,7 +448,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="strmbaseDU.lib dsutilDU.lib subtitlesDUM.lib subpicDU.lib basevideofilterDU.lib libpngD.lib zlibD.lib Winmm.lib comsuppwd.lib"
-				OutputFile="..\..\bin\x64\$(ProjectName)Mod.dll"
+				OutputFile="..\..\bin\x64\$(ProjectName)Mod64.dll"
 				AdditionalLibraryDirectories="..\..\lib64"
 				ModuleDefinitionFile=".\VSFilter.def"
 				SubSystem="2"
@@ -475,7 +475,6 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description=""
 				CommandLine=""
 			/>
 		</Configuration>
@@ -612,7 +611,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="delayimp.lib strmbaseRU.lib dsutilRU.lib subtitlesRUM.lib subpicRU.lib basevideofilterRU.lib libpngR.lib zlibR.lib Winmm.lib comsuppwd.lib"
-				OutputFile="..\..\bin\x64\$(ProjectName)Mod.dll"
+				OutputFile="..\..\bin\x64\$(ProjectName)Mod64.dll"
 				AdditionalLibraryDirectories="..\..\lib64"
 				IgnoreDefaultLibraryNames="MSVCRT"
 				ModuleDefinitionFile=".\VSFilter.def"
@@ -644,7 +643,6 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description=""
 				CommandLine=""
 			/>
 		</Configuration>
@@ -771,8 +769,76 @@
 				>
 			</File>
 			<File
-				RelativePath="VSFilter.rc"
+				RelativePath=".\VSFilter.rc"
 				>
+				<FileConfiguration
+					Name="Debug Unicode (MOD)|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCResourceCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug Unicode (MOD)|x64"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCResourceCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release Unicode (MOD)|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCResourceCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release Unicode (MOD)|x64"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCResourceCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\VSFilterMod.rc"
+				>
+				<FileConfiguration
+					Name="Debug Unicode|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCResourceCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug Unicode|x64"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCResourceCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release Unicode|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCResourceCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release Unicode|x64"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCResourceCompilerTool"
+					/>
+				</FileConfiguration>
 			</File>
 		</Filter>
 	</Files>
