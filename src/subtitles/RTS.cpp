@@ -1499,13 +1499,13 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 		if(str[j] == '(')
 		{
 			CStringW param;
-			//for(WCHAR c = str[++j]; c && c != ')'; param += c, c = str[++j]);
 			// complex tags search
 			int br = 1; // 1 bracket
 			for(WCHAR c = str[++j];c && br>0;param += c, c = str[++j])
 			{
 				if (c=='(') br++;
 				if (c==')') br--;
+				if (br==0) break;
 			}
 			param.Trim();
 
@@ -1739,15 +1739,8 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 		{
 			int i = cmd[0] - '1';
 
-			if(params.GetCount() >= 3)// file,xoffset,yoffset
+			if(params.GetCount() >= 1)// file[,xoffset,yoffset]
 			{
-				DWORD c;
-				style.mod_grad.b_images[i].xoffset = !p.IsEmpty()
-					? (BYTE)CalcAnimation(wcstol(params[1], NULL, 10), style.mod_grad.b_images[i].xoffset, fAnimate)
-					: org.mod_grad.b_images[i].xoffset;
-				style.mod_grad.b_images[i].yoffset = !p.IsEmpty()
-					? (BYTE)CalcAnimation(wcstol(params[2], NULL, 10), style.mod_grad.b_images[i].yoffset, fAnimate)
-					: org.mod_grad.b_images[i].yoffset;
 				if (!fAnimate)
 				{
 					CString fpath = m_path.Left(m_path.ReverseFind('\\')+1);
@@ -1784,14 +1777,22 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 							style.mod_grad.b_images[i] = t_temp;
 							mod_images.Add(t_temp);
 						}
-						else if(t_temp.initImage(fpath+params[0])) // path+relativepath
+						else if(t_temp.initImage(fpath+params[0])) // path + relative path
 						{ 
 							style.mod_grad.mode[i] = 2;
 							style.mod_grad.b_images[i] = t_temp;
 							mod_images.Add(t_temp);
-							//mod_images[mod_img_count] = (size_t)&t_temp;
 						}
 					}
+				}
+				if(params.GetCount() >= 3)
+				{
+					style.mod_grad.b_images[i].xoffset = !p.IsEmpty()
+						? (BYTE)CalcAnimation(wcstol(params[1], NULL, 10), style.mod_grad.b_images[i].xoffset, fAnimate)
+						: org.mod_grad.b_images[i].xoffset;
+					style.mod_grad.b_images[i].yoffset = !p.IsEmpty()
+						? (BYTE)CalcAnimation(wcstol(params[2], NULL, 10), style.mod_grad.b_images[i].yoffset, fAnimate)
+						: org.mod_grad.b_images[i].yoffset;
 				}
 			}
 		}

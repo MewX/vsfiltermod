@@ -732,13 +732,9 @@ bool Rasterizer::Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur)
 	}
 
 	mOverlayWidth = ((width+7)>>3) + 1;
-	//mOverlayHeight = ((height + 7)>>3) + 1;
 	// fixed image height
 	mOverlayHeight=((height+14)>>3) + 1;
-	if(mOverlayHeight!=76)
-	{
-		height++;
-	}
+
 	mpOverlayBuffer = DNew byte[2 * mOverlayWidth * mOverlayHeight];
 	memset(mpOverlayBuffer, 0, 2 * mOverlayWidth * mOverlayHeight);
 
