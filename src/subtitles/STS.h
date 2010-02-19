@@ -68,7 +68,10 @@ public:
 	MOD_PNGIMAGE();
 
 	bool operator == (MOD_PNGIMAGE& png);
+	/**/
+	bool processData(png_structp png_ptr);
 	bool initImage(CString m_fn);
+	bool initImage(BYTE* data, CString m_fn);
 	void freeImage();
 };
 #endif
@@ -259,6 +262,10 @@ public:
 
 	CSTSStyleMap m_styles;
 
+#ifdef _VSMOD
+	CAtlArray<MOD_PNGIMAGE> mod_images;
+#endif
+
 	enum EPARCompensationType
 	{
 		EPCTDisabled = 0,
@@ -287,11 +294,11 @@ public:
 	bool Open(BYTE* data, int len, int CharSet, CString name); 
 	bool SaveAs(CString fn, exttype et, double fps = -1, CTextFile::enc = CTextFile::ASCII);
 
-#ifdef _VSMOD // patch m009. png graphics
-	void Add(CStringW str, bool fUnicode, int start, int end, CString style = _T("Default"), CString actor = _T(""), CString effect = _T(""), CRect marginRect = CRect(0,0,0,0), int layer = 0, int readorder = -1, int mod_scripttype = 0);
-#else
-	void Add(CStringW str, bool fUnicode, int start, int end, CString style = _T("Default"), CString actor = _T(""), CString effect = _T(""), CRect marginRect = CRect(0,0,0,0), int layer = 0, int readorder = -1);
+#ifdef _VSMOD // load embedded images
+	bool LoadUUEFile(CTextFile* file, CString m_fn);
+	bool LoadEfile(CString& img, CString m_fn);
 #endif
+	void Add(CStringW str, bool fUnicode, int start, int end, CString style = _T("Default"), CString actor = _T(""), CString effect = _T(""), CRect marginRect = CRect(0,0,0,0), int layer = 0, int readorder = -1);
 	STSStyle* CreateDefaultStyle(int CharSet);
 	void ChangeUnknownStylesToDefault();
 	void AddStyle(CString name, STSStyle* style); // style will be stored and freed in Empty() later

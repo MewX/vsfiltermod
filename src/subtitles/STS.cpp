@@ -854,7 +854,7 @@ static bool OpenMicroDVD(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
 
 	CString style(_T("Default"));
 
-	CStringW buff;;
+	CStringW buff;
 	while(file->ReadString(buff))
 	{
 		buff.Trim();
@@ -1294,7 +1294,16 @@ static bool LoadUUEFont(CTextFile* file)
 	while(file->ReadString(s))
 	{
 		s.Trim();
-		if(s.IsEmpty() || s[0] == '[') break;
+		if(s.IsEmpty()) break;
+		if(s[0] == '[') // check for some standatr blocks
+		{
+			if(s.Find(_T("[Script Info]")) == 0) break;
+			if(s.Find(_T("[V4+ Styles]")) == 0) break;
+			if(s.Find(_T("[V4 Styles]")) == 0) break;
+			if(s.Find(_T("[Events]")) == 0) break;
+			if(s.Find(_T("[Fonts]")) == 0) break;
+			if(s.Find(_T("[Graphics]")) == 0) break;
+		}
 		if(s.Find(_T("fontname:")) == 0) {LoadFont(font); font.Empty(); continue;}
 
 		font += s;
@@ -1305,6 +1314,83 @@ static bool LoadUUEFont(CTextFile* file)
 
 	return(true);
 }
+
+#ifdef _VSMOD
+bool CSimpleTextSubtitle::LoadEfile(CString& img, CString m_fn)
+{
+	int len = img.GetLength();
+
+	CAutoVectorPtr<BYTE> pData;
+	if(len == 0 || (len&3) == 1 || !pData.Allocate(len))
+		return(false);
+
+	const TCHAR* s = img;
+	const TCHAR* e = s + len;
+	for(BYTE* p = pData; s < e; s++, p++) *p = *s - 33;
+
+	for(ptrdiff_t i = 0, j = 0, k = len&~3; i < k; i+=4, j+=3)
+	{
+		pData[j+0] = ((pData[i+0]&63)<<2)|((pData[i+1]>>4)& 3);
+		pData[j+1] = ((pData[i+1]&15)<<4)|((pData[i+2]>>2)&15);
+		pData[j+2] = ((pData[i+2]& 3)<<6)|((pData[i+3]>>0)&63);
+	}
+
+	int datalen = (len&~3)*3/4;
+
+	if((len&3) == 2)
+	{
+		pData[datalen++] = ((pData[(len&~3)+0]&63)<<2)|((pData[(len&~3)+1]>>4)&3);
+	}
+	else if((len&3) == 3)
+	{
+		pData[datalen++] = ((pData[(len&~3)+0]&63)<<2)|((pData[(len&~3)+1]>>4)& 3);
+		pData[datalen++] = ((pData[(len&~3)+1]&15)<<4)|((pData[(len&~3)+2]>>2)&15);
+	}
+
+	// load png image
+	MOD_PNGIMAGE t_temp;
+	if(t_temp.initImage(pData.m_p,m_fn)) // save path
+	{ 
+		mod_images.Add(t_temp);
+	}
+	return(true);
+}
+
+
+bool CSimpleTextSubtitle::LoadUUEFile(CTextFile* file, CString m_fn)
+{
+	CString s, img;
+	while(file->ReadString(s))
+	{
+		s.Trim();
+		if(s.IsEmpty()) break;
+		if(s[0] == '[') // check for some standatr blocks
+		{
+			if(s.Find(_T("[Script Info]")) == 0) break;
+			if(s.Find(_T("[V4+ Styles]")) == 0) break;
+			if(s.Find(_T("[V4 Styles]")) == 0) break;
+			if(s.Find(_T("[Events]")) == 0) break;
+			if(s.Find(_T("[Fonts]")) == 0) break;
+			if(s.Find(_T("[Graphics]")) == 0) break;
+		}
+		// next file
+		if(s.Find(_T("filename:")) == 0)
+		{
+			LoadEfile(img, m_fn);
+			m_fn = s.Mid(10);
+			img.Empty();
+			continue;
+		}
+
+		img += s;
+	}
+
+	if(!img.IsEmpty())
+		LoadEfile(img, m_fn);
+
+	return(true);
+}
+#endif
 
 static bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
 {
@@ -1505,57 +1591,16 @@ if(version >= 6)marginRect.bottom = GetInt(buff);
 				return(false);
 			}
 		}
-#ifdef _VSMOD // patch m009. png graphics
-		else if(entry == _T("picture"))
-		{
-			try
-			{
-				int hh1, mm1, ss1, ms1_div10, hh2, mm2, ss2, ms2_div10, layer = 0;
-				CString Style, Actor, Effect;
-				CRect marginRect;
-
-if(version <= 4){GetStr(buff, '='); GetInt(buff);} /* Marked = */
-if(version >= 5)layer = GetInt(buff);
-				hh1 = GetInt(buff, ':');
-				mm1 = GetInt(buff, ':');
-				ss1 = GetInt(buff, '.');
-				ms1_div10 = GetInt(buff);
-				hh2 = GetInt(buff, ':');
-				mm2 = GetInt(buff, ':');
-				ss2 = GetInt(buff, '.');
-				ms2_div10 = GetInt(buff);
-				Style = WToT(GetStr(buff));
-				Actor = WToT(GetStr(buff));
-				marginRect.left = GetInt(buff);
-				marginRect.right = GetInt(buff);
-				marginRect.top = marginRect.bottom = GetInt(buff);
-if(version >= 6)marginRect.bottom = GetInt(buff);
-				Effect = WToT(GetStr(buff));
-
-				int len = min(Effect.GetLength(), buff.GetLength());
-				if(Effect.Left(len) == WToT(buff.Left(len))) Effect.Empty();
-
-				Style.TrimLeft('*');
-				if(!Style.CompareNoCase(_T("Default"))) Style = _T("Default");
-
-				ret.Add(buff,
-					file->IsUnicode(),
-					(((hh1*60 + mm1)*60) + ss1)*1000 + ms1_div10*10, 
-					(((hh2*60 + mm2)*60) + ss2)*1000 + ms2_div10*10, 
-					Style, Actor, Effect,
-					marginRect,
-					layer,-1,1);
-			}
-			catch(...)
-			{
-				return(false);
-			}
-		}
-#endif
 		else if(entry == L"fontname")
 		{
 			LoadUUEFont(file);
 		}
+#ifdef _VSMOD // load png graphic from text resources
+		else if(entry == L"filename")
+		{
+			ret.LoadUUEFile(file,GetStr(buff));
+		}
+#endif
 	}
 
 	return(fRet);
@@ -1707,6 +1752,12 @@ static bool OpenXombieSub(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet
 		{
 			LoadUUEFont(file);
 		}
+#ifdef _VSMOD // load png graphic from text resources
+		else if(entry == L"filename")
+		{
+			ret.LoadUUEFile(file,GetStr(buff));
+		}
+#endif
 	}
 
 	return(ret.GetCount() > 0);
@@ -1749,7 +1800,7 @@ static CStringW MPL22SSA(CStringW str)
 
 static bool OpenMPL2(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
 {
-	CStringW buff;;
+	CStringW buff;
 	while(file->ReadString(buff))
 	{
 		buff.Trim();
@@ -1935,11 +1986,7 @@ void CSimpleTextSubtitle::Empty()
 	RemoveAll();
 }
 
-#ifdef _VSMOD // patch m009. png graphics
-void CSimpleTextSubtitle::Add(CStringW str, bool fUnicode, int start, int end, CString style, CString actor, CString effect, CRect marginRect, int layer, int readorder, int mod_scripttype)
-#else
 void CSimpleTextSubtitle::Add(CStringW str, bool fUnicode, int start, int end, CString style, CString actor, CString effect, CRect marginRect, int layer, int readorder)
-#endif
 {
 	if(str.Trim().IsEmpty() || start > end) return;
 
@@ -1960,7 +2007,7 @@ void CSimpleTextSubtitle::Add(CStringW str, bool fUnicode, int start, int end, C
 	sub.end = end;
 	sub.readorder = readorder < 0 ? GetCount() : readorder;
 #ifdef _VSMOD // patch m009. png graphics
-	sub.mod_scripttype = mod_scripttype;
+	sub.mod_scripttype = 0;
 #endif
 	int n = __super::Add(sub);
 
@@ -3282,6 +3329,21 @@ MOD_PNGIMAGE::MOD_PNGIMAGE()
 	alpha = 0xFF;
 }
 
+void png_default_read_edata(png_structp png_ptr, png_bytep data, png_size_t length)
+{
+	png_size_t check;
+
+	if (png_ptr->io_ptr == NULL)
+		return;
+
+	BYTE* eldata = (BYTE*)png_ptr->io_ptr;
+	
+	// read from memory
+	memcpy(data,eldata,length);
+	eldata += length;
+	png_ptr->io_ptr = (png_voidp)eldata;
+}
+
 bool MOD_PNGIMAGE::operator == (MOD_PNGIMAGE& png)
 {
 	return(filename == png.filename
@@ -3289,39 +3351,20 @@ bool MOD_PNGIMAGE::operator == (MOD_PNGIMAGE& png)
 		&& yoffset == png.yoffset);
 }
 
-bool MOD_PNGIMAGE::initImage(CString m_fn)
+bool MOD_PNGIMAGE::processData(png_structp png_ptr)
 {
-	if((m_fn==filename)&&(pointer!=NULL)) return true; // already loaded
-	char header[8];	// 8 is the maximum size that can be check
 	png_uint_32 color_type;
 	png_uint_32 bit_depth;
 
-	png_structp png_ptr;
 	png_infop info_ptr;
 	int number_of_passes;
 
-	const wchar_t* wfn = m_fn.GetString();
-	int len = m_fn.GetLength();
-	char* fn = new char[len+1];
-	WideCharToMultiByte(CP_ACP,NULL,wfn,wcslen(wfn),fn,len,NULL,NULL);
-	fn[len]=0;
-	filename = m_fn;
-	
-	FILE *fp = fopen(fn, "rb");
-	if (!fp) return false; // File could not be opened for reading
-	fread(header, 1, 8, fp);
-	if (png_sig_cmp((png_bytep)header, 0, 8)) return false; // File is not recognized as a PNG file
-
 	/* initialize stuff */
-	png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
-	if (!png_ptr) return false; // png_create_read_struct failed
-
 	info_ptr = png_create_info_struct(png_ptr);
 	if (!info_ptr) return false; // png_create_info_struct failed
 
 	if (setjmp(png_jmpbuf(png_ptr))) return false; // Error during init_io
 	
-	png_init_io(png_ptr, fp);
 	png_set_sig_bytes(png_ptr, 8);
 
 	png_read_info(png_ptr, info_ptr);
@@ -3331,8 +3374,28 @@ bool MOD_PNGIMAGE::initImage(CString m_fn)
 	color_type = info_ptr->color_type;
 	bit_depth = info_ptr->bit_depth; 
 
+	// palette
 	if (color_type==PNG_COLOR_TYPE_PALETTE)
 		png_set_palette_to_rgb(png_ptr);
+
+	// expand to 8 bits
+	if (color_type == PNG_COLOR_TYPE_GRAY && bit_depth < 8)
+		png_set_expand_gray_1_2_4_to_8(png_ptr);
+
+    if (png_get_valid(png_ptr, info_ptr, PNG_INFO_tRNS))
+		png_set_tRNS_to_alpha(png_ptr);
+
+	// Strip 16 bit depth files to 8 bit depth
+	if (bit_depth == 16)
+        png_set_strip_16(png_ptr);
+
+	// ARGB -> RGBA
+//	if (color_type == PNG_COLOR_TYPE_RGB_ALPHA)
+//        png_set_swap_alpha(png_ptr);
+
+	// grayscale -> RGB
+	if (color_type == PNG_COLOR_TYPE_GRAY || color_type == PNG_COLOR_TYPE_GRAY_ALPHA)
+		png_set_gray_to_rgb(png_ptr);
 
 	number_of_passes = png_set_interlace_handling(png_ptr);
 	png_read_update_info(png_ptr, info_ptr);
@@ -3346,9 +3409,55 @@ bool MOD_PNGIMAGE::initImage(CString m_fn)
 		pointer[y] = (png_byte*) malloc(info_ptr->rowbytes);
 
 	png_read_image(png_ptr, pointer);
-	//png_read_end(png_ptr, NULL);
-	fclose(fp);
 	return true;
+}
+
+bool MOD_PNGIMAGE::initImage(CString m_fn)
+{
+	if((m_fn==filename)&&(pointer!=NULL)) return true; // already loaded
+
+	char header[8];	// 8 is the maximum size that can be check
+	png_structp png_ptr;
+
+	const wchar_t* wfn = m_fn.GetString();
+	int len = m_fn.GetLength();
+	char* fn = new char[len+1];
+	WideCharToMultiByte(CP_ACP,NULL,wfn,wcslen(wfn),fn,len,NULL,NULL);
+	fn[len]=0;
+	filename = m_fn;
+	
+	FILE *fp = fopen(fn, "rb");
+	if (!fp) return false; // File could not be opened for reading
+	fread(header, 1, 8, fp);
+	if (png_sig_cmp((png_bytep)header, 0, 8)) return false; // File is not recognized as a PNG file
+
+	png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+	if (!png_ptr) return false; // png_create_read_struct failed
+
+	png_init_io(png_ptr, fp);
+	return processData(png_ptr);
+	fclose(fp);
+}
+
+bool MOD_PNGIMAGE::initImage(BYTE* data, CString m_fn)
+{
+	if((m_fn==filename)&&(pointer!=NULL)) return true; // already loaded
+	if(data == NULL) return false; // not loaded
+
+	char header[8];	// 8 is the maximum size that can be check
+	png_structp png_ptr;
+
+	filename = m_fn;
+	
+	memcpy(header,data,8);
+	if (png_sig_cmp((png_bytep)header, 0, 8)) return false; // File is not recognized as a PNG file
+
+	data += 8; // don't forget modify pointer
+	png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+	if (!png_ptr) return false; // png_create_read_struct failed
+
+	png_set_read_fn(png_ptr, (png_voidp)data, &png_default_read_edata);
+	return processData(png_ptr);
 }
 
 void MOD_PNGIMAGE::freeImage()

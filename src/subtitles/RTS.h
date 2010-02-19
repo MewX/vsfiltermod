@@ -247,9 +247,6 @@ class CRenderedTextSubtitle : public CSimpleTextSubtitle, public ISubPicProvider
 
 	CSubtitle* GetSubtitle(int entry);
 
-#ifdef _VSMOD
-	CAtlArray<MOD_PNGIMAGE> mod_images;
-#endif
 protected:
 	virtual void OnChanged();
 
