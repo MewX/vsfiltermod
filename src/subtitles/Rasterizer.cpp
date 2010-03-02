@@ -749,7 +749,7 @@ bool Rasterizer::Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur)
 
 		for(; it!=itEnd; ++it)
 		{
-			size_t y = ((((*it).first >> 32) - 0x40000000) + ysub);
+			size_t y = (((*it).first >> 32) - 0x40000000 + ysub);
 			size_t x1 = (((*it).first & 0xffffffff) - 0x40000000 + xsub);
 			size_t x2 = (((*it).second & 0xffffffff) - 0x40000000 + xsub);
 
@@ -918,6 +918,15 @@ static __forceinline DWORD safe_subtract(DWORD a, DWORD b)
 	// For whatever reason Microsoft's x64 compiler doesn't support MMX intrinsics 
 	return (b > a) ? 0 : a - b;
 #endif
+}
+
+static __forceinline DWORD safe_subtract_sse2(DWORD a, DWORD b)
+{
+	__m128i ap = _mm_cvtsi32_si128(a);
+	__m128i bp = _mm_cvtsi32_si128(b);
+	__m128i rp = _mm_subs_epu16(ap, bp);
+
+	return (DWORD)_mm_cvtsi128_si32(rp);
 }
 
 // For CPUID usage in Rasterizer::Draw
@@ -1184,7 +1193,7 @@ void Rasterizer::Draw_noAlpha_spFF_noBody_sse2(RasterizerNfo& rnfo)
 	while(h--)
 	{
 		for(int wt=0; wt<rnfo.w; ++wt)
-			pixmix_sse2(&dst[wt], color, safe_subtract(src[wt*2+1], src[wt*2]));
+			pixmix_sse2(&dst[wt], color, safe_subtract_sse2(src[wt*2+1], src[wt*2]));
 		src += 2*rnfo.overlayp;
 
 		dst = (DWORD*)((char *)dst + rnfo.pitch);
@@ -1228,9 +1237,9 @@ void Rasterizer::Draw_noAlpha_sp_noBody_sse2(RasterizerNfo& rnfo)
 	while(h--)
 	{
 		for(int wt=0; wt<gran; ++wt)
-			pixmix_sse2(&dst[wt], color, safe_subtract(src[wt*2+1], src[wt*2]));
+			pixmix_sse2(&dst[wt], color, safe_subtract_sse2(src[wt*2+1], src[wt*2]));
 		for(int wt=gran; wt<rnfo.w; ++wt)
-			pixmix_sse2(&dst[wt], color2, safe_subtract(src[wt*2+1], src[wt*2]));
+			pixmix_sse2(&dst[wt], color2, safe_subtract_sse2(src[wt*2+1], src[wt*2]));
 		src += 2*rnfo.overlayp;
 		dst = (DWORD*)((char *)dst + rnfo.pitch);
 	}
@@ -1284,9 +1293,9 @@ void Rasterizer::Draw_Alpha_spFF_noBody_sse2(RasterizerNfo& rnfo)
 	{
 		for(int wt=0; wt<rnfo.w; ++wt)
 #ifdef _VSMOD // patch m006. moveable vector clip
-			pixmix2_sse2(&dst[wt], color, safe_subtract(src[wt*2+1], src[wt*2]), mod_vc.GetAlphaValue(wt,h));
+			pixmix2_sse2(&dst[wt], color, safe_subtract_sse2(src[wt*2+1], src[wt*2]), mod_vc.GetAlphaValue(wt,h));
 #else
-			pixmix2_sse2(&dst[wt], color, safe_subtract(src[wt*2+1], src[wt*2]), am[wt]);
+			pixmix2_sse2(&dst[wt], color, safe_subtract_sse2(src[wt*2+1], src[wt*2]), am[wt]);
 		am += rnfo.spdw;
 #endif
 		src += 2*rnfo.overlayp;
@@ -1349,14 +1358,14 @@ void Rasterizer::Draw_Alpha_sp_noBody_sse2(RasterizerNfo& rnfo)
 	{
 #ifdef _VSMOD // patch m006. moveable vector clip
 		for(int wt=0; wt<gran; ++wt)
-			pixmix2_sse2(&dst[wt], color, safe_subtract(src[wt*2+1], src[wt*2]), mod_vc.GetAlphaValue(wt,h));
+			pixmix2_sse2(&dst[wt], color, safe_subtract_sse2(src[wt*2+1], src[wt*2]), mod_vc.GetAlphaValue(wt,h));
 		for(int wt=gran; wt<rnfo.w; ++wt)
-			pixmix2_sse2(&dst[wt], color, safe_subtract(src[wt*2+1], src[wt*2]), mod_vc.GetAlphaValue(wt,h));
+			pixmix2_sse2(&dst[wt], color, safe_subtract_sse2(src[wt*2+1], src[wt*2]), mod_vc.GetAlphaValue(wt,h));
 #else
 		for(int wt=0; wt<gran; ++wt)
-			pixmix2_sse2(&dst[wt], color, safe_subtract(src[wt*2+1], src[wt*2]), am[wt]);
+			pixmix2_sse2(&dst[wt], color, safe_subtract_sse2(src[wt*2+1], src[wt*2]), am[wt]);
 		for(int wt=gran; wt<rnfo.w; ++wt)
-			pixmix2_sse2(&dst[wt], color, safe_subtract(src[wt*2+1], src[wt*2]), am[wt]);
+			pixmix2_sse2(&dst[wt], color, safe_subtract_sse2(src[wt*2+1], src[wt*2]), am[wt]);
 		am += rnfo.spdw;
 #endif
 		src += 2*rnfo.overlayp;
@@ -1575,7 +1584,7 @@ void Rasterizer::Draw_Grad_noAlpha_spFF_noBody_sse2(RasterizerNfo& rnfo)
 	while(h--)
 	{
 		for(int wt=0; wt<w; ++wt)
-			pixmix_sse2(&dst[wt], mod_grad.getmixcolor(wt,h,typ), safe_subtract(src[wt*2+1], src[wt*2]));
+			pixmix_sse2(&dst[wt], mod_grad.getmixcolor(wt,h,typ), safe_subtract_sse2(src[wt*2+1], src[wt*2]));
 		src += 2*rnfo.overlayp;
 
 		dst = (DWORD*)((char *)dst + rnfo.pitch);
@@ -1618,9 +1627,9 @@ void Rasterizer::Draw_Grad_noAlpha_sp_noBody_sse2(RasterizerNfo& rnfo)
 	while(h--)
 	{
 		for(int wt=0; wt<gran; ++wt)
-			pixmix_sse2(&dst[wt], mod_grad.getmixcolor(wt,h,0), safe_subtract(src[wt*2+1], src[wt*2]));
+			pixmix_sse2(&dst[wt], mod_grad.getmixcolor(wt,h,0), safe_subtract_sse2(src[wt*2+1], src[wt*2]));
 		for(int wt=gran; wt<w; ++wt)
-			pixmix_sse2(&dst[wt], mod_grad.getmixcolor(wt,h,1), safe_subtract(src[wt*2+1], src[wt*2]));
+			pixmix_sse2(&dst[wt], mod_grad.getmixcolor(wt,h,1), safe_subtract_sse2(src[wt*2+1], src[wt*2]));
 		src += 2*rnfo.overlayp;
 		dst = (DWORD*)((char *)dst + rnfo.pitch);
 	}
@@ -1662,7 +1671,7 @@ void Rasterizer::Draw_Grad_Alpha_spFF_noBody_sse2(RasterizerNfo& rnfo)
 	while(h--)
 	{
 		for(int wt=0; wt<w; ++wt)
-			pixmix2_sse2(&dst[wt], mod_grad.getmixcolor(wt,h,typ), safe_subtract(src[wt*2+1], src[wt*2]), mod_vc.GetAlphaValue(wt,h));
+			pixmix2_sse2(&dst[wt], mod_grad.getmixcolor(wt,h,typ), safe_subtract_sse2(src[wt*2+1], src[wt*2]), mod_vc.GetAlphaValue(wt,h));
 		src += 2*rnfo.overlayp;
 		dst = (DWORD*)((char *)dst + rnfo.pitch);
 	}
@@ -1706,9 +1715,9 @@ void Rasterizer::Draw_Grad_Alpha_sp_noBody_sse2(RasterizerNfo& rnfo)
 	while(h--)
 	{
 		for(int wt=0; wt<gran; ++wt)
-			pixmix2_sse2(&dst[wt], mod_grad.getmixcolor(wt,h,0), safe_subtract(src[wt*2+1], src[wt*2]), mod_vc.GetAlphaValue(wt,h));
+			pixmix2_sse2(&dst[wt], mod_grad.getmixcolor(wt,h,0), safe_subtract_sse2(src[wt*2+1], src[wt*2]), mod_vc.GetAlphaValue(wt,h));
 		for(int wt=gran; wt<w; ++wt)
-			pixmix2_sse2(&dst[wt], mod_grad.getmixcolor(wt,h,1), safe_subtract(src[wt*2+1], src[wt*2]), mod_vc.GetAlphaValue(wt,h));
+			pixmix2_sse2(&dst[wt], mod_grad.getmixcolor(wt,h,1), safe_subtract_sse2(src[wt*2+1], src[wt*2]), mod_vc.GetAlphaValue(wt,h));
 		src += 2*rnfo.overlayp;
 		dst = (DWORD*)((char *)dst + rnfo.pitch);
 	}
@@ -1794,7 +1803,7 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
 	rnfo.mod_vc = mod_vc;
 	rnfo.mod_grad = mod_grad;
 	rnfo.mod_grad.width = mOverlayWidth;
-	rnfo.mod_grad.height = h;
+	rnfo.mod_grad.height = mOverlayHeight;
 	rnfo.mod_grad.xoffset = xo;
 	rnfo.mod_grad.yoffset = yo;
 	rnfo.typ = typ;

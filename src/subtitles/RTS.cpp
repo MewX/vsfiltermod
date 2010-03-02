@@ -286,10 +286,8 @@ CText::CText(STSStyle& style, CStringW str, int ktype, int kstart, int kend)
 
 #ifdef _VSMOD // patch m007. symbol rotating
 	double t = (double)m_style.mod_fontOrient * 3.1415926 / 1800;
-	if(m_style.fontSpacing || (long)GetVersion() < 0)
-#else
-	if(m_style.fontSpacing || (long)GetVersion() < 0)
 #endif
+	if(m_style.fontSpacing || (long)GetVersion() < 0)
 	{
 		bool bFirstPath = true;
 
@@ -1739,7 +1737,7 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 		{
 			int i = cmd[0] - '1';
 
-			if(params.GetCount() >= 1)// file[,xoffset,yoffset]
+			if(params.GetCount() >= 1)// file[,xoffset,yoffset[,angle]]
 			{
 				if (!fAnimate)
 				{
@@ -1788,10 +1786,10 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 				if(params.GetCount() >= 3)
 				{
 					style.mod_grad.b_images[i].xoffset = !p.IsEmpty()
-						? (BYTE)CalcAnimation(wcstol(params[1], NULL, 10), style.mod_grad.b_images[i].xoffset, fAnimate)
+						? CalcAnimation(wcstol(params[1], NULL, 10), style.mod_grad.b_images[i].xoffset, fAnimate)
 						: org.mod_grad.b_images[i].xoffset;
 					style.mod_grad.b_images[i].yoffset = !p.IsEmpty()
-						? (BYTE)CalcAnimation(wcstol(params[2], NULL, 10), style.mod_grad.b_images[i].yoffset, fAnimate)
+						? CalcAnimation(wcstol(params[2], NULL, 10), style.mod_grad.b_images[i].yoffset, fAnimate)
 						: org.mod_grad.b_images[i].yoffset;
 				}
 			}
