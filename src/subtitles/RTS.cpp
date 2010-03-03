@@ -1819,7 +1819,8 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 						style.mod_grad.alpha[i][j] = style.alpha[i];
 					}
 				}
-				if (!fAnimate) style.mod_grad.mode[i] = 1;
+				//if (!fAnimate) 
+				style.mod_grad.mode[i] = 1;
 			}
 		}
 		else if(cmd == L"1va" || cmd == L"2va" || cmd == L"3va" || cmd == L"4va")
@@ -1842,7 +1843,8 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 						style.mod_grad.color[i][j] = style.colors[i];
 					}
 				}
-				if (!fAnimate) style.mod_grad.mode[i] = 1;
+				//if (!fAnimate) 
+				style.mod_grad.mode[i] = 1;
 			}
 		}
 #endif
@@ -2834,7 +2836,15 @@ CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
 	m_ktype = m_kstart = m_kend = 0;
 	m_nPolygon = 0;
 	m_polygonBaselineOffset = 0;
-
+#ifdef _VSMOD // patch m004. gradient colors
+	// allow init gradient without \$vc \$va
+	for (int i=0;i<4;i++)
+		for (int j=0;j<4;j++)
+		{
+			stss.mod_grad.alpha[i][j] = stss.alpha[i];
+			stss.mod_grad.color[i][j] = stss.colors[i];
+		}
+#endif
 	ParseEffect(sub, GetAt(entry).effect);
 
 	while(!str.IsEmpty())
