@@ -22,7 +22,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\libpng"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\debug.vsprops;..\common.vsprops"
 			UseOfMFC="1"
@@ -84,7 +84,7 @@
 		<Configuration
 			Name="Debug|x64"
 			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\libpng"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\debug.vsprops;..\common.vsprops"
 			CharacterSet="1"
@@ -148,7 +148,7 @@
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\libpng"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\release.vsprops;..\common.vsprops"
 			UseOfMFC="1"
@@ -212,7 +212,7 @@
 		<Configuration
 			Name="Release|x64"
 			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\libpng"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\release.vsprops;..\common.vsprops"
 			CharacterSet="1"
@@ -273,9 +273,9 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Debug Unicode (MOD)|Win32"
+			Name="Debug (MOD)|Win32"
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\libpng"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\debug.vsprops;..\common.vsprops"
 			UseOfMFC="1"
@@ -335,9 +335,9 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Debug Unicode (MOD)|x64"
+			Name="Debug (MOD)|x64"
 			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\libpng"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\debug.vsprops;..\common.vsprops"
 			CharacterSet="1"
@@ -399,9 +399,9 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Release Unicode (MOD)|Win32"
+			Name="Release (MOD)|Win32"
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\libpng"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\release.vsprops;..\common.vsprops"
 			UseOfMFC="1"
@@ -463,9 +463,9 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Release Unicode (MOD)|x64"
+			Name="Release (MOD)|x64"
 			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\libpng"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\release.vsprops;..\common.vsprops"
 			CharacterSet="1"

@@ -20,9 +20,9 @@
 	</ToolFiles>
 	<Configurations>
 		<Configuration
-			Name="Debug Unicode lib|Win32"
+			Name="Debug|Win32"
 			OutputDirectory="$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\BaseClasses"
 			ConfigurationType="4"
 			UseOfMFC="1"
 			CharacterSet="1"
@@ -89,9 +89,9 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Debug Unicode lib|x64"
+			Name="Debug|x64"
 			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\BaseClasses"
 			ConfigurationType="4"
 			UseOfMFC="1"
 			CharacterSet="1"
@@ -157,9 +157,9 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Release Unicode lib|Win32"
+			Name="Release|Win32"
 			OutputDirectory="$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\BaseClasses"
 			ConfigurationType="4"
 			UseOfMFC="1"
 			CharacterSet="1"
@@ -224,9 +224,9 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Release Unicode lib|x64"
+			Name="Release|x64"
 			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\BaseClasses"
 			ConfigurationType="4"
 			UseOfMFC="1"
 			CharacterSet="1"
@@ -292,9 +292,9 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Debug Unicode (MOD)|Win32"
+			Name="Debug (MOD)|Win32"
 			OutputDirectory="$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\BaseClasses"
 			ConfigurationType="4"
 			UseOfMFC="1"
 			CharacterSet="1"
@@ -361,9 +361,9 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Debug Unicode (MOD)|x64"
+			Name="Debug (MOD)|x64"
 			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\BaseClasses"
 			ConfigurationType="4"
 			UseOfMFC="1"
 			CharacterSet="1"
@@ -429,9 +429,9 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Release Unicode (MOD)|Win32"
+			Name="Release (MOD)|Win32"
 			OutputDirectory="$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\BaseClasses"
 			ConfigurationType="4"
 			UseOfMFC="1"
 			CharacterSet="1"
@@ -496,9 +496,9 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Release Unicode (MOD)|x64"
+			Name="Release (MOD)|x64"
 			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\BaseClasses"
 			ConfigurationType="4"
 			UseOfMFC="1"
 			CharacterSet="1"

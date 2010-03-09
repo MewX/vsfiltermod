@@ -20,7 +20,8 @@
 	</ToolFiles>
 	<Configurations>
 		<Configuration
-			Name="Debug Unicode|Win32"
+			Name="Debug|Win32"
+			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\libssf"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\..\common.vsprops;..\..\debug.vsprops"
 			UseOfMFC="1"
@@ -82,9 +83,9 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Debug Unicode|x64"
+			Name="Debug|x64"
 			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\libssf"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\..\common.vsprops;..\..\debug.vsprops"
 			UseOfMFC="1"
@@ -147,7 +148,8 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Release Unicode|Win32"
+			Name="Release|Win32"
+			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\libssf"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\..\common.vsprops;..\..\release.vsprops"
 			UseOfMFC="1"
@@ -208,9 +210,9 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Release Unicode|x64"
+			Name="Release|x64"
 			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\libssf"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\..\common.vsprops;..\..\release.vsprops"
 			UseOfMFC="1"
@@ -271,9 +273,9 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Debug Unicode (MOD)|Win32"
+			Name="Debug (MOD)|Win32"
 			OutputDirectory="$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\libssf"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\..\common.vsprops;..\..\debug.vsprops"
 			UseOfMFC="1"
@@ -335,9 +337,9 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Debug Unicode (MOD)|x64"
+			Name="Debug (MOD)|x64"
 			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\libssf"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\..\common.vsprops;..\..\debug.vsprops"
 			UseOfMFC="1"
@@ -400,9 +402,9 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Release Unicode (MOD)|Win32"
+			Name="Release (MOD)|Win32"
 			OutputDirectory="$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\libssf"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\..\common.vsprops;..\..\release.vsprops"
 			UseOfMFC="1"
@@ -463,9 +465,9 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Release Unicode (MOD)|x64"
+			Name="Release (MOD)|x64"
 			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\libssf"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\..\common.vsprops;..\..\release.vsprops"
 			UseOfMFC="1"
@@ -574,7 +576,7 @@
 				RelativePath=".\Rasterizer.cpp"
 				>
 				<FileConfiguration
-					Name="Release Unicode|Win32"
+					Name="Release|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -582,7 +584,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode|x64"
+					Name="Release|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -590,7 +592,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode (MOD)|Win32"
+					Name="Release (MOD)|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -598,7 +600,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode (MOD)|x64"
+					Name="Release (MOD)|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -610,7 +612,7 @@
 				RelativePath=".\Renderer.cpp"
 				>
 				<FileConfiguration
-					Name="Release Unicode|Win32"
+					Name="Release|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -618,7 +620,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode|x64"
+					Name="Release|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -626,7 +628,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode (MOD)|Win32"
+					Name="Release (MOD)|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -634,7 +636,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode (MOD)|x64"
+					Name="Release (MOD)|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -650,7 +652,7 @@
 				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
-					Name="Debug Unicode|Win32"
+					Name="Debug|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -658,7 +660,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug Unicode|x64"
+					Name="Debug|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -666,7 +668,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode|Win32"
+					Name="Release|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -674,7 +676,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode|x64"
+					Name="Release|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -682,7 +684,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug Unicode (MOD)|Win32"
+					Name="Debug (MOD)|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -690,7 +692,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug Unicode (MOD)|x64"
+					Name="Debug (MOD)|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -698,7 +700,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode (MOD)|Win32"
+					Name="Release (MOD)|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -706,7 +708,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode (MOD)|x64"
+					Name="Release (MOD)|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"

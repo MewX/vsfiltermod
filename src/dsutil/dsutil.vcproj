@@ -20,7 +20,8 @@
 	</ToolFiles>
 	<Configurations>
 		<Configuration
-			Name="Debug Unicode|Win32"
+			Name="Debug|Win32"
+			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\dsutil"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\common.vsprops;..\debug.vsprops"
 			UseOfMFC="1"
@@ -79,9 +80,9 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Debug Unicode|x64"
+			Name="Debug|x64"
 			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\dsutil"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\common.vsprops;..\debug.vsprops"
 			UseOfMFC="1"
@@ -142,7 +143,8 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Release Unicode|Win32"
+			Name="Release|Win32"
+			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\dsutil"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\common.vsprops;..\release.vsprops"
 			UseOfMFC="1"
@@ -205,9 +207,9 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Release Unicode|x64"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			Name="Release|x64"
+			OutputDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\dsutil"
+			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\dsutil"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\common.vsprops;..\release.vsprops"
 			UseOfMFC="1"
@@ -269,9 +271,9 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Debug Unicode (MOD)|Win32"
+			Name="Debug (MOD)|Win32"
 			OutputDirectory="$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\dsutil"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\common.vsprops;..\debug.vsprops"
 			UseOfMFC="1"
@@ -330,9 +332,9 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Debug Unicode (MOD)|x64"
+			Name="Debug (MOD)|x64"
 			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\dsutil"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\common.vsprops;..\debug.vsprops"
 			UseOfMFC="1"
@@ -393,9 +395,9 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Release Unicode (MOD)|Win32"
+			Name="Release (MOD)|Win32"
 			OutputDirectory="$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\dsutil"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\common.vsprops;..\release.vsprops"
 			UseOfMFC="1"
@@ -458,9 +460,9 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Release Unicode (MOD)|x64"
+			Name="Release (MOD)|x64"
 			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\dsutil"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\common.vsprops;..\release.vsprops"
 			UseOfMFC="1"
@@ -533,80 +535,80 @@
 				RelativePath=".\a_yuv2rgb.asm"
 				>
 				<FileConfiguration
-					Name="Debug Unicode|Win32"
+					Name="Debug|Win32"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="yasm -X vc -g cv8 -f &quot;$(PlatformName)&quot; -o &quot;$(OutDir)\$(InputName).obj&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(InputName).obj"
+						CommandLine="yasm -X vc -g cv8 -f &quot;$(PlatformName)&quot; -o &quot;$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\$(InputName).obj&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						Outputs="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\$(InputName).obj"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug Unicode|x64"
+					Name="Debug|x64"
 					ExcludedFromBuild="true"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="ml64 /c /coff /Cx /nologo /Fo&quot;$(OutDir)\$(InputName).obj&quot; &quot;$(InputPath)&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(InputName).obj"
+						CommandLine="ml64 /c /coff /Cx /nologo /Fo&quot;$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\$(InputName).obj&quot; &quot;$(InputPath)&#x0D;&#x0A;"
+						Outputs="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\$(InputName).obj"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode|Win32"
+					Name="Release|Win32"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="yasm -X vc -g cv8 -f &quot;$(PlatformName)&quot; -o &quot;$(OutDir)\$(InputName).ob&quot;j &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(InputName).obj"
+						CommandLine="yasm -X vc -g cv8 -f &quot;$(PlatformName)&quot; -o &quot;$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\$(InputName).ob&quot;j &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						Outputs="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\$(InputName).obj"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode|x64"
+					Name="Release|x64"
 					ExcludedFromBuild="true"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="yasm -X vc -g cv8 -f &quot;$(PlatformName)&quot; -o &quot;$(OutDir)\$(InputName).ob&quot;j &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(InputName).obj"
+						CommandLine="yasm -X vc -g cv8 -f &quot;$(PlatformName)&quot; -o &quot;$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\$(InputName).ob&quot;j &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						Outputs="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\$(InputName).obj"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug Unicode (MOD)|Win32"
+					Name="Debug (MOD)|Win32"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="yasm -X vc -g cv8 -f &quot;$(PlatformName)&quot; -o &quot;$(OutDir)\$(InputName).ob&quot;j &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(InputName).obj"
+						CommandLine="yasm -X vc -g cv8 -f &quot;$(PlatformName)&quot; -o &quot;$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\$(InputName).ob&quot;j &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						Outputs="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\$(InputName).obj"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug Unicode (MOD)|x64"
+					Name="Debug (MOD)|x64"
 					ExcludedFromBuild="true"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="ml64 /c /coff /Cx /nologo /Fo&quot;$(OutDir)\$(InputName).obj&quot; &quot;$(InputPath)&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(InputName).obj"
+						CommandLine="ml64 /c /coff /Cx /nologo /Fo&quot;$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\$(InputName).obj&quot; &quot;$(InputPath)&#x0D;&#x0A;"
+						Outputs="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\$(InputName).obj"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode (MOD)|Win32"
+					Name="Release (MOD)|Win32"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="yasm -X vc -g cv8 -f &quot;$(PlatformName)&quot; -o &quot;$(OutDir)\$(InputName).ob&quot;j &quot;$(InputPath)&quot;"
-						CommandLine="yasm -X vc -g cv8 -f &quot;$(PlatformName)&quot; -o &quot;$(OutDir)\$(InputName).ob&quot;j &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(InputName).obj"
+						CommandLine="yasm -X vc -g cv8 -f &quot;$(PlatformName)&quot; -o &quot;$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\$(InputName).ob&quot;j &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						Outputs="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\$(InputName).obj"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode (MOD)|x64"
+					Name="Release (MOD)|x64"
 					ExcludedFromBuild="true"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="yasm -X vc -g cv8 -f &quot;$(PlatformName)&quot; -o &quot;$(OutDir)\$(InputName).ob&quot;j &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(InputName).obj"
+						CommandLine="yasm -X vc -g cv8 -f &quot;$(PlatformName)&quot; -o &quot;$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\$(InputName).ob&quot;j &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						Outputs="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\$(InputName).obj"
 					/>
 				</FileConfiguration>
 			</File>
@@ -614,7 +616,7 @@
 				RelativePath=".\a_yuvtable.asm"
 				>
 				<FileConfiguration
-					Name="Debug Unicode|Win32"
+					Name="Debug|Win32"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
@@ -623,7 +625,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug Unicode|x64"
+					Name="Debug|x64"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -633,7 +635,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode|Win32"
+					Name="Release|Win32"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
@@ -642,7 +644,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode|x64"
+					Name="Release|x64"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -652,7 +654,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug Unicode (MOD)|Win32"
+					Name="Debug (MOD)|Win32"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
@@ -661,7 +663,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug Unicode (MOD)|x64"
+					Name="Debug (MOD)|x64"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -671,7 +673,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode (MOD)|Win32"
+					Name="Release (MOD)|Win32"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
@@ -680,7 +682,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode (MOD)|x64"
+					Name="Release (MOD)|x64"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -694,7 +696,7 @@
 				RelativePath=".\convert_a.asm"
 				>
 				<FileConfiguration
-					Name="Debug Unicode|Win32"
+					Name="Debug|Win32"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
@@ -703,7 +705,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug Unicode|x64"
+					Name="Debug|x64"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -713,7 +715,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode|Win32"
+					Name="Release|Win32"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
@@ -722,7 +724,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode|x64"
+					Name="Release|x64"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -732,7 +734,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug Unicode (MOD)|Win32"
+					Name="Debug (MOD)|Win32"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
@@ -741,7 +743,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug Unicode (MOD)|x64"
+					Name="Debug (MOD)|x64"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -751,7 +753,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode (MOD)|Win32"
+					Name="Release (MOD)|Win32"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
@@ -760,7 +762,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode (MOD)|x64"
+					Name="Release (MOD)|x64"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -774,7 +776,7 @@
 				RelativePath=".\cpuid64.asm"
 				>
 				<FileConfiguration
-					Name="Debug Unicode|Win32"
+					Name="Debug|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -782,17 +784,17 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug Unicode|x64"
+					Name="Debug|x64"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="cpuid64.asm"
-						CommandLine="ml64 /c /Cx /nologo /Fo&quot;$(OutDir)\$(InputName).obj&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(InputName).obj"
+						CommandLine="ml64 /c /Cx /nologo /Fo&quot;$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\$(InputName).obj&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						Outputs="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\$(InputName).obj"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode|Win32"
+					Name="Release|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -800,17 +802,17 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode|x64"
+					Name="Release|x64"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="cpuid64.asm"
-						CommandLine="ml64 /c /Cx /nologo /Fo&quot;$(OutDir)\$(InputName).obj&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(InputName).obj"
+						CommandLine="ml64 /c /Cx /nologo /Fo&quot;$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\$(InputName).obj&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						Outputs="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\$(InputName).obj"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug Unicode (MOD)|Win32"
+					Name="Debug (MOD)|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -818,17 +820,17 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug Unicode (MOD)|x64"
+					Name="Debug (MOD)|x64"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="cpuid64.asm"
-						CommandLine="ml64 /c /Cx /nologo /Fo&quot;$(OutDir)\$(InputName).obj&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(InputName).obj"
+						CommandLine="ml64 /c /Cx /nologo /Fo&quot;$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\$(InputName).obj&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						Outputs="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\$(InputName).obj"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode (MOD)|Win32"
+					Name="Release (MOD)|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -836,13 +838,13 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode (MOD)|x64"
+					Name="Release (MOD)|x64"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="cpuid64.asm"
-						CommandLine="ml64 /c /Cx /nologo /Fo&quot;$(OutDir)\$(InputName).obj&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(InputName).obj"
+						CommandLine="ml64 /c /Cx /nologo /Fo&quot;$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\$(InputName).obj&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						Outputs="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\$(InputName).obj"
 					/>
 				</FileConfiguration>
 			</File>
@@ -882,7 +884,7 @@
 				RelativePath=".\mmintrin64.c"
 				>
 				<FileConfiguration
-					Name="Debug Unicode|Win32"
+					Name="Debug|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -890,7 +892,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode|Win32"
+					Name="Release|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -898,7 +900,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug Unicode (MOD)|Win32"
+					Name="Debug (MOD)|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -906,7 +908,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode (MOD)|Win32"
+					Name="Release (MOD)|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -922,7 +924,7 @@
 				RelativePath="stdafx.cpp"
 				>
 				<FileConfiguration
-					Name="Debug Unicode|Win32"
+					Name="Debug|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -930,7 +932,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug Unicode|x64"
+					Name="Debug|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -938,7 +940,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode|Win32"
+					Name="Release|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -946,7 +948,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode|x64"
+					Name="Release|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -954,7 +956,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug Unicode (MOD)|Win32"
+					Name="Debug (MOD)|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -962,7 +964,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug Unicode (MOD)|x64"
+					Name="Debug (MOD)|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -970,7 +972,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode (MOD)|Win32"
+					Name="Release (MOD)|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -978,7 +980,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode (MOD)|x64"
+					Name="Release (MOD)|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
