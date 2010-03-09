@@ -2034,9 +2034,6 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 	                
 					sub->m_effects[EF_FADE] = e;
 				}
-//#ifdef _VSMOD // patch f005. don't cache animated
-				sub->m_fAnimated = true;
-//#endif
 			}
 			else if(params.GetCount() == 2 && !sub->m_effects[EF_FADE]) // {\fad(t1=t[1], t2=t[2])
 			{
@@ -2050,9 +2047,6 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 
 					sub->m_effects[EF_FADE] = e;
 				}
-#ifdef _VSMOD // patch f005. don't cache animated
-				sub->m_fAnimated = true;
-#endif
 			}
 		}
 		else if(cmd == L"fax")
@@ -2204,8 +2198,6 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 						style.mod_jitter.seed = wcstol(params[5], NULL, 10);
 					}
 				}
-				// patch f005. don't cache animated
-				sub->m_fAnimated = true;
 			}
 		}
 #endif
@@ -2223,9 +2215,6 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 			m_kend += !p.IsEmpty() 
 				? wcstol(p, NULL, 10)*10
 				: 1000;
-//#ifdef _VSMOD // patch f005. don't cache animated
-			sub->m_fAnimated = true;
-//#endif
 		}
 		else if(cmd == L"ko")
 		{
@@ -2234,9 +2223,6 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 			m_kend += !p.IsEmpty() 
 				? wcstol(p, NULL, 10)*10
 				: 1000;
-//#ifdef _VSMOD // patch f005. don't cache animated
-			sub->m_fAnimated = true;
-//#endif
 		}
 		else if(cmd == L"k")
 		{
@@ -2272,8 +2258,6 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 					}
 					sub->m_effects[EF_MOVE] = e;
 				}
-				// patch f005. don't cache animated
-//				sub->m_fAnimated = true;
 			}
 		}
 		else if(cmd == L"moves3") // {\moves3(x1,x2,x2,y2,x3,y3[,t1,t2])}
@@ -2298,8 +2282,6 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 					}
 					sub->m_effects[EF_MOVE] = e;
 				}
-				// patch f005. don't cache animated
-//				sub->m_fAnimated = true;
 			}
 		}
 		else if(cmd == L"moves4") // {\moves4(x1,x2,x2,y2,x3,y3,x4,y4[,t1,t2])}
@@ -2326,8 +2308,6 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 					}
 					sub->m_effects[EF_MOVE] = e;
 				}
-				// patch f005. don't cache animated
-//				sub->m_fAnimated = true;
 			}
 		}
 #endif
@@ -2354,8 +2334,6 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 					}
 					sub->m_effects[EF_VECTCLP] = e;
 				}
-				// patch f005. don't cache animated
-				sub->m_fAnimated = true;
 			}
 		}
 #endif
@@ -2387,9 +2365,6 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 
 					sub->m_effects[EF_MOVE] = e;
 				}
-//#ifdef _VSMOD // patch f005. don't cache animated
-//				sub->m_fAnimated = true;
-//#endif
 			}
 		}
 		else if(cmd == L"org") // {\org(x=param[0], y=param[1])}
