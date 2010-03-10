@@ -1,6 +1,7 @@
-DirectVobSubMod x64+SSE2 support
+VSFilterMod (with x64 and SSE2 support)
 
-Addons: png textures, some gradients, distorsion, nonlinear moves, moveable vector clip, vertical spacing and some other stuff.
+Additional Features: png textures, some gradients, distorsion,
+nonlinear moves, moveable vector clip, vertical spacing and some other stuff.
 
 
 ### Requirements for 32-bit and 64-bit builds ###
@@ -20,6 +21,7 @@ http://www.microsoft.com/downloads/details.aspx?displaylang=en&FamilyID=294de390
 * YASM
 http://www.tortall.net/projects/yasm/wiki/Download
 
+
 ### Configuring Visual Studio ###
 
 You need to add the locations of the DirectX SDK directories to the settings in Visual Studio.
@@ -34,7 +36,7 @@ This is usually already done automatically by the DirectX SDK installer.
  
 ### Integration of Windows 7 SDK (Optional) ###
 
-To build MPC-HC with Windows 7 SDK follow these steps:
+To build VSFilterMod with Windows 7 SDK follow these steps:
 
 1) Download and install Windows 7 SDK from Microsoft website (http://www.microsoft.com/downloads/details.aspx?FamilyID=71deb800-c591-4f97-a900-bea146e4fae1&displaylang=en)
 2) Open regional settings, and set it to English (see this link for explanations : http://blogs.msdn.com/windowssdk/archive/2009/08/21/windows-sdk-configuration-tool-may-report-an-error-when-os-display-format-is-not-english.aspx)
