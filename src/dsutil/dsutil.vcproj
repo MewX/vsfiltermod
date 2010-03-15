@@ -539,8 +539,8 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="yasm -X vc -g cv8 -f &quot;$(PlatformName)&quot; -o &quot;$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\$(InputName).obj&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-						Outputs="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\$(InputName).obj"
+						CommandLine="yasm -X vc -g cv8 -f &quot;$(PlatformName)&quot; -o &quot;$(IntDir)\$(InputName).obj&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						Outputs="$(IntDir)\$(InputName).obj"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -549,8 +549,8 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="ml64 /c /coff /Cx /nologo /Fo&quot;$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\$(InputName).obj&quot; &quot;$(InputPath)&#x0D;&#x0A;"
-						Outputs="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\$(InputName).obj"
+						CommandLine="ml64 /c /coff /Cx /nologo /Fo&quot;$(IntDir)\$(InputName).obj&quot; &quot;$(InputPath)&#x0D;&#x0A;"
+						Outputs="$(IntDir)\$(InputName).obj"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -558,8 +558,8 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="yasm -X vc -g cv8 -f &quot;$(PlatformName)&quot; -o &quot;$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\$(InputName).ob&quot;j &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-						Outputs="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\$(InputName).obj"
+						CommandLine="yasm -X vc -g cv8 -f &quot;$(PlatformName)&quot; -o &quot;$(IntDir)\$(InputName).ob&quot;j &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						Outputs="$(IntDir)\$(InputName).obj"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -568,8 +568,8 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="yasm -X vc -g cv8 -f &quot;$(PlatformName)&quot; -o &quot;$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\$(InputName).ob&quot;j &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-						Outputs="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\$(InputName).obj"
+						CommandLine="yasm -X vc -g cv8 -f &quot;$(PlatformName)&quot; -o &quot;$(IntDir)\$(InputName).ob&quot;j &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						Outputs="$(IntDir)\$(InputName).obj"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -577,8 +577,8 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="yasm -X vc -g cv8 -f &quot;$(PlatformName)&quot; -o &quot;$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\$(InputName).ob&quot;j &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-						Outputs="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\$(InputName).obj"
+						CommandLine="yasm -X vc -g cv8 -f &quot;$(PlatformName)&quot; -o &quot;$(IntDir)\$(InputName).ob&quot;j &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						Outputs="$(IntDir)\$(InputName).obj"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -587,8 +587,8 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="ml64 /c /coff /Cx /nologo /Fo&quot;$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\$(InputName).obj&quot; &quot;$(InputPath)&#x0D;&#x0A;"
-						Outputs="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\$(InputName).obj"
+						CommandLine="ml64 /c /coff /Cx /nologo /Fo&quot;$(IntDir)\$(InputName).obj&quot; &quot;$(InputPath)&#x0D;&#x0A;"
+						Outputs="$(IntDir)\$(InputName).obj"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -596,9 +596,8 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="yasm -X vc -g cv8 -f &quot;$(PlatformName)&quot; -o &quot;$(OutDir)\$(InputName).ob&quot;j &quot;$(InputPath)&quot;"
-						CommandLine="yasm -X vc -g cv8 -f &quot;$(PlatformName)&quot; -o &quot;$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\$(InputName).ob&quot;j &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-						Outputs="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\$(InputName).obj"
+						CommandLine="yasm -X vc -g cv8 -f &quot;$(PlatformName)&quot; -o &quot;$(IntDir)\$(InputName).ob&quot;j &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						Outputs="$(IntDir)\$(InputName).obj"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -607,8 +606,8 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="yasm -X vc -g cv8 -f &quot;$(PlatformName)&quot; -o &quot;$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\$(InputName).ob&quot;j &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-						Outputs="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\$(InputName).obj"
+						CommandLine="yasm -X vc -g cv8 -f &quot;$(PlatformName)&quot; -o &quot;$(IntDir)\$(InputName).ob&quot;j &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						Outputs="$(IntDir)\$(InputName).obj"
 					/>
 				</FileConfiguration>
 			</File>
@@ -620,8 +619,8 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="yasm -X vc -g cv8 -f &quot;$(PlatformName)&quot; -o &quot;$(OutDir)\$(InputName).obj&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(InputName).obj"
+						CommandLine="yasm -X vc -g cv8 -f &quot;$(PlatformName)&quot; -o &quot;$(IntDir)\$(InputName).obj&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						Outputs="$(IntDir)\$(InputName).obj"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -630,8 +629,8 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="ml64 /c /coff /Cx /nologo /Fo&quot;$(OutDir)\$(InputName).obj&quot; &quot;$(InputPath)&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(InputName).obj"
+						CommandLine="ml64 /c /coff /Cx /nologo /Fo&quot;$(IntDir)\$(InputName).obj&quot; &quot;$(InputPath)&#x0D;&#x0A;"
+						Outputs="$(IntDir)\$(InputName).obj"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -639,8 +638,8 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="yasm -X vc -g cv8 -f &quot;$(PlatformName)&quot; -o &quot;$(OutDir)\$(InputName).ob&quot;j &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(InputName).obj"
+						CommandLine="yasm -X vc -g cv8 -f &quot;$(PlatformName)&quot; -o &quot;$(IntDir)\$(InputName).ob&quot;j &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						Outputs="$(IntDir)\$(InputName).obj"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -649,8 +648,8 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="ml64 /c /coff /Cx /nologo /Fo&quot;$(OutDir)\$(InputName).obj&quot; &quot;$(InputPath)&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(InputName).obj"
+						CommandLine="ml64 /c /coff /Cx /nologo /Fo&quot;$(IntDir)\$(InputName).obj&quot; &quot;$(InputPath)&#x0D;&#x0A;"
+						Outputs="$(IntDir)\$(InputName).obj"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -658,8 +657,8 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="yasm -X vc -g cv8 -f &quot;$(PlatformName)&quot; -o &quot;$(OutDir)\$(InputName).ob&quot;j &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(InputName).obj"
+						CommandLine="yasm -X vc -g cv8 -f &quot;$(PlatformName)&quot; -o &quot;$(IntDir)\$(InputName).ob&quot;j &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						Outputs="$(IntDir)\$(InputName).obj"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -668,8 +667,8 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="ml64 /c /coff /Cx /nologo /Fo&quot;$(OutDir)\$(InputName).obj&quot; &quot;$(InputPath)&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(InputName).obj"
+						CommandLine="ml64 /c /coff /Cx /nologo /Fo&quot;$(IntDir)\$(InputName).obj&quot; &quot;$(InputPath)&#x0D;&#x0A;"
+						Outputs="$(IntDir)\$(InputName).obj"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -677,8 +676,8 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="yasm -X vc -g cv8 -f &quot;$(PlatformName)&quot; -o &quot;$(OutDir)\$(InputName).ob&quot;j &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(InputName).obj"
+						CommandLine="yasm -X vc -g cv8 -f &quot;$(PlatformName)&quot; -o &quot;$(IntDir)\$(InputName).ob&quot;j &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						Outputs="$(IntDir)\$(InputName).obj"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -687,8 +686,8 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="ml64 /c /coff /Cx /nologo /Fo&quot;$(OutDir)\$(InputName).obj&quot; &quot;$(InputPath)&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(InputName).obj"
+						CommandLine="ml64 /c /coff /Cx /nologo /Fo&quot;$(IntDir)\$(InputName).obj&quot; &quot;$(InputPath)&#x0D;&#x0A;"
+						Outputs="$(IntDir)\$(InputName).obj"
 					/>
 				</FileConfiguration>
 			</File>
@@ -700,8 +699,8 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="ml /c /coff /Cx /nologo /Fo&quot;$(OutDir)\$(InputName).obj&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(InputName).obj"
+						CommandLine="ml /c /coff /Cx /nologo /Fo&quot;$(IntDir)\$(InputName).obj&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						Outputs="$(IntDir)\$(InputName).obj"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -710,8 +709,8 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="ml64 /c /coff /Cx /nologo /Fo&quot;$(OutDir)\$(InputName).obj&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(InputName).obj"
+						CommandLine="ml64 /c /coff /Cx /nologo /Fo&quot;$(IntDir)\$(InputName).obj&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						Outputs="$(IntDir)\$(InputName).obj"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -719,8 +718,8 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="ml /c /coff /Cx /nologo /Fo&quot;$(OutDir)\$(InputName).obj&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(InputName).obj"
+						CommandLine="ml /c /coff /Cx /nologo /Fo&quot;$(IntDir)\$(InputName).obj&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						Outputs="$(IntDir)\$(InputName).obj"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -729,8 +728,8 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="ml64 /c /coff /Cx /nologo /Fo&quot;$(OutDir)\$(InputName).obj&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(InputName).obj"
+						CommandLine="ml64 /c /coff /Cx /nologo /Fo&quot;$(IntDir)\$(InputName).obj&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						Outputs="$(IntDir)\$(InputName).obj"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -738,8 +737,8 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="ml /c /coff /Cx /nologo /Fo&quot;$(OutDir)\$(InputName).obj&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(InputName).obj"
+						CommandLine="ml /c /coff /Cx /nologo /Fo&quot;$(IntDir)\$(InputName).obj&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						Outputs="$(IntDir)\$(InputName).obj"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -748,8 +747,8 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="ml64 /c /coff /Cx /nologo /Fo&quot;$(OutDir)\$(InputName).obj&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(InputName).obj"
+						CommandLine="ml64 /c /coff /Cx /nologo /Fo&quot;$(IntDir)\$(InputName).obj&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						Outputs="$(IntDir)\$(InputName).obj"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -757,8 +756,8 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="ml /c /coff /Cx /nologo /Fo&quot;$(OutDir)\$(InputName).obj&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(InputName).obj"
+						CommandLine="ml /c /coff /Cx /nologo /Fo&quot;$(IntDir)\$(InputName).obj&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						Outputs="$(IntDir)\$(InputName).obj"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -767,8 +766,8 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="ml64 /c /coff /Cx /nologo /Fo&quot;$(OutDir)\$(InputName).obj&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(InputName).obj"
+						CommandLine="ml64 /c /coff /Cx /nologo /Fo&quot;$(IntDir)\$(InputName).obj&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						Outputs="$(IntDir)\$(InputName).obj"
 					/>
 				</FileConfiguration>
 			</File>
@@ -789,8 +788,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="cpuid64.asm"
-						CommandLine="ml64 /c /Cx /nologo /Fo&quot;$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\$(InputName).obj&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-						Outputs="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\$(InputName).obj"
+						CommandLine="ml64 /c /Cx /nologo /Fo&quot;$(IntDir)\$(InputName).obj&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						Outputs="$(IntDir)\$(InputName).obj"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -807,8 +806,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="cpuid64.asm"
-						CommandLine="ml64 /c /Cx /nologo /Fo&quot;$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\$(InputName).obj&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-						Outputs="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\$(InputName).obj"
+						CommandLine="ml64 /c /Cx /nologo /Fo&quot;$(IntDir)\$(InputName).obj&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						Outputs="$(IntDir)\$(InputName).obj"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -825,8 +824,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="cpuid64.asm"
-						CommandLine="ml64 /c /Cx /nologo /Fo&quot;$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\$(InputName).obj&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-						Outputs="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\$(InputName).obj"
+						CommandLine="ml64 /c /Cx /nologo /Fo&quot;$(IntDir)\$(InputName).obj&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						Outputs="$(IntDir)\$(InputName).obj"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -843,8 +842,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="cpuid64.asm"
-						CommandLine="ml64 /c /Cx /nologo /Fo&quot;$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\$(InputName).obj&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-						Outputs="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\$(InputName).obj"
+						CommandLine="ml64 /c /Cx /nologo /Fo&quot;$(IntDir)\$(InputName).obj&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						Outputs="$(IntDir)\$(InputName).obj"
 					/>
 				</FileConfiguration>
 			</File>
