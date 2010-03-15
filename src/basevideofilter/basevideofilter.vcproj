@@ -267,67 +267,6 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Debug (MOD)|Win32"
-			OutputDirectory="$(ConfigurationName)"
-			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\basevideofilter"
-			ConfigurationType="4"
-			InheritedPropertySheets="..\common.vsprops;..\debug.vsprops"
-			UseOfMFC="1"
-			CharacterSet="1"
-			WholeProgramOptimization="0"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories="..\..\include;..\BaseClasses"
-				PreprocessorDefinitions="WIN32;_DEBUG"
-				EnableEnhancedInstructionSet="1"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLibrarianTool"
-				OutputFile="..\..\lib\$(ProjectName)DU.lib"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
-		</Configuration>
-		<Configuration
 			Name="Debug (MOD)|x64"
 			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\basevideofilter"
@@ -372,69 +311,6 @@
 			<Tool
 				Name="VCLibrarianTool"
 				OutputFile="..\..\lib64\$(ProjectName)DU.lib"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
-		</Configuration>
-		<Configuration
-			Name="Release (MOD)|Win32"
-			OutputDirectory="$(ConfigurationName)"
-			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\basevideofilter"
-			ConfigurationType="4"
-			InheritedPropertySheets="..\common.vsprops;..\release.vsprops"
-			UseOfMFC="1"
-			CharacterSet="1"
-			WholeProgramOptimization="0"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories="..\..\include;..\BaseClasses"
-				PreprocessorDefinitions="WIN32;NDEBUG"
-				BufferSecurityCheck="true"
-				EnableEnhancedInstructionSet="1"
-				DisableSpecificWarnings="4244"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLibrarianTool"
-				OutputFile="..\..\lib\$(ProjectName)RU.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -563,23 +439,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug (MOD)|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
 					Name="Debug (MOD)|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release (MOD)|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
