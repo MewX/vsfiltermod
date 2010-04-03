@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="windows-1250"?>
+<?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="zlib"
-	ProjectGUID="{2FCD4B66-9CF9-4C8F-BC70-37CD20002D49}"
-	RootNamespace="zlib"
-	Keyword="MFCProj"
+	Name="csri"
+	ProjectGUID="{4294BC27-91AC-4642-B5E1-042288478C2A}"
+	RootNamespace="csri"
+	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
@@ -22,12 +22,9 @@
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory="$(SolutionDir)lib\"
-			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\zlib"
+			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\csri"
 			ConfigurationType="4"
-			InheritedPropertySheets="..\common.vsprops;..\debug.vsprops"
-			UseOfMFC="1"
-			ATLMinimizesCRunTimeLibraryUsage="false"
-			CharacterSet="2"
+			CharacterSet="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -46,24 +43,30 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
-				PrecompiledHeaderFile=".\Debug/zlib.pch"
-				WarningLevel="2"
+				Optimization="0"
+				AdditionalIncludeDirectories="../../include;include;lib/win32"
+				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
+				MinimalRebuild="true"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				DebugInformationFormat="4"
+				CompileAs="1"
+				DisableSpecificWarnings="4996"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				Culture="2057"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\lib\$(ProjectName)D.lib"
+				OutputFile="$(OutDir)\$(ProjectName)D.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -83,13 +86,10 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|x64"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\zlib"
+			OutputDirectory="$(SolutionDir)lib64\"
+			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\csri_2008"
 			ConfigurationType="4"
-			InheritedPropertySheets="..\common.vsprops;..\debug.vsprops"
-			UseOfMFC="1"
-			ATLMinimizesCRunTimeLibraryUsage="false"
-			CharacterSet="2"
+			CharacterSet="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -109,25 +109,30 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
-				PreprocessorDefinitions="_WIN64;_DEBUG;_WINDOWS"
-				PrecompiledHeaderFile=".\Debug/zlib.pch"
-				WarningLevel="2"
+				Optimization="0"
+				AdditionalIncludeDirectories="../;include;lib/win32"
+				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
+				MinimalRebuild="true"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
 				DebugInformationFormat="3"
+				CompileAs="1"
+				DisableSpecificWarnings="4996"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				Culture="2057"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\lib64\$(ProjectName)D.lib"
+				OutputFile="$(OutDir)\$(ProjectName)D.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -148,12 +153,10 @@
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory="$(SolutionDir)lib\"
-			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\zlib"
+			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\csri"
 			ConfigurationType="4"
-			InheritedPropertySheets="..\common.vsprops;..\release.vsprops"
-			UseOfMFC="1"
-			ATLMinimizesCRunTimeLibraryUsage="false"
-			CharacterSet="2"
+			CharacterSet="1"
+			WholeProgramOptimization="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -172,26 +175,26 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
-				BufferSecurityCheck="true"
-				EnableEnhancedInstructionSet="1"
-				PrecompiledHeaderFile=".\Release/zlib.pch"
-				WarningLevel="2"
+				AdditionalIncludeDirectories="../../include;include;lib/win32"
+				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
+				RuntimeLibrary="2"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				DebugInformationFormat="3"
+				DisableSpecificWarnings="4996"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				Culture="2057"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\lib\$(ProjectName)R.lib"
+				OutputFile="$(OutDir)\$(ProjectName)R.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -211,13 +214,11 @@
 		</Configuration>
 		<Configuration
 			Name="Release|x64"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\zlib"
+			OutputDirectory="$(SolutionDir)lib64\"
+			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\csri_2008"
 			ConfigurationType="4"
-			InheritedPropertySheets="..\common.vsprops;..\release.vsprops"
-			UseOfMFC="1"
-			ATLMinimizesCRunTimeLibraryUsage="false"
-			CharacterSet="2"
+			CharacterSet="1"
+			WholeProgramOptimization="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -237,26 +238,26 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
-				PreprocessorDefinitions="_WIN64;NDEBUG;_WINDOWS"
-				BufferSecurityCheck="true"
-				EnableEnhancedInstructionSet="0"
-				PrecompiledHeaderFile=".\Release/zlib.pch"
-				WarningLevel="2"
+				AdditionalIncludeDirectories="../;include;lib/win32"
+				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
+				RuntimeLibrary="2"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				DebugInformationFormat="3"
+				DisableSpecificWarnings="4996"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				Culture="2057"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\lib64\$(ProjectName)R.lib"
+				OutputFile="$(OutDir)\$(ProjectName)R.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -280,136 +281,43 @@
 	<Files>
 		<Filter
 			Name="Source Files"
-			Filter="cpp;c;cxx;rc;def;r;odl;hpj;bat;for;f90"
+			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\Adler32.c"
+				RelativePath=".\lib\win32\enumerate.c"
 				>
 			</File>
 			<File
-				RelativePath=".\Compress.c"
+				RelativePath=".\lib\list.c"
 				>
 			</File>
 			<File
-				RelativePath=".\Crc32.c"
+				RelativePath=".\subhelp\logging.c"
 				>
 			</File>
 			<File
-				RelativePath=".\Deflate.c"
-				>
-			</File>
-			<File
-				RelativePath=".\gzclose.c"
-				>
-			</File>
-			<File
-				RelativePath=".\gzlib.c"
-				>
-			</File>
-			<File
-				RelativePath=".\gzread.c"
-				>
-			</File>
-			<File
-				RelativePath=".\gzwrite.c"
-				>
-			</File>
-			<File
-				RelativePath=".\infback.c"
-				>
-			</File>
-			<File
-				RelativePath=".\Inffast.c"
-				>
-			</File>
-			<File
-				RelativePath=".\Inflate.c"
-				>
-			</File>
-			<File
-				RelativePath=".\Inftrees.c"
-				>
-			</File>
-			<File
-				RelativePath=".\minigzip.c"
-				>
-			</File>
-			<File
-				RelativePath=".\Trees.c"
-				>
-			</File>
-			<File
-				RelativePath=".\Uncompr.c"
-				>
-			</File>
-			<File
-				RelativePath=".\Zutil.c"
+				RelativePath=".\lib\wrap.c"
 				>
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
-			Filter="h;hpp;hxx;hm;inl;fi;fd"
+			Filter="h;hpp;hxx;hm;inl;inc;xsd"
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\crc32.h"
-				>
-			</File>
-			<File
-				RelativePath=".\deflate.h"
-				>
-			</File>
-			<File
-				RelativePath=".\gzguts.h"
-				>
-			</File>
-			<File
-				RelativePath=".\inffast.h"
-				>
-			</File>
-			<File
-				RelativePath=".\inffixed.h"
-				>
-			</File>
-			<File
-				RelativePath=".\inflate.h"
-				>
-			</File>
-			<File
-				RelativePath=".\inftrees.h"
-				>
-			</File>
-			<File
-				RelativePath=".\trees.h"
-				>
-			</File>
-			<File
-				RelativePath=".\zconf.h"
-				>
-			</File>
-			<File
-				RelativePath=".\zlib.h"
-				>
-			</File>
-			<File
-				RelativePath=".\zutil.h"
+				RelativePath=".\include\csri\csri.h"
 				>
 			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
-			Filter="ico;cur;bmp;dlg;rc2;rct;bin;cnt;rtf;gif;jpg;jpeg;jpe"
+			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
+			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
-			<File
-				RelativePath=".\ZLIB.RC"
-				>
-			</File>
 		</Filter>
 	</Files>
 	<Globals>
-		<Global
-			Name="DevPartner_IsInstrumented"
-			Value="0"
-		/>
 	</Globals>
 </VisualStudioProject>

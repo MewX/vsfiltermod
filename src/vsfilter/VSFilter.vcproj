@@ -570,7 +570,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release (MOD)|x64"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\vsfilter"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\common.vsprops;..\release.vsprops"

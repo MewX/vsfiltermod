@@ -21,7 +21,7 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)lib\"
 			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\libpng"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\debug.vsprops;..\common.vsprops"
@@ -47,7 +47,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories="..\zlib"
+				AdditionalIncludeDirectories="../zlib"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
 				UsePrecompiledHeader="0"
 				WarningLevel="2"
@@ -147,7 +147,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)lib\"
 			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\libpng"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\release.vsprops;..\common.vsprops"
