@@ -164,8 +164,8 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description="Copy to VirtualDub catalog"
-				CommandLine="del D:\Dev\VirtualDub\plugins64\$(ProjectName).dll /Q&#x0D;&#x0A;del D:\Dev\VirtualDub\plugins64\$(ProjectName).vdf /Q&#x0D;&#x0A;xcopy ..\..\bin\x64\$(ProjectName).dll D:\Dev\VirtualDub\plugins64\&#x0D;&#x0A;rename D:\Dev\VirtualDub\plugins64\$(ProjectName).dll $(ProjectName).vdf&#x0D;&#x0A;"
+				Description=""
+				CommandLine=""
 			/>
 		</Configuration>
 		<Configuration
@@ -327,8 +327,8 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description="Copy to VirtualDub catalog"
-				CommandLine="del D:\Dev\VirtualDub\plugins64\$(ProjectName).dll /Q&#x0D;&#x0A;del D:\Dev\VirtualDub\plugins64\$(ProjectName).vdf /Q&#x0D;&#x0A;xcopy ..\..\bin\x64\$(ProjectName).dll D:\Dev\VirtualDub\plugins64\&#x0D;&#x0A;rename D:\Dev\VirtualDub\plugins64\$(ProjectName).dll $(ProjectName).vdf&#x0D;&#x0A;"
+				Description=""
+				CommandLine=""
 			/>
 		</Configuration>
 		<Configuration

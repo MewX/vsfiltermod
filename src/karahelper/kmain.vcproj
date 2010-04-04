@@ -93,7 +93,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="del D:\Dev\Aegisub\automation\packages\karahelper.dll&#x0D;&#x0A;xcopy &quot;$(SolutionDir)bin\$(PlatformName)\$(ConfigurationName)\karahelper.dll&quot; &quot;D:\Dev\Aegisub\automation\packages\&quot;&#x0D;&#x0A;"
+				CommandLine=""
 			/>
 		</Configuration>
 		<Configuration
@@ -250,7 +250,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="del D:\Dev\Aegisub\automation\packages\karahelper.dll&#x0D;&#x0A;xcopy &quot;$(SolutionDir)bin\$(PlatformName)\$(ConfigurationName)\karahelper.dll&quot; &quot;D:\Dev\Aegisub\automation\packages\&quot;&#x0D;&#x0A;"
+				CommandLine=""
 			/>
 		</Configuration>
 		<Configuration
