@@ -21,8 +21,8 @@
 
 #include "stdafx.h"
 #include <Vfw.h>
-#include <winddk\devioctl.h>
-#include <winddk\ntddcdrm.h>
+#include <winddk/devioctl.h>
+#include <winddk/ntddcdrm.h>
 #include "DSUtil.h"
 #include "Mpeg2Def.h"
 #include <moreuuids.h>
@@ -34,7 +34,7 @@
 
 void DumpStreamConfig(TCHAR* fn, IAMStreamConfig* pAMVSCCap)
 {
-	CString s, ss;
+	CString s;
 	CStdioFile f;
 	if(!f.Open(fn, CFile::modeCreate|CFile::modeWrite|CFile::typeText))
 		return;
@@ -49,6 +49,7 @@ void DumpStreamConfig(TCHAR* fn, IAMStreamConfig* pAMVSCCap)
 
 	if(size == sizeof(VIDEO_STREAM_CONFIG_CAPS))
 	{
+    CString ss;
 		for(ptrdiff_t i = 0; i < cnt; i++)
 		{
 			AM_MEDIA_TYPE* pmt = NULL;
@@ -871,7 +872,7 @@ CString GetDriveLabel(TCHAR drive)
 
 	CString path;
 	path.Format(_T("%c:\\"), drive);
-	TCHAR VolumeNameBuffer[MAX_PATH], FileSystemNameBuffer[MAX_PATH];
+	TCHAR VolumeNameBuffer[_MAX_PATH], FileSystemNameBuffer[_MAX_PATH];
 	DWORD VolumeSerialNumber, MaximumComponentLength, FileSystemFlags;
 	if(GetVolumeInformation(path, 
 		VolumeNameBuffer, MAX_PATH, &VolumeSerialNumber, &MaximumComponentLength, 
