@@ -698,6 +698,7 @@ CRect CLine::PaintShadow(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CPo
 			// subpixel positioning
 			w->m_style.mod_grad.subpixx = x&7;
 			w->m_style.mod_grad.subpixy = y&7;
+			w->m_style.mod_grad.fadalpha = alpha;
 #endif
 			w->Paint(CPoint(x, y), org);
 
@@ -765,6 +766,7 @@ CRect CLine::PaintOutline(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CP
 			// subpixel positioning
 			w->m_style.mod_grad.subpixx = x&7;
 			w->m_style.mod_grad.subpixy = y&7;
+			w->m_style.mod_grad.fadalpha = alpha;
 #endif
 
 			w->Paint(CPoint(x, y), org);
@@ -874,6 +876,7 @@ CRect CLine::PaintBody(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CPoin
 			// subpixel positioning
 			w->m_style.mod_grad.subpixx = x&7;
 			w->m_style.mod_grad.subpixy = y&7;
+			w->m_style.mod_grad.fadalpha = alpha;
 #endif
 
 		w->Paint(CPoint(x, y), org);
@@ -1807,9 +1810,9 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 				{
 					c = wcstol(params[j].Trim(L"&H"), NULL, 16);
 					style.mod_grad.color[i][j] = !p.IsEmpty()
-					? (((int)CalcAnimation(c&0xff, style.mod_grad.color[i][j]&0xff, fAnimate))&0xff
+					? (((int)CalcAnimation((c&0xff0000)>>16, style.mod_grad.color[i][j]&0xff, fAnimate))&0xff
 					  |((int)CalcAnimation(c&0xff00, style.mod_grad.color[i][j]&0xff00, fAnimate))&0xff00
-					  |((int)CalcAnimation(c&0xff0000, style.mod_grad.color[i][j]&0xff0000, fAnimate))&0xff0000)
+					  |((int)CalcAnimation((c&0xff)<<16, style.mod_grad.color[i][j]&0xff0000, fAnimate))&0xff0000)
 					: org.mod_grad.color[i][j];
 				}
 				if (style.mod_grad.mode[i]==0)

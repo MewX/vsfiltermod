@@ -59,7 +59,6 @@ public:
 	int		bpp;
 
 	BYTE	alpha;
-
 	png_byte color_type;
 	png_byte bit_depth;
 
@@ -94,6 +93,7 @@ public:
 
  BYTE		subpixx;
  BYTE		subpixy;
+ BYTE		fadalpha;
 
  BYTE		img_alpha;
 

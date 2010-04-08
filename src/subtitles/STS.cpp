@@ -1261,8 +1261,8 @@ static bool LoadFont(CString& font)
 
 	if(hFont == INVALID_HANDLE_VALUE)
 	{
-		TCHAR path[MAX_PATH];
-		GetTempPath(MAX_PATH, path);
+		TCHAR path[_MAX_PATH];
+		GetTempPath(_MAX_PATH, path);
 
 		DWORD chksum = 0;
 		for(ptrdiff_t i = 0, j = datalen>>2; i < j; i++)
@@ -2714,10 +2714,10 @@ bool CSimpleTextSubtitle::Open(CTextFile* f, int CharSet, CString name)
 
 bool CSimpleTextSubtitle::Open(BYTE* data, int len, int CharSet, CString name)
 {
-	TCHAR path[MAX_PATH];
-	if(!GetTempPath(MAX_PATH, path)) return(false);
+	TCHAR path[_MAX_PATH];
+	if(!GetTempPath(_MAX_PATH, path)) return(false);
 
-	TCHAR fn[MAX_PATH];
+	TCHAR fn[_MAX_PATH];
 	if(!GetTempFileName(path, _T("vs"), 0, fn)) return(false);
 
 	FILE* tmp = _tfopen(fn, _T("wb"));
@@ -3531,6 +3531,7 @@ void MOD_GRADIENT::clear()
 	yoffset = 0;
 	subpixx = 0;
 	subpixy = 0;
+	fadalpha = 0xFF;
 }
 
 #include <math.h>
@@ -3550,10 +3551,11 @@ DWORD MOD_GRADIENT::getmixcolor(int tx, int ty, int i) // too slow T.T
 						    ((color[i][2]>>(8*j))&0xff)*(1-y)*(1-x)+
 						    ((color[i][3]>>(8*j))&0xff)*x*(1-y))&0xff)<<(8*j);
 		}
-		colorb  |= (0xff - (DWORD)((alpha[i][0]*(1-x)*y) +
+		DWORD al = (DWORD)((alpha[i][0]*(1-x)*y) +
 						    (alpha[i][1]*x*y)+
 						    (alpha[i][2]*(1-y)*(1-x))+
-						    (alpha[i][3]*x*(1-y)))&0xff)<<(24);
+						    (alpha[i][3]*x*(1-y)))&0xff;
+		colorb  |= (0xff00 - ((0xff - al)*fadalpha)&0xff00)<<(16);
 		return colorb;
 	}
 	// png background
