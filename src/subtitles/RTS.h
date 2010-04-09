@@ -161,7 +161,7 @@ class Effect
 {
 public:
 	enum eftype type;
-	int param[8];
+	int param[9];
 	int t[4];
 };
 
