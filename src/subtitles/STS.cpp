@@ -3555,7 +3555,7 @@ DWORD MOD_GRADIENT::getmixcolor(int tx, int ty, int i) // too slow T.T
 						    (alpha[i][1]*x*y)+
 						    (alpha[i][2]*(1-y)*(1-x))+
 						    (alpha[i][3]*x*(1-y)))&0xff;
-		colorb  |= (0xff00 - ((0xff - al)*fadalpha)&0xff00)<<(16);
+		colorb  |= (((0xff-al)*(0xff-fadalpha))&0xff00)<<(16);
 		return colorb;
 	}
 	// png background
@@ -3603,8 +3603,8 @@ DWORD MOD_GRADIENT::getmixcolor(int tx, int ty, int i) // too slow T.T
 			a = (b_images[i].bpp==4) ? (((dst21[3]*(8-subpixx)+dst22[3]*subpixx)>>3)*(subpixy)+((a*(8-subpixx)+dst12[3]*subpixx)>>3)*(8-subpixy))>>3 : 0xFF;
 		}
 		// alpha fix
-		a = (a*b_images[i].alpha)>>8;
-		colorb = a<<24 | r<<16 | g<<8 | b;
+		DWORD al = (a*b_images[i].alpha*(0xff-fadalpha));
+		colorb = (al&0xFF0000)<<8 | r<<16 | g<<8 | b;
 
 		return colorb;
 	}
