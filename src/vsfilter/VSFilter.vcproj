@@ -21,6 +21,7 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
+			OutputDirectory="$(SolutionDir)bin\$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\vsfilter"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\common.vsprops;..\debug.vsprops"
@@ -63,8 +64,8 @@
 				Name="VCLinkerTool"
 				RegisterOutput="true"
 				AdditionalDependencies="strmbaseDU.lib dsutilDU.lib subtitlesDU.lib subpicDU.lib basevideofilterDU.lib Winmm.lib comsuppwd.lib"
-				OutputFile="..\..\bin\x86\$(ProjectName).dll"
-				AdditionalLibraryDirectories="..\..\lib"
+				OutputFile="$(OutDir)\$(ProjectName).dll"
+				AdditionalLibraryDirectories="$(SolutionDir)lib"
 				ModuleDefinitionFile=".\VSFilter.def"
 				SubSystem="2"
 				TargetMachine="1"
@@ -93,7 +94,7 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|x64"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\vsfilter"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\common.vsprops;..\debug.vsprops"
@@ -137,8 +138,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="strmbaseDU.lib dsutilDU.lib subtitlesDU.lib subpicDU.lib basevideofilterDU.lib Winmm.lib comsuppwd.lib"
-				OutputFile="..\..\bin\x64\$(ProjectName).dll"
-				AdditionalLibraryDirectories="..\..\lib64"
+				OutputFile="$(OutDir)\$(ProjectName).dll"
+				AdditionalLibraryDirectories="$(SolutionDir)lib64"
 				ModuleDefinitionFile=".\VSFilter.def"
 				SubSystem="2"
 				LargeAddressAware="2"
@@ -164,12 +165,12 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description=""
 				CommandLine=""
 			/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
+			OutputDirectory="$(SolutionDir)bin\$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\vsfilter"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\common.vsprops;..\release.vsprops"
@@ -178,7 +179,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="if exist ..\include\UserConfig.h goto SpecificConfig&#x0D;&#x0A;echo #pragma once &gt;..\include\UserConfig.h&#x0D;&#x0A;echo //#ifdef ENABLE_MINIDUMP &gt;&gt;..\include\UserConfig.h&#x0D;&#x0A;&#x0D;&#x0A;:SpecificConfig&#x0D;&#x0A;"
+				CommandLine=""
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -214,8 +215,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="delayimp.lib strmbaseRU.lib dsutilRU.lib subtitlesRU.lib subpicRU.lib basevideofilterRU.lib Winmm.lib comsuppwd.lib"
-				OutputFile="..\..\bin\x86\$(ProjectName).dll"
-				AdditionalLibraryDirectories="..\..\lib"
+				OutputFile="$(OutDir)\$(ProjectName).dll"
+				AdditionalLibraryDirectories="$(SolutionDir)lib"
 				IgnoreDefaultLibraryNames="MSVCRT"
 				ModuleDefinitionFile=".\VSFilter.def"
 				DelayLoadDLLs="oleacc.dll"
@@ -250,7 +251,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release|x64"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\vsfilter"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\common.vsprops;..\release.vsprops"
@@ -295,8 +296,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="delayimp.lib strmbaseRU.lib dsutilRU.lib subtitlesRU.lib subpicRU.lib basevideofilterRU.lib Winmm.lib comsuppwd.lib"
-				OutputFile="..\..\bin\x64\$(ProjectName).dll"
-				AdditionalLibraryDirectories="..\..\lib64"
+				OutputFile="$(OutDir)\$(ProjectName).dll"
+				AdditionalLibraryDirectories="$(SolutionDir)lib64"
 				IgnoreDefaultLibraryNames="MSVCRT"
 				ModuleDefinitionFile=".\VSFilter.def"
 				DelayLoadDLLs="oleacc.dll"
@@ -327,13 +328,12 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description=""
 				CommandLine=""
 			/>
 		</Configuration>
 		<Configuration
 			Name="Debug (MOD)|Win32"
-			OutputDirectory="$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\vsfilter"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\common.vsprops;..\debug.vsprops"
@@ -377,9 +377,9 @@
 				Name="VCLinkerTool"
 				RegisterOutput="true"
 				AdditionalDependencies="strmbaseDU.lib dsutilDU.lib subtitlesDUM.lib subpicDU.lib basevideofilterDU.lib libpngD.lib zlibD.lib Winmm.lib comsuppwd.lib"
-				OutputFile="..\..\bin\x86\$(ProjectName)Mod.dll"
-				AdditionalLibraryDirectories="..\..\lib"
-				ModuleDefinitionFile=".\VSFilter.def"
+				OutputFile="$(OutDir)\$(ProjectName)Mod.dll"
+				AdditionalLibraryDirectories="$(SolutionDir)lib"
+				ModuleDefinitionFile=".\VSFilterMod.def"
 				SubSystem="2"
 				TargetMachine="1"
 			/>
@@ -407,7 +407,7 @@
 		</Configuration>
 		<Configuration
 			Name="Debug (MOD)|x64"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\vsfilter"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\common.vsprops;..\debug.vsprops"
@@ -452,9 +452,9 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="strmbaseDU.lib dsutilDU.lib subtitlesDUM.lib subpicDU.lib basevideofilterDU.lib libpngD.lib zlibD.lib Winmm.lib comsuppwd.lib"
-				OutputFile="..\..\bin\x64\$(ProjectName)Mod64.dll"
-				AdditionalLibraryDirectories="..\..\lib64"
-				ModuleDefinitionFile=".\VSFilter.def"
+				OutputFile="$(OutDir)\$(ProjectName)Mod64.dll"
+				AdditionalLibraryDirectories="$(SolutionDir)lib64"
+				ModuleDefinitionFile=".\VSFilterMod.def"
 				SubSystem="2"
 				LargeAddressAware="2"
 				TargetMachine="17"
@@ -484,7 +484,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release (MOD)|Win32"
-			OutputDirectory="$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(SolutionDir)build\$(PlatformName)\$(ConfigurationName)\vsfilter"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\common.vsprops;..\release.vsprops"
@@ -493,7 +493,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="if exist ..\include\UserConfig.h goto SpecificConfig&#x0D;&#x0A;echo #pragma once &gt;..\include\UserConfig.h&#x0D;&#x0A;echo //#ifdef ENABLE_MINIDUMP &gt;&gt;..\include\UserConfig.h&#x0D;&#x0A;&#x0D;&#x0A;:SpecificConfig&#x0D;&#x0A;"
+				CommandLine=""
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -534,10 +534,10 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="delayimp.lib strmbaseRU.lib dsutilRU.lib subtitlesRUM.lib subpicRU.lib basevideofilterRU.lib libpngR.lib zlibR.lib Winmm.lib comsuppwd.lib"
-				OutputFile="..\..\bin\x86\$(ProjectName)Mod.dll"
-				AdditionalLibraryDirectories="..\..\lib"
+				OutputFile="$(OutDir)\$(ProjectName)Mod.dll"
+				AdditionalLibraryDirectories="$(SolutionDir)lib"
 				IgnoreDefaultLibraryNames="MSVCRT"
-				ModuleDefinitionFile=".\VSFilter.def"
+				ModuleDefinitionFile=".\VSFilterMod.def"
 				DelayLoadDLLs="oleacc.dll"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -616,10 +616,10 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="delayimp.lib strmbaseRU.lib dsutilRU.lib subtitlesRUM.lib subpicRU.lib basevideofilterRU.lib libpngR.lib zlibR.lib Winmm.lib comsuppwd.lib"
-				OutputFile="..\..\bin\x64\$(ProjectName)Mod64.dll"
-				AdditionalLibraryDirectories="..\..\lib64"
+				OutputFile="$(OutDir)\$(ProjectName)Mod64.dll"
+				AdditionalLibraryDirectories="$(SolutionDir)lib64"
 				IgnoreDefaultLibraryNames="MSVCRT"
-				ModuleDefinitionFile=".\VSFilter.def"
+				ModuleDefinitionFile=".\VSFilterMod.def"
 				DelayLoadDLLs="oleacc.dll"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -714,6 +714,74 @@
 			<File
 				RelativePath=".\VSFilter.def"
 				>
+				<FileConfiguration
+					Name="Debug (MOD)|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug (MOD)|x64"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release (MOD)|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release (MOD)|x64"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\VSFilterMod.def"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|x64"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|x64"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
 			</File>
 		</Filter>
 		<Filter
