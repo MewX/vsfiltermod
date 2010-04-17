@@ -235,273 +235,6 @@ public:
 	}
 };
 
-#ifndef WIN64
-//
-// old VirtualDub interface
-//
-
-namespace VirtualDub
-{
-	#include <VirtualDub\VirtualDub.h>
-	//#include <vd2\OldFilterSDK\VirtualDub.h>
-	//#include <vd2\extras\FilterSDK\VirtualDub.h>
-	class CVirtualDubFilter : virtual public CFilter
-	{
-	public:
-		CVirtualDubFilter() {}
-		virtual ~CVirtualDubFilter() {}
-
-		virtual int RunProc(const FilterActivation* fa, const FilterFunctions* ff)
-		{
-			SubPicDesc dst;
-			dst.type = MSP_RGB32;
-			dst.w = fa->src.w;
-			dst.h = fa->src.h;
-			dst.bpp = 32;
-			dst.pitch = fa->src.pitch;
-			dst.bits = (LPVOID)fa->src.data;
-
-			Render(dst, 10000i64*fa->pfsi->lSourceFrameMS, (float)1000 / fa->pfsi->lMicrosecsPerFrame);
-
-			return 0;
-		}
-
-		virtual long ParamProc(FilterActivation* fa, const FilterFunctions* ff)
-		{
-			fa->dst.offset	= fa->src.offset;
-			fa->dst.modulo	= fa->src.modulo;
-			fa->dst.pitch	= fa->src.pitch;
-
-			return 0;
-		}
-
-		virtual int ConfigProc(FilterActivation* fa, const FilterFunctions* ff, HWND hwnd) = 0;
-		virtual void StringProc(const FilterActivation* fa, const FilterFunctions* ff, char* str) = 0;
-		virtual bool FssProc(FilterActivation* fa, const FilterFunctions* ff, char* buf, int buflen) = 0;
-	};
-
-	class CVobSubVirtualDubFilter : public CVobSubFilter, public CVirtualDubFilter
-	{
-	public:
-		CVobSubVirtualDubFilter(CString fn = _T("")) 
-			: CVobSubFilter(fn) {}
-
-		int ConfigProc(FilterActivation* fa, const FilterFunctions* ff, HWND hwnd)
-		{
-			AFX_MANAGE_STATE(AfxGetStaticModuleState());
-
-			CFileDialog fd(TRUE, NULL, GetFileName(), OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY, 
-				_T("VobSub files (*.idx;*.sub)|*.idx;*.sub||"), CWnd::FromHandle(hwnd), 0);
-
-			if(fd.DoModal() != IDOK) return 1;
-
-			return Open(fd.GetPathName()) ? 0 : 1;
-		}
-
-		void StringProc(const FilterActivation* fa, const FilterFunctions* ff, char* str)
-		{
-			sprintf(str, " (%s)", !GetFileName().IsEmpty() ? CStringA(GetFileName()) : " (empty)");
-		}
-
-		bool FssProc(FilterActivation* fa, const FilterFunctions* ff, char* buf, int buflen)
-		{
-			CStringA fn(GetFileName());
-			fn.Replace("\\", "\\\\");
-			_snprintf(buf, buflen, "Config(\"%s\")", fn);
-			return(true);
-		}
-	};
-
-	class CTextSubVirtualDubFilter : public CTextSubFilter, public CVirtualDubFilter
-	{
-	public:
-		CTextSubVirtualDubFilter(CString fn = _T(""), int CharSet = DEFAULT_CHARSET) 
-			: CTextSubFilter(fn, CharSet) {}
-
-		int ConfigProc(FilterActivation* fa, const FilterFunctions* ff, HWND hwnd)
-		{
-			AFX_MANAGE_STATE(AfxGetStaticModuleState());
-
-			const TCHAR formats[] = _T("TextSub files (*.sub;*.srt;*.smi;*.ssa;*.ass;*.xss;*.psb;*.txt)|*.sub;*.srt;*.smi;*.ssa;*.ass;*.xss;*.psb;*.txt||");
-			CFileDialog fd(TRUE, NULL, GetFileName(), OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_ENABLETEMPLATE|OFN_ENABLEHOOK, 
-				formats, CWnd::FromHandle(hwnd), sizeof(OPENFILENAME));
-			//OPENFILENAME_SIZE_VERSION_400 /*0* /);
-			UINT_PTR CALLBACK OpenHookProc(HWND hDlg, UINT uiMsg, WPARAM wParam, LPARAM lParam);
-
-			fd.m_pOFN->hInstance = AfxGetResourceHandle();
-			fd.m_pOFN->lpTemplateName = MAKEINTRESOURCE(IDD_TEXTSUBOPENTEMPLATE);
-			fd.m_pOFN->lpfnHook = (LPOFNHOOKPROC)OpenHookProc;
-			fd.m_pOFN->lCustData = (LPARAM)DEFAULT_CHARSET;
-
-			if(fd.DoModal() != IDOK) return 1;
-
-			return Open(fd.GetPathName(), fd.m_pOFN->lCustData) ? 0 : 1;
-		}
-
-		void StringProc(const FilterActivation* fa, const FilterFunctions* ff, char* str)
-		{
-			if(!GetFileName().IsEmpty()) sprintf(str, " (%s, %d)", CStringA(GetFileName()), GetCharSet());
-			else sprintf(str, " (empty)");
-		}
-
-		bool FssProc(FilterActivation* fa, const FilterFunctions* ff, char* buf, int buflen)
-		{
-			CStringA fn(GetFileName());
-			fn.Replace("\\", "\\\\");
-			_snprintf(buf, buflen, "Config(\"%s\", %d)", fn, GetCharSet());
-			return(true);
-		}
-	};
-
-	int vobsubInitProc(FilterActivation* fa, const FilterFunctions* ff)
-	{
-		return !(*(CVirtualDubFilter**)fa->filter_data = new CVobSubVirtualDubFilter());
-	}
-
-	int textsubInitProc(FilterActivation* fa, const FilterFunctions* ff)
-	{
-		return !(*(CVirtualDubFilter**)fa->filter_data = new CTextSubVirtualDubFilter());
-	}
-
-	void baseDeinitProc(FilterActivation* fa, const FilterFunctions* ff)
-	{
-		CVirtualDubFilter* f = *(CVirtualDubFilter**)fa->filter_data;
-		if(f) delete f, f = NULL;
-	}
-
-	int baseRunProc(const FilterActivation* fa, const FilterFunctions* ff)
-	{
-		CVirtualDubFilter* f = *(CVirtualDubFilter**)fa->filter_data;
-		return f ? f->RunProc(fa, ff) : 1;
-	}
-
-	long baseParamProc(FilterActivation* fa, const FilterFunctions* ff)
-	{
-		CVirtualDubFilter* f = *(CVirtualDubFilter**)fa->filter_data;
-		return f ? f->ParamProc(fa, ff) : 1;
-	}
-
-	int baseConfigProc(FilterActivation* fa, const FilterFunctions* ff, HWND hwnd)
-	{
-		CVirtualDubFilter* f = *(CVirtualDubFilter**)fa->filter_data;
-		return f ? f->ConfigProc(fa, ff, hwnd) : 1;
-	}
-
-	void baseStringProc(const FilterActivation* fa, const FilterFunctions* ff, char* str)
-	{
-		CVirtualDubFilter* f = *(CVirtualDubFilter**)fa->filter_data;
-		if(f) f->StringProc(fa, ff, str);
-	}
-
-	bool baseFssProc(FilterActivation* fa, const FilterFunctions* ff, char* buf, int buflen)
-	{
-		CVirtualDubFilter* f = *(CVirtualDubFilter**)fa->filter_data;
-		return f ? f->FssProc(fa, ff, buf, buflen) : false;
-	}
-
-	void vobsubScriptConfig(IScriptInterpreter* isi, void* lpVoid, CScriptValue* argv, int argc)
-	{
-		FilterActivation* fa = (FilterActivation*)lpVoid;
-		CVirtualDubFilter* f = *(CVirtualDubFilter**)fa->filter_data;
-		if(f) delete f;
-		f = new CVobSubVirtualDubFilter(CString(*argv[0].asString()));
-		*(CVirtualDubFilter**)fa->filter_data = f;
-	}
-
-	void textsubScriptConfig(IScriptInterpreter* isi, void* lpVoid, CScriptValue* argv, int argc)
-	{
-		FilterActivation* fa = (FilterActivation*)lpVoid;
-		CVirtualDubFilter* f = *(CVirtualDubFilter**)fa->filter_data;
-		if(f) delete f;
-		f = new CTextSubVirtualDubFilter(CString(*argv[0].asString()), argv[1].asInt());
-		*(CVirtualDubFilter**)fa->filter_data = f;
-	}
-
-	ScriptFunctionDef vobsub_func_defs[]={
-		{ (ScriptFunctionPtr)vobsubScriptConfig, "Config", "0s" },
-		{ NULL },
-	};
-
-	CScriptObject vobsub_obj={
-		NULL, vobsub_func_defs
-	};
-
-	struct FilterDefinition filterDef_vobsub = 
-	{
-		NULL, NULL, NULL,       // next, prev, module
-		"VobSub",				// name
-		"Adds subtitles from a vob sequence.", // desc
-		"Gabest",               // maker
-		NULL,                   // private_data
-		sizeof(CVirtualDubFilter**), // inst_data_size
-		vobsubInitProc,         // initProc
-		baseDeinitProc,			// deinitProc
-		baseRunProc,			// runProc
-		baseParamProc,			// paramProc
-		baseConfigProc,			// configProc
-		baseStringProc,			// stringProc
-		NULL,					// startProc
-		NULL,					// endProc
-		&vobsub_obj,			// script_obj
-		baseFssProc,			// fssProc
-	};
-
-	ScriptFunctionDef textsub_func_defs[]={
-		{ (ScriptFunctionPtr)textsubScriptConfig, "Config", "0si" },
-		{ NULL },
-	};
-
-	CScriptObject textsub_obj={
-		NULL, textsub_func_defs
-	};
-
-	struct FilterDefinition filterDef_textsub = 
-	{
-		NULL, NULL, NULL,       // next, prev, module
-#ifdef _VSMOD
-		"TextSubMod",				// name
-#else
-		"TextSub",				// name
-#endif
-		"Adds subtitles from srt, sub, psb, smi, ssa, ass file formats.", // desc
-		"Gabest",               // maker
-		NULL,                   // private_data
-		sizeof(CVirtualDubFilter**), // inst_data_size
-		textsubInitProc,        // initProc
-		baseDeinitProc,			// deinitProc
-		baseRunProc,			// runProc
-		baseParamProc,			// paramProc
-		baseConfigProc,			// configProc
-		baseStringProc,			// stringProc
-		NULL,					// startProc
-		NULL,					// endProc
-		&textsub_obj,			// script_obj
-		baseFssProc,			// fssProc
-	};
-
-	static FilterDefinition* fd_vobsub;
-	static FilterDefinition* fd_textsub;
-
-	extern "C" __declspec(dllexport) int __cdecl VirtualdubFilterModuleInit2(FilterModule *fm, const FilterFunctions *ff, int& vdfd_ver, int& vdfd_compat)
-	{
-		if(!(fd_vobsub = ff->addFilter(fm, &filterDef_vobsub, sizeof(FilterDefinition)))
-		|| !(fd_textsub = ff->addFilter(fm, &filterDef_textsub, sizeof(FilterDefinition))))
-			return 1;
-
-		vdfd_ver = VIRTUALDUB_FILTERDEF_VERSION;
-		vdfd_compat = VIRTUALDUB_FILTERDEF_COMPATIBLE;
-
-		return 0;
-	}
-
-	extern "C" __declspec(dllexport) void __cdecl VirtualdubFilterModuleDeinit(FilterModule *fm, const FilterFunctions *ff)
-	{
-		ff->removeFilter(fd_textsub);
-		ff->removeFilter(fd_vobsub);
-	}
-}/**/
-
-#else
 //
 // VirtualDub new plugin interface sdk 1.1
 //
@@ -728,17 +461,21 @@ namespace VirtualDubNew
 
 	struct VDXFilterDefinition filterDef_textsub = 
 	{
-		NULL, NULL, NULL,       // next, prev, module
+		NULL, NULL, NULL,		// next, prev, module
 #ifdef _VSMOD
-		"TextSubMod",				// name
+		"TextSubMod",			// name
 #else
 		"TextSub",				// name
 #endif
 		"Adds subtitles from srt, sub, psb, smi, ssa, ass file formats.", // desc
-		"Gabest",               // maker
-		NULL,                   // private_data
+#ifdef _VSMOD
+		"Teplofizik",			// maker
+#else
+		"Gabest",				// maker
+#endif
+		NULL,					// private_data
 		sizeof(CVirtualDubFilter**), // inst_data_size
-		textsubInitProc,        // initProc
+		textsubInitProc,		// initProc
 		baseDeinitProc,			// deinitProc
 		baseRunProc,			// runProc
 		baseParamProc,			// paramProc
@@ -771,7 +508,7 @@ namespace VirtualDubNew
 		ff->removeFilter(fd_vobsub);
 	}
 }
-#endif
+
 //
 // Avisynth interface
 //

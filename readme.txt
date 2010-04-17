@@ -6,17 +6,14 @@ nonlinear moves, moveable vector clip, vertical spacing and some other stuff.
 
 ### Requirements for 32-bit and 64-bit builds ###
 
-* Visual Studio 2008 SP1
-http://msdn.microsoft.com/en-us/evalcenter/bb655861.aspx
+* Visual Studio 2010
+http://www.microsoft.com/visualstudio/en-us/
 
 * DirectX SDK (latest version)
 http://msdn.microsoft.com/en-us/directx/aa937788.aspx
 
 * Microsoft Windows SDK for Windows 7
 http://www.microsoft.com/downloads/details.aspx?familyid=C17BA869-9671-4330-A63E-1FD44E0E2505&displaylang=en
-
-* Visual Studio 2008 Service Pack 1 ATL Security Update
-http://www.microsoft.com/downloads/details.aspx?displaylang=en&FamilyID=294de390-3c94-49fb-a014-9a38580e64cb
 
 * YASM
 http://www.tortall.net/projects/yasm/wiki/Download

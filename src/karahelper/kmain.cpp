@@ -1,5 +1,3 @@
-// kmain.cpp: определяет экспортированные функции для приложения DLL.
-
 #include "stdafx.h"
 #include "kmain.h"
 #include "kUtils.h"

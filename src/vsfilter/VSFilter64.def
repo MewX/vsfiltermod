@@ -1,0 +1,10 @@
+; VSFilter.def : Declares the module parameters.
+
+LIBRARY      "VSFilter64.dll"
+
+EXPORTS
+	DllCanUnloadNow			PRIVATE
+	DllGetClassObject		PRIVATE
+	DllRegisterServer		PRIVATE
+	DllUnregisterServer		PRIVATE
+	DirectVobSub
