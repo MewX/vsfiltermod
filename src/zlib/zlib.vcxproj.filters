@@ -51,9 +51,6 @@
     <ClCompile Include="Inftrees.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="minigzip.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Trees.c">
       <Filter>Source Files</Filter>
     </ClCompile>

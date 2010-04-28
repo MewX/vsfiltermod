@@ -177,7 +177,6 @@
     <ClCompile Include="Inffast.c" />
     <ClCompile Include="Inflate.c" />
     <ClCompile Include="Inftrees.c" />
-    <ClCompile Include="minigzip.c" />
     <ClCompile Include="Trees.c" />
     <ClCompile Include="Uncompr.c" />
     <ClCompile Include="Zutil.c" />
