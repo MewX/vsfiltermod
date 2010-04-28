@@ -22,13 +22,13 @@
 #define _RENDER_H
 
 extern struct csri_frame *png_load(const char *filename,
- 	uint32_t *width, uint32_t *height, enum csri_pixfmt fmt);
+                                   uint32_t *width, uint32_t *height, enum csri_pixfmt fmt);
 extern void png_store(struct csri_frame *frame, const char *filename,
- 	uint32_t width, uint32_t height);
+                      uint32_t width, uint32_t height);
 extern struct csri_frame *frame_alloc(uint32_t width, uint32_t height,
-	enum csri_pixfmt fmt);
+                                      enum csri_pixfmt fmt);
 extern void frame_free(struct csri_frame *frame);
 extern void frame_copy(struct csri_frame *dst, struct csri_frame *src,
-	uint32_t width, uint32_t height);
+                       uint32_t width, uint32_t height);
 
 #endif

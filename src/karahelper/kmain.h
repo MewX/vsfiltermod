@@ -6,7 +6,7 @@
 #include "kRenderer.h"
 #include "windowsx.h" // selectfont
 
-#define EXTERNC extern "C" 
+#define EXTERNC extern "C"
 
 #ifdef KMAIN_EXPORTS
 #define KMAIN_API EXTERNC __declspec(dllexport)

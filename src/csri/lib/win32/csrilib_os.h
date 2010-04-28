@@ -20,6 +20,7 @@
 
 #include <windows.h>
 
-struct csrilib_os {
-	HMODULE dlhandle;
+struct csrilib_os
+{
+    HMODULE dlhandle;
 };

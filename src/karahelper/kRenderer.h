@@ -5,19 +5,20 @@
 
 #include "kPath.h" // path
 
-class kRenderer {
+class kRenderer
+{
 private:
-	kStyle* n_style;
-	std::wstring n_text;
-	// some nya
-	void initFont();	// 1
-	bool Path();		// 2
+    kStyle* n_style;
+    std::wstring n_text;
+    // some nya
+    void initFont();	// 1
+    bool Path();		// 2
 
 public:
-	HDC	n_DC;	// device context
+    HDC	n_DC;	// device context
 
-	kPath n_path;
+    kPath n_path;
 
-	kRenderer(HDC DC);
-	std::wstring Render(kStyle& style, std::wstring text);
+    kRenderer(HDC DC);
+    std::wstring Render(kStyle& style, std::wstring text);
 };

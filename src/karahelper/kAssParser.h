@@ -6,25 +6,27 @@
 
 #define _isnum(v) (v>='0')&&(v<='9')
 
-enum nModType {
-	TAG_NONE = 0,
-	TAG_BLUR,	//x \be
-	TAG_BE,		//x \blur
-	TAG_FS,		//x \fs
-	TAG_FSCX,	//x \fscx
-	TAG_FSCY,	//x \fscy
-	TAG_FSP		//x \fsp
+enum nModType
+{
+    TAG_NONE = 0,
+    TAG_BLUR,	//x \be
+    TAG_BE,		//x \blur
+    TAG_FS,		//x \fs
+    TAG_FSCX,	//x \fscx
+    TAG_FSCY,	//x \fscy
+    TAG_FSP		//x \fsp
 };
 
-struct nModTypeT {
-	nModType type;
-	int tagsize;
+struct nModTypeT
+{
+    nModType type;
+    int tagsize;
 
-	nModTypeT(nModType tp, int ts)
-	{
-		type = tp;
-		tagsize = ts;
-	};
+    nModTypeT(nModType tp, int ts)
+    {
+        type = tp;
+        tagsize = ts;
+    };
 };
 
 // get type of tag

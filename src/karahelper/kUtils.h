@@ -10,7 +10,7 @@ std::string _WS(const std::wstring &wstr, UINT cp = CP_ACP);
 std::string LowerCase(std::string str);
 std::wstring LowerCase(std::wstring str);
 
-void SaveMemory(std::vector<char> &dst,const std::wstring wstr);
+void SaveMemory(std::vector<char> &dst, const std::wstring wstr);
 
 std::wstring format(const char *fmt, ...);
 

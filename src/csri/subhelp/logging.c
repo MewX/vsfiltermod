@@ -38,65 +38,68 @@ void setlogcallback(csri_logging_func *_logfunc, void *_appdata) hidden;
 
 void setlogcallback(csri_logging_func *_logfunc, void *_appdata)
 {
-	logfunc = _logfunc;
-	appdata = _appdata;
+    logfunc = _logfunc;
+    appdata = _appdata;
 }
 
-static struct csri_logging_ext logext = {
-	setlogcallback
+static struct csri_logging_ext logext =
+{
+    setlogcallback
 };
 
 void subhelp_logging_pass(struct csri_logging_ext *nlogext)
 {
-	if (!nlogext || !nlogext->set_logcallback)
-		return;
-	nlogext->set_logcallback(logfunc, appdata);
+    if(!nlogext || !nlogext->set_logcallback)
+        return;
+    nlogext->set_logcallback(logfunc, appdata);
 }
 
 void *subhelp_query_ext_logging(csri_ext_id extname)
 {
-	if (strcmp(extname, CSRI_EXT_LOGGING))
-		return NULL;
-	return &logext;
+    if(strcmp(extname, CSRI_EXT_LOGGING))
+        return NULL;
+    return &logext;
 }
 
 void subhelp_log(enum csri_logging_severity severity, const char *msg, ...)
 {
-	va_list args;
-	va_start(args, msg);
-	subhelp_vlog(severity, msg, args);
-	va_end(args);
+    va_list args;
+    va_start(args, msg);
+    subhelp_vlog(severity, msg, args);
+    va_end(args);
 }
 
 void subhelp_vlog(enum csri_logging_severity severity,
-	const char *msg, va_list args)
+                  const char *msg, va_list args)
 {
-	char *buffer;
-	const char *final;
-	size_t size = 256;
-	int n;
+    char *buffer;
+    const char *final;
+    size_t size = 256;
+    int n;
 
-	buffer = (char *)malloc(256);
-	while (buffer) {
-		n = vsnprintf(buffer, size, msg, args);
-		if (n >= 0 && (unsigned)n < size)
-			break;
-		size = n > 0 ? (unsigned)n + 1 : size * 2;
-		buffer = (char *)realloc(buffer, size);
-	}
-	final = buffer ? buffer : "<out of memory in logging function>";
-	subhelp_slog(severity, final);
-	if (buffer)
-		free(buffer);
+    buffer = (char *)malloc(256);
+    while(buffer)
+    {
+        n = vsnprintf(buffer, size, msg, args);
+        if(n >= 0 && (unsigned)n < size)
+            break;
+        size = n > 0 ? (unsigned)n + 1 : size * 2;
+        buffer = (char *)realloc(buffer, size);
+    }
+    final = buffer ? buffer : "<out of memory in logging function>";
+    subhelp_slog(severity, final);
+    if(buffer)
+        free(buffer);
 }
 
 void subhelp_slog(enum csri_logging_severity severity, const char *msg)
 {
-	if (logfunc)
-		logfunc(appdata, severity, msg);
-	else {
-		fprintf(stderr, msg);
-		fprintf(stderr, "\n");
-	}
+    if(logfunc)
+        logfunc(appdata, severity, msg);
+    else
+    {
+        fprintf(stderr, msg);
+        fprintf(stderr, "\n");
+    }
 }
 

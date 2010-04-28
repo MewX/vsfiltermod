@@ -20,8 +20,9 @@
 
 #include <sys/types.h>
 
-struct csrilib_os {
-	void *dlhandle;
-	dev_t device;
-	ino_t inode;
+struct csrilib_os
+{
+    void *dlhandle;
+    dev_t device;
+    ino_t inode;
 };

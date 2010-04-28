@@ -33,41 +33,43 @@
 #include <csri/stream.h>
 #include "csrilib_os.h"
 
-struct csri_wrap_rend {
-	struct csri_wrap_rend *next;
+struct csri_wrap_rend
+{
+    struct csri_wrap_rend *next;
 
-	csri_rend *rend;
-	csri_inst *(*open_file)(csri_rend *renderer,
-		const char *filename, struct csri_openflag *flags);
-	csri_inst *(*open_mem)(csri_rend *renderer,
-		const void *data, size_t length,
-		struct csri_openflag *flags);
-	void (*close)(csri_inst *inst);
-	int (*request_fmt)(csri_inst *inst, const struct csri_fmt *fmt);
-	void (*render)(csri_inst *inst, struct csri_frame *frame,
-		double time);
-	void *(*query_ext)(csri_rend *rend, csri_ext_id extname);
-	struct csri_stream_ext stream_ass, stream_text;
-	csri_inst *(*init_stream_ass)(csri_rend *renderer,
-		const void *header, size_t headerlen,
-		struct csri_openflag *flags);
-	csri_inst *(*init_stream_text)(csri_rend *renderer,
-		const void *header, size_t headerlen,
-		struct csri_openflag *flags);
+    csri_rend *rend;
+    csri_inst *(*open_file)(csri_rend *renderer,
+                            const char *filename, struct csri_openflag *flags);
+    csri_inst *(*open_mem)(csri_rend *renderer,
+                           const void *data, size_t length,
+                           struct csri_openflag *flags);
+    void (*close)(csri_inst *inst);
+    int (*request_fmt)(csri_inst *inst, const struct csri_fmt *fmt);
+    void (*render)(csri_inst *inst, struct csri_frame *frame,
+                   double time);
+    void *(*query_ext)(csri_rend *rend, csri_ext_id extname);
+    struct csri_stream_ext stream_ass, stream_text;
+    csri_inst *(*init_stream_ass)(csri_rend *renderer,
+                                  const void *header, size_t headerlen,
+                                  struct csri_openflag *flags);
+    csri_inst *(*init_stream_text)(csri_rend *renderer,
+                                   const void *header, size_t headerlen,
+                                   struct csri_openflag *flags);
 
-	struct csri_info *info;
-	struct csrilib_os os;
+    struct csri_info *info;
+    struct csrilib_os os;
 };
 
-struct csri_wrap_inst {
-	struct csri_wrap_inst *next;
+struct csri_wrap_inst
+{
+    struct csri_wrap_inst *next;
 
-	csri_inst *inst;
-	struct csri_wrap_rend *wrend;
-	void (*close)(csri_inst *inst);
-	int (*request_fmt)(csri_inst *inst, const struct csri_fmt *fmt);
-	void (*render)(csri_inst *inst, struct csri_frame *frame,
-		double time);
+    csri_inst *inst;
+    struct csri_wrap_rend *wrend;
+    void (*close)(csri_inst *inst);
+    int (*request_fmt)(csri_inst *inst, const struct csri_fmt *fmt);
+    void (*render)(csri_inst *inst, struct csri_frame *frame,
+                   double time);
 };
 
 extern struct csri_wrap_rend *wraprends;
@@ -77,7 +79,7 @@ extern void csrilib_rend_initadd(struct csri_wrap_rend *wrend);
 
 extern struct csri_wrap_inst *csrilib_inst_lookup(csri_inst *inst);
 extern csri_inst *csrilib_inst_initadd(struct csri_wrap_rend *wrend,
-	csri_inst *inst);
+                                       csri_inst *inst);
 extern void csrilib_inst_remove(struct csri_wrap_inst *winst);
 
 extern void csrilib_os_init();

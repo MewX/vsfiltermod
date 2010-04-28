@@ -8,29 +8,29 @@
 
 // GetPath point types
 #define PT_BSPLINETO 0xfc
-#define PT_BSPLINEPATCHTO 0xfa 
+#define PT_BSPLINEPATCHTO 0xfa
 
 class kPath
 {
 private:
-	HDC n_DC;
-	BYTE* n_pFlag;
-	POINT* n_pPoint;
-	size_t n_pCount;
+    HDC n_DC;
+    BYTE* n_pFlag;
+    POINT* n_pPoint;
+    size_t n_pCount;
 
-	std::wstring n_temptext;
-	int	n_lasttype;
+    std::wstring n_temptext;
+    int	n_lasttype;
 
-	void ClearPath();
-	void ChangeCS();
+    void ClearPath();
+    void ChangeCS();
 
-	void CreateDrawing();
+    void CreateDrawing();
 
 public:
-	kPath();
+    kPath();
 
-	void Init(HDC dc);
-	void _BeginPath();
-	bool _EndPath();
-	std::wstring _Convert();
+    void Init(HDC dc);
+    void _BeginPath();
+    bool _EndPath();
+    std::wstring _Convert();
 };
