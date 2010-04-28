@@ -54,6 +54,9 @@
     <ClCompile Include="mmintrin64.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="vd_asm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cpuid_32_64.h">
@@ -102,6 +105,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="vd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="vd_asm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

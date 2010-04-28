@@ -344,6 +344,7 @@
     </ClCompile>
     <ClCompile Include="text.cpp" />
     <ClCompile Include="vd.cpp" />
+    <ClCompile Include="vd_asm.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cpuid_32_64.h" />
@@ -362,6 +363,7 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="text.h" />
     <ClInclude Include="vd.h" />
+    <ClInclude Include="vd_asm.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
