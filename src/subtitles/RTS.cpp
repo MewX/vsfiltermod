@@ -1877,13 +1877,14 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
                     {
                         // not found
                         MOD_PNGIMAGE t_temp;
-                        if(t_temp.initImage(params[0])) // absolute path or default directory
-                        {
-                            style.mod_grad.mode[i] = 2;
-                            style.mod_grad.b_images[i] = t_temp;
-                            mod_images.Add(t_temp);
-                        }
-                        else if(t_temp.initImage(fpath + params[0])) // path + relative path
+//                        if(t_temp.initImage(params[0])) // absolute path or default directory
+//                        {
+//                            style.mod_grad.mode[i] = 2;
+//                            style.mod_grad.b_images[i] = t_temp;
+//                            mod_images.Add(t_temp);
+//                        }
+                        //else
+                        if(t_temp.initImage(fpath + params[0])) // path + relative path
                         {
                             style.mod_grad.mode[i] = 2;
                             style.mod_grad.b_images[i] = t_temp;
