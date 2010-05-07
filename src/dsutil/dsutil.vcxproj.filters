@@ -59,9 +59,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="cpuid_32_64.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="DSMPropertyBag.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -119,9 +116,6 @@
       <Filter>Source Files</Filter>
     </CustomBuild>
     <CustomBuild Include="convert_a.asm">
-      <Filter>Source Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="cpuid64.asm">
       <Filter>Source Files</Filter>
     </CustomBuild>
   </ItemGroup>

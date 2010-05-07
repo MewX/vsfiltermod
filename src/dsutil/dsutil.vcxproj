@@ -297,26 +297,6 @@
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)%(Filename).obj;%(Outputs)</Outputs>
     </CustomBuild>
-    <CustomBuild Include="cpuid64.asm">
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug (MOD)|x64'">cpuid64.asm</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug (MOD)|x64'">ml64 /c /Cx /nologo /Fo"$(IntDir)%(Filename).obj" "%(FullPath)"
-</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug (MOD)|x64'">$(IntDir)%(Filename).obj;%(Outputs)</Outputs>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">cpuid64.asm</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ml64 /c /Cx /nologo /Fo"$(IntDir)%(Filename).obj" "%(FullPath)"
-</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)%(Filename).obj;%(Outputs)</Outputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release (MOD)|x64'">cpuid64.asm</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release (MOD)|x64'">ml64 /c /Cx /nologo /Fo"$(IntDir)%(Filename).obj" "%(FullPath)"
-</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release (MOD)|x64'">$(IntDir)%(Filename).obj;%(Outputs)</Outputs>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">cpuid64.asm</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ml64 /c /Cx /nologo /Fo"$(IntDir)%(Filename).obj" "%(FullPath)"
-</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)%(Filename).obj;%(Outputs)</Outputs>
-    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DSMPropertyBag.cpp" />
@@ -347,7 +327,6 @@
     <ClCompile Include="vd_asm.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="cpuid_32_64.h" />
     <ClInclude Include="DSMPropertyBag.h" />
     <ClInclude Include="DSUtil.h" />
     <ClInclude Include="FontInstaller.h" />
