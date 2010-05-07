@@ -27,8 +27,6 @@
 #include "vd_asm.h"
 #include <intrin.h>
 
-//#pragma warning(disable : 4799) // no emms... blahblahblah
-
 CCpuID g_cpuid;
 
 CCpuID::CCpuID()
