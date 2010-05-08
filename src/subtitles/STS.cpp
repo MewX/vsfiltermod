@@ -1973,6 +1973,10 @@ CSimpleTextSubtitle::CSimpleTextSubtitle()
     m_lcid = 0;
     m_ePARCompensationType = EPCTDisabled;
     m_dPARCompensation = 1.0;
+
+#ifdef _VSMOD // indexing
+    ind_size = 0;
+#endif
 }
 
 CSimpleTextSubtitle::~CSimpleTextSubtitle()
@@ -2096,6 +2100,14 @@ void CSimpleTextSubtitle::Empty()
     m_styles.Free();
     m_segments.RemoveAll();
     RemoveAll();
+
+#ifdef _VSMOD // indexing
+    if(ind_size>0)
+    {
+        delete ind_time;
+        delete ind_pos;
+    }
+#endif
 }
 
 void CSimpleTextSubtitle::Add(CStringW str, bool fUnicode, int start, int end, CString style, CString actor, CString effect, CRect marginRect, int layer, int readorder)
@@ -2118,140 +2130,45 @@ void CSimpleTextSubtitle::Add(CStringW str, bool fUnicode, int start, int end, C
     sub.start = start;
     sub.end = end;
     sub.readorder = readorder < 0 ? GetCount() : readorder;
-#ifdef _VSMOD // patch m009. png graphics
-    sub.mod_scripttype = 0;
-#endif
+
     int n = __super::Add(sub);
-
-    int len = m_segments.GetCount();
-
-    if(len == 0)
-    {
-        STSSegment stss(start, end);
-        stss.subs.Add(n);
-        m_segments.Add(stss);
-    }
-    else if(end <= m_segments[0].start)
-    {
-        STSSegment stss(start, end);
-        stss.subs.Add(n);
-        m_segments.InsertAt(0, stss);
-    }
-    else if(start >= m_segments[len-1].end)
-    {
-        STSSegment stss(start, end);
-        stss.subs.Add(n);
-        m_segments.Add(stss);
-    }
-    else
-    {
-        if(start < m_segments[0].start)
-        {
-            STSSegment stss(start, m_segments[0].start);
-            stss.subs.Add(n);
-            start = m_segments[0].start;
-            m_segments.InsertAt(0, stss);
-        }
-
-        for(ptrdiff_t i = 0; i < m_segments.GetCount(); i++)
-        {
-            STSSegment& s = m_segments[i];
-
-            if(start >= s.end)
-                continue;
-
-            if(end <= s.start)
-                break;
-
-            if(s.start < start && start < s.end)
-            {
-                STSSegment stss(s.start, start);
-                stss.subs.Copy(s.subs);
-                s.start = start;
-                m_segments.InsertAt(i, stss);
-                continue;
-            }
-
-            if(start <= s.start && s.end <= end)
-            {
-                for(ptrdiff_t j = 0, k = s.subs.GetCount(); j <= k; j++)
-                {
-                    if(j == k || sub.readorder < GetAt(s.subs[j]).readorder)
-                        s.subs.InsertAt(j, n);
-                }
-//				s.subs.Add(n);
-            }
-
-            if(s.start < end && end < s.end)
-            {
-                STSSegment stss(s.start, end);
-                stss.subs.Copy(s.subs);
-                for(ptrdiff_t j = 0, k = s.subs.GetCount(); j <= k; j++)
-                {
-                    if(j == k || sub.readorder < GetAt(stss.subs[j]).readorder)
-                        stss.subs.InsertAt(j, n);
-                }
-//				stss.subs.Add(n);
-                s.start = end;
-                m_segments.InsertAt(i, stss);
-            }
-        }
-
-        if(end > m_segments[m_segments.GetCount()-1].end)
-        {
-            STSSegment stss(m_segments[m_segments.GetCount()-1].end, end);
-            stss.subs.Add(n);
-            m_segments.Add(stss);
-        }
-    }
-
-    /*
-    	str.Remove('\r');
-    	str.Replace(L"\n", L"\\N");
-    	if(style.IsEmpty()) style = _T("Default");
-
-    	int j = m_segments.GetCount();
-    	for(ptrdiff_t i = j-1; i >= 0; i--)
-    	{
-    		if(m_segments[i].end <= start)
-    		{
-    			break;
-    		}
-    		else if(m_segments[i].start >= start)
-    		{
-    			m_segments.SetCount(m_segments.GetCount()-1);
-    			j--;
-    		}
-    		else if(m_segments[i].end > start)
-    		{
-    			if(i < j-1) m_segments.RemoveAt(i+1, j-i-1);
-    			m_segments[i].end = start;
-    			break;
-    		}
-    	}
-
-    	if(m_segments.GetCount() == 0 && j > 0)
-    		CSTSArray::RemoveAll();
-
-    	STSSegment stss(start, end);
-    	int len = GetCount();
-    	stss.subs.Add(len);
-    	m_segments.Add(stss);
-
-    	STSEntry sub;
-    	sub.str = str;
-    	sub.fUnicode = fUnicode;
-    	sub.style = style;
-    	sub.actor = actor;
-    	sub.effect = effect;
-    	sub.marginRect = marginRect;
-    	sub.layer = layer;
-    	sub.start = start;
-    	sub.end = end;
-    	sub.readorder = GetCount();
-    	CSTSArray::Add(sub);
-    */
 }
+
+#ifdef _VSMOD
+void CSimpleTextSubtitle::MakeIndex(int SizeOfSegment)
+{
+    int cnt = m_segments.GetCount();
+    if (SizeOfSegment==0) // autosize
+    {
+        // 100000 lines == 1300 segments
+        // TODO: make gooood =D
+        if(cnt<100)
+        {
+            SizeOfSegment = cnt;
+        }
+        else if (cnt<1000)
+        {
+            SizeOfSegment = cnt / 50;
+        }
+        else
+        {
+            SizeOfSegment = cnt / 100;
+        }
+    }
+
+    ind_size = cnt / SizeOfSegment;
+    
+    ind_time = new DWORD[ind_size];
+    ind_pos = new DWORD[ind_size];
+
+    for(auto i = 0; i<ind_size; i++)
+    {
+        auto pos = i * SizeOfSegment;
+        ind_time[i] = m_segments[pos].start;
+        ind_pos[i] = pos;
+    }
+}
+#endif
 
 STSStyle* CSimpleTextSubtitle::CreateDefaultStyle(int CharSet)
 {
@@ -2449,23 +2366,41 @@ const STSSegment* CSimpleTextSubtitle::SearchSubs(int t, double fps, /*[out]*/ i
 
     if(nSegments) *nSegments = j + 1;
 
+    // last segment
     if(j >= 0 && t >= TranslateSegmentStart(j, fps) && t < TranslateSegmentEnd(j, fps))
     {
         if(iSegment) *iSegment = j;
         return(&m_segments[j]);
     }
 
+    // after last segment
     if(j >= 0 && t >= TranslateSegmentEnd(j, fps))
     {
         if(iSegment) *iSegment = j + 1;
         return(NULL);
     }
 
+    // before first segment
     if(j > 0 && t < TranslateSegmentStart(i, fps))
     {
         if(iSegment) *iSegment = -1;
         return(NULL);
     }
+
+#ifdef _VSMOD
+    // find bounds
+    // is this nya?
+    for(ptrdiff_t k = 0; k < ind_size; k++)
+    {
+        if(ind_time[k]>t)
+        {
+            if(k==0) break;
+            i = ind_pos[k-1];
+            j = ind_pos[k];
+            break;
+        }
+    }
+#endif
 
     while(i < j)
     {
@@ -2814,7 +2749,9 @@ bool CSimpleTextSubtitle::Open(CTextFile* f, int CharSet, CString name)
 
 //		Sort();
         CreateSegments();
-
+#ifdef _VSMOD // indexing
+        MakeIndex(0);
+#endif
         CWebTextFile f2;
         if(f2.Open(f->GetFilePath() + _T(".style")))
             OpenSubStationAlpha(&f2, *this, CharSet);
