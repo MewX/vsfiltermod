@@ -20,6 +20,8 @@
 
 _rdata segment para public 'DATA' use32
 
+	align 16
+
 	public _YUV_Y_table	
 	public _YUV_U_table	
 	public _YUV_V_table	
