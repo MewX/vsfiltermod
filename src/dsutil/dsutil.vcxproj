@@ -230,8 +230,7 @@
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug (MOD)|x64'">ml64 /c /coff /Cx /nologo /Fo"$(IntDir)%(Filename).obj" "%(FullPath)
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug (MOD)|x64'">$(IntDir)%(Filename).obj;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">yasm -X vc -g cv8 -f "$(Platform)" -o "$(IntDir)%(Filename).obj" "%(FullPath)"
-</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ml /c /coff /Cx /nologo /Fo"$(IntDir)%(Filename).obj" "%(FullPath)"</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)%(Filename).obj;%(Outputs)</Outputs>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ml64 /c /coff /Cx /nologo /Fo"$(IntDir)%(Filename).obj" "%(FullPath)
@@ -241,8 +240,7 @@
       <Command Condition="'$(Configuration)|$(Platform)'=='Release (MOD)|x64'">yasm -X vc -g cv8 -f "$(Platform)" -o "$(IntDir)%(Filename).ob"j "%(FullPath)"
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release (MOD)|x64'">$(IntDir)%(Filename).obj;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">yasm -X vc -g cv8 -f "$(Platform)" -o "$(IntDir)%(Filename).ob"j "%(FullPath)"
-</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ml /safeseh /c /coff /Cx /nologo /Fo"$(IntDir)%(Filename).obj" "%(FullPath)"</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)%(Filename).obj;%(Outputs)</Outputs>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">yasm -X vc -g cv8 -f "$(Platform)" -o "$(IntDir)%(Filename).ob"j "%(FullPath)"
@@ -254,8 +252,7 @@
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug (MOD)|x64'">ml64 /c /coff /Cx /nologo /Fo"$(IntDir)%(Filename).obj" "%(FullPath)
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug (MOD)|x64'">$(IntDir)%(Filename).obj;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">yasm -X vc -g cv8 -f "$(Platform)" -o "$(IntDir)%(Filename).obj" "%(FullPath)"
-</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ml /c /coff /Cx /nologo /Fo"$(IntDir)%(Filename).obj" "%(FullPath)"</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)%(Filename).obj;%(Outputs)</Outputs>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ml64 /c /coff /Cx /nologo /Fo"$(IntDir)%(Filename).obj" "%(FullPath)
@@ -265,8 +262,7 @@
       <Command Condition="'$(Configuration)|$(Platform)'=='Release (MOD)|x64'">ml64 /c /coff /Cx /nologo /Fo"$(IntDir)%(Filename).obj" "%(FullPath)
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release (MOD)|x64'">$(IntDir)%(Filename).obj;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">yasm -X vc -g cv8 -f "$(Platform)" -o "$(IntDir)%(Filename).ob"j "%(FullPath)"
-</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ml /safeseh /c /coff /Cx /nologo /Fo"$(IntDir)%(Filename).obj" "%(FullPath)"</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)%(Filename).obj;%(Outputs)</Outputs>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ml64 /c /coff /Cx /nologo /Fo"$(IntDir)%(Filename).obj" "%(FullPath)
@@ -289,7 +285,7 @@
       <Command Condition="'$(Configuration)|$(Platform)'=='Release (MOD)|x64'">ml64 /c /coff /Cx /nologo /Fo"$(IntDir)%(Filename).obj" "%(FullPath)"
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release (MOD)|x64'">$(IntDir)%(Filename).obj;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ml /c /coff /Cx /nologo /Fo"$(IntDir)%(Filename).obj" "%(FullPath)"
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ml /safeseh /c /coff /Cx /nologo /Fo"$(IntDir)%(Filename).obj" "%(FullPath)"
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)%(Filename).obj;%(Outputs)</Outputs>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
