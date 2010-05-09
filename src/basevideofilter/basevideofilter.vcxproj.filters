@@ -9,10 +9,6 @@
       <UniqueIdentifier>{e6d2ff5a-9c21-49be-a36f-45b466ddcc80}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;inc</Extensions>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{466571a3-fd83-48ff-80a5-4c17bdd7a014}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseVideoFilter.cpp">

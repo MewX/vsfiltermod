@@ -9,10 +9,6 @@
       <UniqueIdentifier>{a0908262-f669-46fd-9ee1-481e27e52eac}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;inc</Extensions>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{271dbc71-b908-4f06-8043-d7ce535c5a43}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseSub.cpp">

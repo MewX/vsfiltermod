@@ -9,10 +9,6 @@
       <UniqueIdentifier>{8d5c2ea8-38ce-4c88-bd96-8eb2bf1414de}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;inc</Extensions>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{50aac8cf-be9f-4f93-945f-e82f0d773efd}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CoordGeom.cpp">

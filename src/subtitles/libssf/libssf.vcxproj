@@ -206,7 +206,6 @@
   <ItemGroup>
     <None Include="demo\demo.ssa" />
     <None Include="demo\demo.ssf" />
-    <None Include="docs\ssf-specs.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

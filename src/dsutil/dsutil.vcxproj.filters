@@ -9,10 +9,6 @@
       <UniqueIdentifier>{9ecda178-a8a7-4ff2-b3b3-0e836e62eca3}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;inc</Extensions>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{3ae4ccdb-e874-4578-b26f-3c7a29cbef7c}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DSMPropertyBag.cpp">
