@@ -804,7 +804,7 @@ bool CDVSAboutPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
     case WM_INITDIALOG:
     {
 #ifdef _VSMOD
-        SetDlgItemTextA( m_Dlg, IDC_VERSION, "DirectVobSub 2.40."MAKE_STR(VERSION_REV)"."MAKE_STR(VERSION_PATCH)" "MAKE_STR(VERSION_X64)" MOD\nCopyright 2001-2010 MPC-HC Team" );
+        SetDlgItemTextA( m_Dlg, IDC_VERSION, "DirectVobSub 2.40."MAKE_STR(VERSION_REV)"."MAKE_STR(VERSION_PATCH)" "MAKE_STR(VERSION_X64)" MOD\nCopyright 2001-2010 teplofizik" );
 #else
         SetDlgItemTextA( m_Dlg, IDC_VERSION, "DirectVobSub 2.40."MAKE_STR(VERSION_REV)"."MAKE_STR(VERSION_PATCH)" "MAKE_STR(VERSION_X64)"\nCopyright 2001-2010 MPC-HC Team" );
 #endif
