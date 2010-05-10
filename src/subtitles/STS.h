@@ -37,7 +37,6 @@ public:
     int Z;
     int Seed; // random seed
 
-//MOD_RANDOM();
     bool operator == (MOD_RANDOM& mr);
 
     void clear();
@@ -223,9 +222,6 @@ typedef struct
     int layer;
     int start, end;
     int readorder;
-#ifdef _VSMOD // another search system
-    
-#endif
 } STSEntry;
 
 class STSSegment

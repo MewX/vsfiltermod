@@ -2144,7 +2144,7 @@ void CSimpleTextSubtitle::MakeIndex(int SizeOfSegment)
         // TODO: make gooood =D
         if(cnt<100)
         {
-            SizeOfSegment = cnt;
+            SizeOfSegment = (cnt==0) ? 1 : cnt;
         }
         else if (cnt<1000)
         {

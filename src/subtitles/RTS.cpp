@@ -3100,7 +3100,9 @@ STDMETHODIMP CRenderedTextSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
     int t = (int)(rt / 10000);
 
     int segment;
+//    TRACE(_T("search started: %d"), t);
     const STSSegment* stss = SearchSubs(t, fps, &segment);
+//    TRACE(_T("search complete: %d"), t);
     if(!stss) return S_FALSE;
 
     // clear any cached subs not in the range of +/-30secs measured from the segment's bounds
