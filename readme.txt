@@ -15,8 +15,6 @@ http://msdn.microsoft.com/en-us/directx/aa937788.aspx
 * Microsoft Windows SDK for Windows 7
 http://www.microsoft.com/downloads/details.aspx?familyid=C17BA869-9671-4330-A63E-1FD44E0E2505&displaylang=en
 
-* YASM
-http://www.tortall.net/projects/yasm/wiki/Download
 
 
 ### Configuring Visual Studio ###

@@ -37,9 +37,9 @@
 #endif
 
 #ifdef WIN64
-#define VERSION_X64 x64
+#define VERSION_ARCH x64
 #else
-#define VERSION_X64 x86
+#define VERSION_ARCH x86
 #endif
 
 BOOL WINAPI MyGetDialogSize(int iResourceID, DLGPROC pDlgProc, LPARAM lParam, SIZE* pResult)
@@ -804,9 +804,9 @@ bool CDVSAboutPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
     case WM_INITDIALOG:
     {
 #ifdef _VSMOD
-        SetDlgItemTextA( m_Dlg, IDC_VERSION, "DirectVobSub 2.40."MAKE_STR(VERSION_REV)"."MAKE_STR(VERSION_PATCH)" "MAKE_STR(VERSION_X64)" MOD\nCopyright 2001-2010 teplofizik" );
+        SetDlgItemTextA(m_Dlg, IDC_VERSION, "DirectVobSub 2.40 "MAKE_STR(VERSION_ARCH)", MOD "MAKE_STR(VERSION_MAJOR)"."MAKE_STR(VERSION_MAJOR)" SVN r"MAKE_STR(VERSION_REV)"\nCopyright 2009-2010 VSFilterMod Team");
 #else
-        SetDlgItemTextA( m_Dlg, IDC_VERSION, "DirectVobSub 2.40."MAKE_STR(VERSION_REV)"."MAKE_STR(VERSION_PATCH)" "MAKE_STR(VERSION_X64)"\nCopyright 2001-2010 MPC-HC Team" );
+        SetDlgItemTextA(m_Dlg, IDC_VERSION, "DirectVobSub 2.40 "MAKE_STR(VERSION_ARCH)"\nCopyright 2001-2010 MPC-HC Team, build by VSFilterMod Team");
 #endif
     }
     break;
