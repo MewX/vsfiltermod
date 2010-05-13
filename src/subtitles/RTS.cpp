@@ -143,6 +143,10 @@ void CWord::Paint(CPoint p, CPoint org)
         m_pOpaqueBox->Paint(p, org);
 }
 
+#ifdef _VSMOD
+#include <emmintrin.h>
+#endif
+
 void CWord::Transform(CPoint org)
 {
     double scalex = m_style.fontScaleX / 100;
@@ -156,92 +160,350 @@ void CWord::Transform(CPoint org)
     double say = sin((3.1415 / 180) * m_style.fontAngleY);
 
 #ifdef _VSMOD
-    // patch m003. random text points
     double xrnd = m_style.mod_rand.X * 100;
     double yrnd = m_style.mod_rand.Y * 100;
     double zrnd = m_style.mod_rand.Z * 100;
 
     srand(m_style.mod_rand.Seed);
+    // CPUID from VDub
+    bool fSSE = !!(g_cpuid.m_flags & CCpuID::ssefpu);
 
-    // patch m008. distort
-    int xsz, ysz;
-    double dst1x, dst1y, dst2x, dst2y, dst3x, dst3y;
-    int minx = INT_MAX, miny = INT_MAX, maxx = -INT_MAX, maxy = -INT_MAX;
-
-    bool is_dist = m_style.mod_distort.enabled;
-    if(is_dist)
+    // SSE code
+    // speed up ~1.5-1.7x
+    if(fSSE)
     {
-        for(int i = 0; i < mPathPoints; i++)
-        {
-            if(minx > mpPathPoints[i].x) minx = mpPathPoints[i].x;
-            if(miny > mpPathPoints[i].y) miny = mpPathPoints[i].y;
-            if(maxx < mpPathPoints[i].x) maxx = mpPathPoints[i].x;
-            if(maxy < mpPathPoints[i].y) maxy = mpPathPoints[i].y;
-        }
+        __m128 __xshift = _mm_set_ps1(m_style.fontShiftX);
+        __m128 __yshift = _mm_set_ps1(m_style.fontShiftY);
 
-        xsz = max(maxx - minx, 0);
-        ysz = max(maxy - miny, 0);
+        __m128 __xorg = _mm_set_ps1(org.x);
+        __m128 __yorg = _mm_set_ps1(org.y);
 
-        dst1x = m_style.mod_distort.pointsx[0];
-        dst1y = m_style.mod_distort.pointsy[0];
-        dst2x = m_style.mod_distort.pointsx[1];
-        dst2y = m_style.mod_distort.pointsy[1];
-        dst3x = m_style.mod_distort.pointsx[2];
-        dst3y = m_style.mod_distort.pointsy[2];
-    }
-#endif
+        __m128 __xscale = _mm_set_ps1(scalex);
+        __m128 __yscale = _mm_set_ps1(scaley);
 
-    for(ptrdiff_t i = 0; i < mPathPoints; i++)
-    {
-        double x, y, z, xx, yy, zz;
+        __m128 __xsz = _mm_setzero_ps();
+        __m128 __ysz = _mm_setzero_ps();
 
-        x = mpPathPoints[i].x;
-        y = mpPathPoints[i].y;
-#ifdef _VSMOD
-        // patch m002. Z-coord
-        z = m_style.mod_z;
+        __m128 __dst1x, __dst1y, __dst213x, __dst213y, __dst3x, __dst3y;
 
-        double u, v;
+        __m128 __miny;
+        __m128 __minx = _mm_set_ps(INT_MAX, INT_MAX, 0, 0);
+        __m128 __max = _mm_set_ps(-INT_MAX, -INT_MAX, 1, 1);
+
+        bool is_dist = m_style.mod_distort.enabled;
         if(is_dist)
         {
-            u = (x - minx) / xsz;
-            v = (y - miny) / ysz;
+            for(int i = 0; i < mPathPoints; i++)
+            {
+                __m128 __point = _mm_set_ps(mpPathPoints[i].x, mpPathPoints[i].y, 0, 0);
+                __minx = _mm_min_ps(__minx, __point);
+                __max = _mm_max_ps(__max, __point);
+            }
 
-            x = minx + (0 + (dst1x - 0) * u + (dst3x - 0) * v + (0 + dst2x - dst1x - dst3x) * u * v) * xsz;
-            y = miny + (0 + (dst1y - 0) * u + (dst3y - 0) * v + (0 + dst2y - dst1y - dst3y) * u * v) * ysz;
-            //P = P0 + (P1 - P0)u + (P3 - P0)v + (P0 + P2 - P1 - P3)uv
+            __m128 __zero = _mm_setzero_ps();
+            __max = _mm_sub_ps(__max, __minx); // xsz, ysz, 1, 1
+            __max = _mm_max_ps(__max, __zero);
+
+            __xsz = _mm_shuffle_ps(__max, __max, _MM_SHUFFLE(3,3,3,3));
+            __ysz = _mm_shuffle_ps(__max, __max, _MM_SHUFFLE(2,2,2,2));
+
+            __miny = _mm_shuffle_ps(__minx, __minx, _MM_SHUFFLE(2,2,2,2));
+            __minx = _mm_shuffle_ps(__minx, __minx, _MM_SHUFFLE(3,3,3,3));
+
+            __dst1x = _mm_set_ps1(m_style.mod_distort.pointsx[0]);
+            __dst1y = _mm_set_ps1(m_style.mod_distort.pointsy[0]);
+            __dst3x = _mm_set_ps1(m_style.mod_distort.pointsx[2]);
+            __dst3y = _mm_set_ps1(m_style.mod_distort.pointsy[2]);
+            __dst213x = _mm_set_ps1(m_style.mod_distort.pointsx[1]); // 2 - 1 - 3
+            __dst213x = _mm_sub_ps(__dst213x, __dst1x);
+            __dst213x = _mm_sub_ps(__dst213x, __dst3x);
+
+            __dst213y = _mm_set_ps1(m_style.mod_distort.pointsy[1]);
+            __dst213x = _mm_sub_ps(__dst213y, __dst1y);
+            __dst213x = _mm_sub_ps(__dst213y, __dst3y); 
         }
+
+        __m128 __caz = _mm_set_ps1(caz);
+        __m128 __saz = _mm_set_ps1(saz);
+        __m128 __cax = _mm_set_ps1(cax);
+        __m128 __sax = _mm_set_ps1(sax);
+        __m128 __cay = _mm_set_ps1(cay);
+        __m128 __say = _mm_set_ps1(say);
+
+        // this can be paralleled for openmp
+        int mPathPointsD4 = mPathPoints / 4;
+        int mPathPointsM4 = mPathPoints % 4;
+
+        for(ptrdiff_t i = 0; i < mPathPointsD4 + 1; i++)
+        {
+            __m128 __pointx, __pointy;
+            // we cann't use load .-.
+            if(i == mPathPointsD4) // last cycle
+            {
+                switch(mPathPointsM4)
+                {
+                case 0: return;
+                case 1:
+                    __pointx = _mm_set_ps(mpPathPoints[4 * i + 0].x, 0, 0, 0);
+                    __pointy = _mm_set_ps(mpPathPoints[4 * i + 0].y, 0, 0, 0);
+                    break;
+                case 2:
+                    __pointx = _mm_set_ps(mpPathPoints[4 * i + 0].x, mpPathPoints[4 * i + 1].x, 0, 0);
+                    __pointy = _mm_set_ps(mpPathPoints[4 * i + 0].y, mpPathPoints[4 * i + 1].y, 0, 0);
+                    break;
+                case 3:
+                    __pointx = _mm_set_ps(mpPathPoints[4 * i + 0].x, mpPathPoints[4 * i + 1].x, mpPathPoints[4 * i + 2].x, 0);
+                    __pointy = _mm_set_ps(mpPathPoints[4 * i + 0].y, mpPathPoints[4 * i + 1].y, mpPathPoints[4 * i + 2].y, 0);
+                    break;
+                }
+            }
+            else
+            {
+                // 
+                __pointx = _mm_set_ps(mpPathPoints[4 * i + 0].x, mpPathPoints[4 * i + 1].x, mpPathPoints[4 * i + 2].x, mpPathPoints[4 * i + 3].x);
+                __pointy = _mm_set_ps(mpPathPoints[4 * i + 0].y, mpPathPoints[4 * i + 1].y, mpPathPoints[4 * i + 2].y, mpPathPoints[4 * i + 3].y);
+            }
+            __m128 __pointz = _mm_set_ps1(m_style.mod_z);
+
+            // distort
+            if(is_dist)
+            {
+                //P = P0 + (P1 - P0)u + (P3 - P0)v + (P0 + P2 - P1 - P3)uv
+                __m128 __u = _mm_sub_ps(__pointx, __minx);
+                __m128 __v = _mm_sub_ps(__pointy, __miny);
+                __u = _mm_div_ps(__u, __xsz);
+                __v = _mm_div_ps(__v, __ysz);
+
+                // x
+                __pointx = _mm_mul_ps(__dst213x, __u);
+                __pointx = _mm_mul_ps(__pointx, __v);
+
+                __m128 __tmpx = _mm_mul_ps(__dst3x, __v);
+                __pointx = _mm_add_ps(__pointx, __tmpx);
+                __tmpx = _mm_mul_ps(__dst1x, __u);
+                __pointx = _mm_add_ps(__pointx, __tmpx);
+
+                __pointx = _mm_mul_ps(__pointx, __xsz);
+                __pointx = _mm_add_ps(__pointx, __minx);
+
+                // y
+                __pointy = _mm_mul_ps(__dst213y, __u);
+                __pointy = _mm_mul_ps(__pointy, __v);
+
+                __m128 __tmpy = _mm_mul_ps(__dst3y, __v);
+                __pointy = _mm_add_ps(__pointy, __tmpy);
+                __tmpy = _mm_mul_ps(__dst1y, __u);
+                __pointy = _mm_add_ps(__pointy, __tmpy);
+
+                __pointy = _mm_mul_ps(__pointy, __ysz);
+                __pointy = _mm_add_ps(__pointy, __miny);
+            }
+
+            // randomize
+            if(xrnd!=0 || yrnd!=0 || zrnd!=0)
+            {
+                float rx[4], ry[4], rz[4]; 
+                for(int k=0;k<4;k++)
+                {
+                    rx[k] = xrnd > 0 ? (xrnd - rand() % (int)(xrnd * 2 + 1)) : 0;
+                    ry[k] = yrnd > 0 ? (yrnd - rand() % (int)(yrnd * 2 + 1)) : 0;
+                    rz[k] = zrnd > 0 ? (zrnd - rand() % (int)(zrnd * 2 + 1)) : 0;
+                }
+                __m128 __100 = _mm_set_ps1(100);
+
+                if(xrnd!=0)
+                {
+                    __m128 __rx = _mm_load_ps(rx);
+                    __rx = _mm_div_ps(__rx, __100);
+                    __pointx = _mm_add_ps(__pointx, __rx);
+                }
+
+                if(yrnd!=0)
+                {
+                    __m128 __ry = _mm_load_ps(ry);
+                    __ry = _mm_div_ps(__ry, __100);
+                    __pointy = _mm_add_ps(__pointy, __ry);
+                }
+
+                if(zrnd!=0)
+                {
+                    __m128 __rz = _mm_load_ps(rz);
+                    __rz = _mm_div_ps(__rz, __100);
+                    __pointz = _mm_add_ps(__pointz, __rz);
+                }
+            }
+
+            // scale and shift
+            __m128 __tmpx;
+            if(m_style.fontShiftX!=0)
+            {
+                __tmpx = _mm_mul_ps(__xshift, __pointy);
+                __tmpx = _mm_add_ps(__tmpx, __pointx);
+            }
+            else
+            {
+                __tmpx = __pointx;
+            }
+            __tmpx = _mm_mul_ps(__tmpx, __xscale);
+            __tmpx = _mm_sub_ps(__tmpx, __xorg);
+
+            __m128 __tmpy;
+            if(m_style.fontShiftY!=0)
+            {
+                __m128 __tmpy = _mm_mul_ps(__yshift, __pointx);
+                __tmpy = _mm_add_ps(__tmpy, __pointy);
+                
+            }
+            {
+                __tmpy = __pointy;
+            }
+            __tmpy = _mm_mul_ps(__tmpy, __yscale);
+            __tmpy = _mm_sub_ps(__tmpy, __yorg);
+
+            // rotate
+            __m128 __xx = _mm_mul_ps(__tmpx, __caz);
+            __m128 __yy = _mm_mul_ps(__tmpy, __saz);
+            __pointx = _mm_add_ps(__xx, __yy);
+            __xx = _mm_mul_ps(__tmpx, __saz);
+            __yy = _mm_mul_ps(__tmpy, __caz);
+            __pointy = _mm_sub_ps(__yy, __xx);
+
+            __m128 __zz = _mm_mul_ps(__pointz, __sax);
+            __yy = _mm_mul_ps(__pointy, __cax);
+            __pointy = _mm_add_ps(__yy, __zz);
+            __zz = _mm_mul_ps(__pointz, __cax);
+            __yy = _mm_mul_ps(__pointy, __sax);
+            __pointz = _mm_sub_ps(__zz, __yy);
+
+            __xx = _mm_mul_ps(__pointx, __cay);
+            __zz = _mm_mul_ps(__pointz, __say);
+            __pointx = _mm_add_ps(__xx, __zz);
+            __xx = _mm_mul_ps(__pointx, __say);
+            __zz = _mm_mul_ps(__pointz, __cay);
+            __pointz = _mm_sub_ps(__xx, __zz);
+
+            __zz = _mm_set_ps1(-19000);
+            __pointz = _mm_max_ps(__pointz, __zz);
+
+            __m128 __20000 = _mm_set_ps1(20000);
+            __zz = _mm_add_ps(__pointz, __20000);
+
+            __pointx = _mm_mul_ps(__pointx, __20000);
+            __pointx = _mm_div_ps(__pointx, __zz);
+
+            __pointy = _mm_mul_ps(__pointy, __20000);
+            __pointy = _mm_div_ps(__pointy, __zz);
+
+            __pointx = _mm_add_ps(__pointx, __xorg);
+            __pointy = _mm_add_ps(__pointy, __yorg);
+
+            __m128 __05 = _mm_set_ps1(0.5);
+
+            __pointx = _mm_add_ps(__pointx, __05);
+            __pointy = _mm_add_ps(__pointy, __05);
+
+            if(i == mPathPointsD4) // last cycle
+            {
+                for(int k=0;k<mPathPointsM4;k++)
+                {
+                    mpPathPoints[i*4+k].x = (LONG)__pointx.m128_f32[3-k];
+                    mpPathPoints[i*4+k].y = (LONG)__pointy.m128_f32[3-k];
+                }
+            }
+            else
+            {
+                for(int k=0;k<4;k++)
+                {
+                    mpPathPoints[i*4+k].x = (LONG)__pointx.m128_f32[3-k];
+                    mpPathPoints[i*4+k].y = (LONG)__pointy.m128_f32[3-k];
+                }
+            }
+        }
+    }
+    else
+    // C-code
+    {
+        // patch m008. distort
+        int xsz, ysz;
+        double dst1x, dst1y, dst2x, dst2y, dst3x, dst3y;
+        int minx = INT_MAX, miny = INT_MAX, maxx = -INT_MAX, maxy = -INT_MAX;
+
+        bool is_dist = m_style.mod_distort.enabled;
+        if(is_dist)
+        {
+            for(int i = 0; i < mPathPoints; i++)
+            {
+                if(minx > mpPathPoints[i].x) minx = mpPathPoints[i].x;
+                if(miny > mpPathPoints[i].y) miny = mpPathPoints[i].y;
+                if(maxx < mpPathPoints[i].x) maxx = mpPathPoints[i].x;
+                if(maxy < mpPathPoints[i].y) maxy = mpPathPoints[i].y;
+            }
+
+            xsz = max(maxx - minx, 0);
+            ysz = max(maxy - miny, 0);
+
+            dst1x = m_style.mod_distort.pointsx[0];
+            dst1y = m_style.mod_distort.pointsy[0];
+            dst2x = m_style.mod_distort.pointsx[1];
+            dst2y = m_style.mod_distort.pointsy[1];
+            dst3x = m_style.mod_distort.pointsx[2];
+            dst3y = m_style.mod_distort.pointsy[2];
+        }
+#endif
+
+        for(ptrdiff_t i = 0; i < mPathPoints; i++)
+        {
+            double x, y, z, xx, yy, zz;
+
+            x = mpPathPoints[i].x;
+            y = mpPathPoints[i].y;
+#ifdef _VSMOD
+            // patch m002. Z-coord
+            z = m_style.mod_z;
+
+            double u, v;
+            if(is_dist)
+            {
+                u = (x - minx) / xsz;
+                v = (y - miny) / ysz;
+
+                x = minx + (0 + (dst1x - 0) * u + (dst3x - 0) * v + (0 + dst2x - dst1x - dst3x) * u * v) * xsz;
+                y = miny + (0 + (dst1y - 0) * u + (dst3y - 0) * v + (0 + dst2y - dst1y - dst3y) * u * v) * ysz;
+                //P = P0 + (P1 - P0)u + (P3 - P0)v + (P0 + P2 - P1 - P3)uv
+            }
 #else
-        z = 0;
+            z = 0;
 #endif
 
 #ifdef _VSMOD // patch m003. random text points
-        x = xrnd > 0 ? (xrnd - rand() % (int)(xrnd * 2 + 1)) / 100.0 + x : x;
-        y = yrnd > 0 ? (yrnd - rand() % (int)(yrnd * 2 + 1)) / 100.0 + y : y;
-        z = zrnd > 0 ? (zrnd - rand() % (int)(zrnd * 2 + 1)) / 100.0 + z : z;
+            x = xrnd > 0 ? (xrnd - rand() % (int)(xrnd * 2 + 1)) / 100.0 + x : x;
+            y = yrnd > 0 ? (yrnd - rand() % (int)(yrnd * 2 + 1)) / 100.0 + y : y;
+            z = zrnd > 0 ? (zrnd - rand() % (int)(zrnd * 2 + 1)) / 100.0 + z : z;
 #endif
-        x = scalex * (x + m_style.fontShiftX * y) - org.x;
-        y = scaley * (y + m_style.fontShiftY * x) - org.y;
+            double _x = x;
+            x = scalex * (x + m_style.fontShiftX * y) - org.x;
+            y = scaley * (y + m_style.fontShiftY * _x) - org.y;
 
-        xx = x * caz + y * saz;
-        yy = -(x * saz - y * caz);
-        zz = z;
+            xx = x * caz + y * saz;
+            yy = -(x * saz - y * caz);
+            zz = z;
 
-        x = xx;
-        y = yy * cax + zz * sax;
-        z = yy * sax - zz * cax;
+            x = xx;
+            y = yy * cax + zz * sax;
+            z = yy * sax - zz * cax;
 
-        xx = x * cay + z * say;
-        yy = y;
-        zz = x * say - z * cay;
+            xx = x * cay + z * say;
+            yy = y;
+            zz = x * say - z * cay;
 
-        zz = max(zz, -19000);
+            zz = max(zz, -19000);
 
-        x = (xx * 20000) / (zz + 20000);
-        y = (yy * 20000) / (zz + 20000);
+            x = (xx * 20000) / (zz + 20000);
+            y = (yy * 20000) / (zz + 20000);
 
-        mpPathPoints[i].x = (LONG)(x + org.x + 0.5);
-        mpPathPoints[i].y = (LONG)(y + org.y + 0.5);
+            mpPathPoints[i].x = (LONG)(x + org.x + 0.5);
+            mpPathPoints[i].y = (LONG)(y + org.y + 0.5);
+        }
     }
 }
 
