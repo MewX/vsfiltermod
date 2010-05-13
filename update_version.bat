@@ -1,11 +1,13 @@
-@if not exist "%programfiles%\TortoiseSVN\bin\SubWCRev.exe" goto :x64
+@SubWCRev .\ include\SubWCRev.conf include\VersionMod.h
+@if %ERRORLEVEL% NEQ 0 goto :NoSubWCRev
 
-@"%programfiles%\TortoiseSVN\bin\SubWCRev.exe" .\ include\SubWCRev.conf include\VersionMod.h
-@goto :eof
-
-:x64
-@if not exist "%ProgramW6432%\TortoiseSVN\bin\SubWCRev.exe" goto :NoSubWCRev
-
-@"%ProgramW6432%\TortoiseSVN\bin\SubWCRev.exe" .\ include\SubWCRev.conf include\VersionMod.h
-
-:eof
+:NoSubWCRev
+@echo #pragma once > include\VersionMod.h
+@echo. >> include\VersionMod.h
+@echo #define DO_MAKE_STR(x) #x >> include\VersionMod.h
+@echo #define MAKE_STR(x) DO_MAKE_STR(x) >> include\VersionMod.h
+@echo. >> include\VersionMod.h
+@echo #define VERSION_MAJOR 1 >> include\VersionMod.h
+@echo #define VERSION_MINOR 1 >> include\VersionMod.h
+@echo #define VERSION_REV   0 >> include\VersionMod.h
+@echo #define VERSION_PATCH 0 >> include\VersionMod.h
