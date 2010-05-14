@@ -166,11 +166,11 @@ void CWord::Transform(CPoint org)
 
     srand(m_style.mod_rand.Seed);
     // CPUID from VDub
-    bool fSSE = !!(g_cpuid.m_flags & CCpuID::ssefpu);
+    bool fSSE2 = !!(g_cpuid.m_flags & CCpuID::sse2);
 
     // SSE code
     // speed up ~1.5-1.7x
-    if(fSSE)
+    if(fSSE2)
     {
         __m128 __xshift = _mm_set_ps1(m_style.fontShiftX);
         __m128 __yshift = _mm_set_ps1(m_style.fontShiftY);
@@ -242,7 +242,7 @@ void CWord::Transform(CPoint org)
             {
                 switch(mPathPointsM4)
                 {
-                case 0: return;
+                case 0: continue;
                 case 1:
                     __pointx = _mm_set_ps(mpPathPoints[4 * i + 0].x, 0, 0, 0);
                     __pointy = _mm_set_ps(mpPathPoints[4 * i + 0].y, 0, 0, 0);
@@ -271,8 +271,10 @@ void CWord::Transform(CPoint org)
                 //P = P0 + (P1 - P0)u + (P3 - P0)v + (P0 + P2 - P1 - P3)uv
                 __m128 __u = _mm_sub_ps(__pointx, __minx);
                 __m128 __v = _mm_sub_ps(__pointy, __miny);
-                __u = _mm_div_ps(__u, __xsz);
-                __v = _mm_div_ps(__v, __ysz);
+                __m128 __1_xsz = _mm_rcp_ps(__xsz);
+                __m128 __1_ysz = _mm_rcp_ps(__ysz);
+                __u = _mm_mul_ps(__u, __1_xsz);
+                __v = _mm_mul_ps(__v, __1_ysz);
 
                 // x
                 __pointx = _mm_mul_ps(__dst213x, __u);
@@ -302,33 +304,33 @@ void CWord::Transform(CPoint org)
             // randomize
             if(xrnd!=0 || yrnd!=0 || zrnd!=0)
             {
-                float rx[4], ry[4], rz[4]; 
+                __declspec(align(16)) float rx[4], ry[4], rz[4]; 
                 for(int k=0;k<4;k++)
                 {
                     rx[k] = xrnd > 0 ? (xrnd - rand() % (int)(xrnd * 2 + 1)) : 0;
                     ry[k] = yrnd > 0 ? (yrnd - rand() % (int)(yrnd * 2 + 1)) : 0;
                     rz[k] = zrnd > 0 ? (zrnd - rand() % (int)(zrnd * 2 + 1)) : 0;
                 }
-                __m128 __100 = _mm_set_ps1(100);
+                __m128 __001 = _mm_set_ps1(0.01f);
 
                 if(xrnd!=0)
                 {
                     __m128 __rx = _mm_load_ps(rx);
-                    __rx = _mm_div_ps(__rx, __100);
+                    __rx = _mm_mul_ps(__rx, __001);
                     __pointx = _mm_add_ps(__pointx, __rx);
                 }
 
                 if(yrnd!=0)
                 {
                     __m128 __ry = _mm_load_ps(ry);
-                    __ry = _mm_div_ps(__ry, __100);
+                    __ry = _mm_mul_ps(__ry, __001);
                     __pointy = _mm_add_ps(__pointy, __ry);
                 }
 
                 if(zrnd!=0)
                 {
                     __m128 __rz = _mm_load_ps(rz);
-                    __rz = _mm_div_ps(__rz, __100);
+                    __rz = _mm_mul_ps(__rz, __001);
                     __pointz = _mm_add_ps(__pointz, __rz);
                 }
             }
@@ -387,12 +389,13 @@ void CWord::Transform(CPoint org)
 
             __m128 __20000 = _mm_set_ps1(20000);
             __zz = _mm_add_ps(__pointz, __20000);
+            __zz = _mm_rcp_ps(__zz);
 
             __pointx = _mm_mul_ps(__pointx, __20000);
-            __pointx = _mm_div_ps(__pointx, __zz);
+            __pointx = _mm_mul_ps(__pointx, __zz);
 
             __pointy = _mm_mul_ps(__pointy, __20000);
-            __pointy = _mm_div_ps(__pointy, __zz);
+            __pointy = _mm_mul_ps(__pointy, __zz);
 
             __pointx = _mm_add_ps(__pointx, __xorg);
             __pointy = _mm_add_ps(__pointy, __yorg);
@@ -406,16 +409,16 @@ void CWord::Transform(CPoint org)
             {
                 for(int k=0;k<mPathPointsM4;k++)
                 {
-                    mpPathPoints[i*4+k].x = (LONG)__pointx.m128_f32[3-k];
-                    mpPathPoints[i*4+k].y = (LONG)__pointy.m128_f32[3-k];
+                    mpPathPoints[i*4+k].x = static_cast<LONG>(__pointx.m128_f32[3-k]);
+                    mpPathPoints[i*4+k].y = static_cast<LONG>(__pointy.m128_f32[3-k]);
                 }
             }
             else
             {
                 for(int k=0;k<4;k++)
                 {
-                    mpPathPoints[i*4+k].x = (LONG)__pointx.m128_f32[3-k];
-                    mpPathPoints[i*4+k].y = (LONG)__pointy.m128_f32[3-k];
+                    mpPathPoints[i*4+k].x = static_cast<LONG>(__pointx.m128_f32[3-k]);
+                    mpPathPoints[i*4+k].y = static_cast<LONG>(__pointy.m128_f32[3-k]);
                 }
             }
         }
@@ -471,14 +474,13 @@ void CWord::Transform(CPoint org)
                 y = miny + (0 + (dst1y - 0) * u + (dst3y - 0) * v + (0 + dst2y - dst1y - dst3y) * u * v) * ysz;
                 //P = P0 + (P1 - P0)u + (P3 - P0)v + (P0 + P2 - P1 - P3)uv
             }
-#else
-            z = 0;
-#endif
 
-#ifdef _VSMOD // patch m003. random text points
+            // patch m003. random text points
             x = xrnd > 0 ? (xrnd - rand() % (int)(xrnd * 2 + 1)) / 100.0 + x : x;
             y = yrnd > 0 ? (yrnd - rand() % (int)(yrnd * 2 + 1)) / 100.0 + y : y;
             z = zrnd > 0 ? (zrnd - rand() % (int)(zrnd * 2 + 1)) / 100.0 + z : z;
+#else
+            z = 0;
 #endif
             double _x = x;
             x = scalex * (x + m_style.fontShiftX * y) - org.x;
