@@ -21,7 +21,7 @@
 
 #include "stdafx.h"
 #include "vobsubfileripper.h"
-#include "../decss/VobDec.h"
+#include "decss/VobDec.h"
 #include "../subtitles/CCDecoder.h"
 
 //
@@ -484,7 +484,7 @@ DWORD CVobSubFileRipper::ThreadProc()
 			break;
 
 		default:
-		    Reply(E_FAIL);
+		    Reply((DWORD)E_FAIL);
 			return (DWORD)-1;
 		}
 
