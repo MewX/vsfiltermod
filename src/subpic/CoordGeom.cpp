@@ -394,7 +394,8 @@ void XForm::Initalize(Ray& r, Vector& s, bool isWorldToLocal)
 {
     Initalize();
 
-    if(m_isWorldToLocal = isWorldToLocal)
+    m_isWorldToLocal = isWorldToLocal;
+ 	if(isWorldToLocal) 
     {
         *this -= r.p;
         *this >>= r.d;

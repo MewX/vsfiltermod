@@ -303,23 +303,21 @@ bool Rasterizer::ScanConvert(GlyphPath& path, const CRect& bbox)
         std::vector<int>::iterator itX1 = heap.begin();
         std::vector<int>::iterator itX2 = heap.end();
 
-        int x1, x2;
+        int x1 = 0;
 
         for(; itX1 != itX2; ++itX1)
         {
             int x = *itX1;
 
             if(!count)
-            {
                 x1 = x >> 1;
-            }
 
             if(x & 1) ++count;
             else --count;
 
             if(!count)
             {
-                x2 = x >> 1;
+                int x2 = x >> 1;
 
                 if(x2 > x1)
                 {
@@ -582,7 +580,7 @@ void Rasterizer::Blur(float n, int plane)
     int pitch = w * 4;
     BYTE* q0 = DNew BYTE[w*h];
 
-    for(ptrdiff_t pass = 0, limit = (int)(n + 0.5); pass < n; pass++)
+    for(int pass = 0; pass < n; pass++)
     {
         BYTE* p = mpOverlayBuffer + plane;
         BYTE* q = q0;
