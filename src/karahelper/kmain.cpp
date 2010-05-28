@@ -343,6 +343,13 @@ int lua_kh_render(lua_State* L)
     // get text
     std::wstring rend_text = _SW(lua_tostring(L, 2));
 
+    // check argument #3 = return_as_1d_array, bool
+    bool return_as_2d_array = true;
+    if(lua_isboolean(L, 3))
+    {
+        return_as_2d_array = (lua_toboolean(L, 3)==0);
+    }
+
     rend_text = parseLine(rend_text, style); // parse tags
 
     kFontStruct kFS = getTextExtends(style, rend_text);
@@ -430,45 +437,83 @@ int lua_kh_render(lua_State* L)
         lua_pushnumber(L, bluradjust);
         lua_setfield(L, -2, "offsetx");
     }
-    // pixels data
-    lua_newtable(L);
+
     DWORD* bits = (DWORD*)frame.data;
-    for(size_t x = 0; x < (size_t)width; x++)
+    lua_newtable(L);
+    if(return_as_2d_array)
     {
-        lua_pushnumber(L, (int)x + 1); // index x
-        lua_newtable(L); // value: array with y
-        for(size_t y = 0; y < (size_t)height; y++)
+        // pixels data
+        for(size_t x = 0; x < (size_t)width; x++)
         {
-            DWORD col = bits[(y*(width)) + x];
-            // CSRI_F_BGR_
-            DWORD r = (col << 16) & 0xff0000;
-            DWORD g = (col) & 0xff00;
-            DWORD b = (col >> 16) & 0xff;
-            col = b | g | r;
-            lua_pushnumber(L, (int)y + 1); // index y
-            lua_pushnumber(L, col); // value: color
+            lua_pushnumber(L, (int)x + 1); // index x
+            lua_newtable(L); // value: array with y
+            for(size_t y = 0; y < (size_t)height; y++)
+            {
+                DWORD col = bits[(y*(width)) + x];
+                // CSRI_F_BGR_
+                DWORD r = (col << 16) & 0xff0000;
+                DWORD g = (col) & 0xff00;
+                DWORD b = (col >> 16) & 0xff;
+                col = b | g | r;
+                lua_pushnumber(L, (int)y + 1); // index y
+                lua_pushnumber(L, col); // value: color
+                lua_settable(L, -3);
+            }
             lua_settable(L, -3);
         }
-        lua_settable(L, -3);
+    }
+    else
+    {
+        for(size_t y = 0; y < (size_t)height; y++)
+        {
+            for(size_t x = 0; x < (size_t)width; x++)
+            {
+                DWORD col = bits[(y*(width)) + x];
+                // CSRI_F_BGR_
+                DWORD r = (col << 16) & 0xff0000;
+                DWORD g = (col) & 0xff00;
+                DWORD b = (col >> 16) & 0xff;
+                col = b | g | r;
+                lua_pushnumber(L, static_cast<int>(y * width + x + 1)); // index y*width+x
+                lua_pushnumber(L, col); // value: color
+                lua_settable(L, -3);
+            }
+        }
     }
     lua_setfield(L, -2, "color");
 
-    // alpha data
     lua_newtable(L);
-
-    for(size_t x = 0; x < (size_t)width; x++)
+    if(return_as_2d_array)
     {
-        lua_pushnumber(L, x + 1); // index x
-        lua_newtable(L); // value: array with y
-        for(size_t y = 0; y < (size_t)height; y++)
+        // alpha data
+        for(size_t x = 0; x < (size_t)width; x++)
         {
-            DWORD col = bits[(y*(width)) + x];
+            lua_pushnumber(L, x + 1); // index x
+            lua_newtable(L); // value: array with y
+            for(size_t y = 0; y < (size_t)height; y++)
+            {
+                DWORD col = bits[(y*(width)) + x];
 
-            lua_pushnumber(L, (int)y + 1); // index y
-            lua_pushnumber(L, (col >> 24) & 0xff); // value: alpha
+                lua_pushnumber(L, (int)y + 1); // index y
+                lua_pushnumber(L, (col >> 24) & 0xff); // value: alpha
+                lua_settable(L, -3);
+            }
             lua_settable(L, -3);
         }
-        lua_settable(L, -3);
+    }
+    else
+    {
+        for(size_t y = 0; y < (size_t)height; y++)
+        {
+            for(size_t x = 0; x < (size_t)width; x++)
+            {
+                DWORD col = bits[(y*(width)) + x];
+                // CSRI_F_BGR_
+                lua_pushnumber(L, static_cast<int>(y * width + x + 1)); // index y*width+x
+                lua_pushnumber(L, (col >> 24) & 0xff); // value: alpha
+                lua_settable(L, -3);
+            }
+        }
     }
     lua_setfield(L, -2, "alpha");
 
@@ -487,6 +532,13 @@ int lua_kh_loadpng(lua_State* L)
     }
     // get text
     std::string filename = lua_tostring(L, 1);
+
+    // check argument #2 = return_as_1d_array, bool
+    bool return_as_2d_array = true;
+    if(lua_isboolean(L, 2))
+    {
+        return_as_2d_array = (lua_toboolean(L, 2)==0);
+    }
 
     char header[8];	// 8 is the maximum size that can be check
     png_structp png_ptr;
@@ -587,32 +639,9 @@ int lua_kh_loadpng(lua_State* L)
     lua_pushnumber(L, k_height);
     lua_setfield(L, -2, "height");
 
+    lua_newtable(L);
     // pixels data
-    lua_newtable(L);
-    for(size_t x = 0; x < (size_t)k_width; x++)
-    {
-        lua_pushnumber(L, (int)x + 1); // index x
-        lua_newtable(L); // value: array with y
-        for(size_t y = 0; y < (size_t)k_height; y++)
-        {
-            BYTE* col = data[y] + x * k_bpp;
-            // CSRI_F_BGR_
-            BYTE r = col[0];
-            BYTE g = col[1];
-            BYTE b = col[2];
-            DWORD color = (b << 16) | (g << 8) | r;
-            lua_pushnumber(L, (int)y + 1); // index y
-            lua_pushnumber(L, color); // value: color
-            lua_settable(L, -3);
-        }
-        lua_settable(L, -3);
-    }
-    lua_setfield(L, -2, "color");
-
-    // alpha data
-    lua_newtable(L);
-
-    if(k_bpp == 4)
+    if(return_as_2d_array)
     {
         for(size_t x = 0; x < (size_t)k_width; x++)
         {
@@ -621,9 +650,12 @@ int lua_kh_loadpng(lua_State* L)
             for(size_t y = 0; y < (size_t)k_height; y++)
             {
                 BYTE* col = data[y] + x * k_bpp;
-
+                BYTE r = col[0];
+                BYTE g = col[1];
+                BYTE b = col[2];
+                DWORD color = (b << 16) | (g << 8) | r;
                 lua_pushnumber(L, (int)y + 1); // index y
-                lua_pushnumber(L, 255 - col[3]); // value: alpha
+                lua_pushnumber(L, color); // value: color
                 lua_settable(L, -3);
             }
             lua_settable(L, -3);
@@ -631,17 +663,74 @@ int lua_kh_loadpng(lua_State* L)
     }
     else
     {
-        for(size_t x = 0; x < (size_t)k_width; x++)
+        
+    }
+    lua_setfield(L, -2, "color");
+
+    // alpha data
+    lua_newtable(L);
+    if(return_as_2d_array)
+    {
+        if(k_bpp == 4)
         {
-            lua_pushnumber(L, (int)x + 1); // index x
-            lua_newtable(L); // value: array with y
-            for(size_t y = 0; y < (size_t)k_height; y++)
+            for(size_t x = 0; x < (size_t)k_width; x++)
             {
-                lua_pushnumber(L, (int)y + 1); // index y
-                lua_pushnumber(L, 0); // value: alpha
+                lua_pushnumber(L, (int)x + 1); // index x
+                lua_newtable(L); // value: array with y
+                for(size_t y = 0; y < (size_t)k_height; y++)
+                {
+                    BYTE* col = data[y] + x * k_bpp;
+
+                    lua_pushnumber(L, (int)y + 1); // index y
+                    lua_pushnumber(L, 255 - col[3]); // value: alpha
+                    lua_settable(L, -3);
+                }
                 lua_settable(L, -3);
             }
-            lua_settable(L, -3);
+        }
+        else
+        {
+            for(size_t x = 0; x < (size_t)k_width; x++)
+            {
+                lua_pushnumber(L, (int)x + 1); // index x
+                lua_newtable(L); // value: array with y
+                for(size_t y = 0; y < (size_t)k_height; y++)
+                {
+                    lua_pushnumber(L, (int)y + 1); // index y
+                    lua_pushnumber(L, 0); // value: alpha
+                    lua_settable(L, -3);
+                }
+                lua_settable(L, -3);
+            }
+        }
+    }
+    else
+    {
+        if(k_bpp == 4)
+        {
+            for(size_t x = 0; x < (size_t)k_width; x++)
+            {
+                for(size_t y = 0; y < (size_t)k_height; y++)
+                {
+                    BYTE* col = data[y] + x * k_bpp;
+
+                    lua_pushnumber(L, static_cast<int>(y * k_width + x + 1)); // index y*width+x
+                    lua_pushnumber(L, 255 - col[3]); // value: alpha
+                    lua_settable(L, -3);
+                }
+            }
+        }
+        else
+        {
+            for(size_t x = 0; x < (size_t)k_width; x++)
+            {
+                for(size_t y = 0; y < (size_t)k_height; y++)
+                {
+                    lua_pushnumber(L, static_cast<int>(y * k_width + x + 1)); // index y*width+x
+                    lua_pushnumber(L, 0); // value: alpha
+                    lua_settable(L, -3);
+                }
+            }
         }
     }
     lua_setfield(L, -2, "alpha");
