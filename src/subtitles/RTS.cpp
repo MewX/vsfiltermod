@@ -352,10 +352,10 @@ void CWord::Transform(CPoint org)
             __m128 __tmpy;
             if(m_style.fontShiftY!=0)
             {
-                __m128 __tmpy = _mm_mul_ps(__yshift, __pointx);
+                __tmpy = _mm_mul_ps(__yshift, __pointx);
                 __tmpy = _mm_add_ps(__tmpy, __pointy);
-                
             }
+            else
             {
                 __tmpy = __pointy;
             }
