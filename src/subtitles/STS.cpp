@@ -3738,13 +3738,11 @@ CPoint MOD_JITTER::getOffset(REFERENCE_TIME rt)
     int rseed = (seed + rt / period) * 100;
 
     srand(rseed);
-    rand();
-    int xoffset = rand();
-    xoffset = xoffset % (offset.left + offset.right) - offset.left;
+    int xamp = (offset.left + offset.right);
+    int xoffset = (xamp != 0) ? ((rand() % xamp) - offset.left) : 0;
 
-    //srand(rseed+1);
-    int yoffset = rand();
-    yoffset = yoffset % (offset.bottom + offset.top) - offset.top;
+    int yamp = (offset.bottom + offset.top);
+    int yoffset = (yamp != 0) ? ((rand() % yamp) - offset.top) : 0;
 
     return CPoint((int)xoffset, (int)yoffset);
 }
