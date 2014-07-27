@@ -219,8 +219,8 @@ void CWord::Transform(CPoint org)
             __dst213x = _mm_sub_ps(__dst213x, __dst3x);
 
             __dst213y = _mm_set_ps1(m_style.mod_distort.pointsy[1]);
-            __dst213x = _mm_sub_ps(__dst213y, __dst1y);
-            __dst213x = _mm_sub_ps(__dst213y, __dst3y); 
+            __dst213y = _mm_sub_ps(__dst213y, __dst1y);
+            __dst213y = _mm_sub_ps(__dst213y, __dst3y); 
         }
 
         __m128 __caz = _mm_set_ps1(caz);
@@ -465,7 +465,7 @@ void CWord::Transform(CPoint org)
             z = m_style.mod_z;
 
             double u, v;
-            if(is_dist)
+            if((is_dist) && (xsz) && (ysz))
             {
                 u = (x - minx) / xsz;
                 v = (y - miny) / ysz;
