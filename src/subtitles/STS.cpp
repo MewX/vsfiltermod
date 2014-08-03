@@ -1975,7 +1975,9 @@ CSimpleTextSubtitle::CSimpleTextSubtitle()
     m_dPARCompensation = 1.0;
 
 #ifdef _VSMOD // indexing
+#ifdef INDEXING
     ind_size = 0;
+#endif
 #endif
 }
 
@@ -2102,11 +2104,13 @@ void CSimpleTextSubtitle::Empty()
     RemoveAll();
 
 #ifdef _VSMOD // indexing
+#ifdef INDEXING
     if(ind_size>0)
     {
         delete ind_time;
         delete ind_pos;
     }
+#endif
 #endif
 }
 
@@ -2135,6 +2139,7 @@ void CSimpleTextSubtitle::Add(CStringW str, bool fUnicode, int start, int end, C
 }
 
 #ifdef _VSMOD
+#ifdef INDEXING
 void CSimpleTextSubtitle::MakeIndex(int SizeOfSegment)
 {
     int cnt = m_segments.GetCount();
@@ -2168,6 +2173,7 @@ void CSimpleTextSubtitle::MakeIndex(int SizeOfSegment)
         ind_pos[i] = pos;
     }
 }
+#endif
 #endif
 
 STSStyle* CSimpleTextSubtitle::CreateDefaultStyle(int CharSet)
@@ -2388,6 +2394,7 @@ const STSSegment* CSimpleTextSubtitle::SearchSubs(int t, double fps, /*[out]*/ i
     }
 
 #ifdef _VSMOD
+#ifdef INDEXING
     // find bounds
     // is this nya?
     for(ptrdiff_t k = 0; k < ind_size; k++)
@@ -2400,6 +2407,7 @@ const STSSegment* CSimpleTextSubtitle::SearchSubs(int t, double fps, /*[out]*/ i
             break;
         }
     }
+#endif
 #endif
 
     while(i < j)
@@ -2750,7 +2758,9 @@ bool CSimpleTextSubtitle::Open(CTextFile* f, int CharSet, CString name)
 //		Sort();
         CreateSegments();
 #ifdef _VSMOD // indexing
+#ifdef INDEXING
         MakeIndex(0);
+#endif
 #endif
         CWebTextFile f2;
         if(f2.Open(f->GetFilePath() + _T(".style")))
