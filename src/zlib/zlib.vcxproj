@@ -99,11 +99,12 @@
       <WarningLevel>Level2</WarningLevel>
     </ClCompile>
     <ResourceCompile>
-      <Culture>0x0809</Culture>
+      <Culture>0x0419</Culture>
     </ResourceCompile>
     <Lib>
       <OutputFile>..\..\lib\$(ProjectName)D.lib</OutputFile>
       <TargetMachine>MachineX86</TargetMachine>
+      <Verbose>true</Verbose>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

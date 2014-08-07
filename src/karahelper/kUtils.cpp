@@ -132,7 +132,7 @@ int get_i(std::wstring& buff, std::wstring sep)
 {
     std::wstring str = get_s(buff, sep);
     LowerCase(str);
-    int ret = str.length() > 2 && (str.substr(0, 2) == L"&h" || str.substr(0, 2) == L"0x")
+    int ret = str.length() > 2 && (!(str.substr(0, 2).compare(L"&h")) || !(str.substr(0, 2).compare(L"0x")))
               ? str = str.substr(2), wcstol(str.c_str(), NULL, 16) : wcstol(str.c_str(), NULL, 10);
 
     return(ret);

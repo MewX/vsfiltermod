@@ -83,7 +83,6 @@ kFontStruct getTextExtends(kStyle& style, std::wstring str)
     return temp;
 }
 
-
 int lua_getInt(lua_State* L, std::string fieldname, int& status)
 {
     lua_getfield(L, 1, fieldname.c_str());
