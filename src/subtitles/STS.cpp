@@ -1512,7 +1512,9 @@ static bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int C
                                          : ret.m_dstScreenSize.cy * 4 / 3;
             }
         }
-#ifdef _VSMOD // path m012. Lua animation
+#ifdef _VSMOD
+#ifdef _LUA
+        // path m012. Lua animation
         else if(entry == L"lua")
         {
             // Скрипт
@@ -1533,6 +1535,7 @@ static bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int C
 
             }
         }
+#endif
 #endif
         else if(entry == L"wrapstyle")
         {
@@ -1997,12 +2000,13 @@ CSimpleTextSubtitle::CSimpleTextSubtitle()
     m_dPARCompensation = 1.0;
 
 #ifdef _VSMOD
+#ifdef _LUA
     L = luaL_newstate ();
     // load the libs
     luaL_openlibs(L);
 
     LuaLogName = L"";
-
+#endif
 #ifdef INDEXING
     ind_size = 0;
 #endif
@@ -2012,13 +2016,15 @@ CSimpleTextSubtitle::CSimpleTextSubtitle()
 CSimpleTextSubtitle::~CSimpleTextSubtitle()
 {
     #ifdef _VSMOD // patch m012. lua
+    #ifdef _LUA
     lua_close(L);
-
+   
     try
     {
         LuaLog.close();
 
     } catch(...) {}
+     #endif
     #endif
     Empty();
 }
@@ -2053,8 +2059,10 @@ void CSimpleTextSubtitle::Copy(CSimpleTextSubtitle& sts)
     Empty();
 
 #ifdef _VSMOD
+#ifdef _LUA
     L = sts.L;
     LuaLogName = sts.LuaLogName;
+#endif
 #endif
 
     m_name = sts.m_name;
@@ -2768,6 +2776,7 @@ static int CountLines(CTextFile* f, ULONGLONG from, ULONGLONG to)
 
 
 #ifdef _VSMOD // path m012. Lua animation
+#ifdef _LUA
 void CSimpleTextSubtitle::ExecLuaFile(CString Filename)
 {
     CStringA aFilename(Filename);
@@ -2813,7 +2822,7 @@ void CSimpleTextSubtitle::LuaError(CString Text)
     catch(...) { }
     Text.ReleaseBuffer();
 }
-
+#endif
 #endif
 
 bool CSimpleTextSubtitle::Open(CTextFile* f, int CharSet, CString name)
