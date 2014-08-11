@@ -44,9 +44,9 @@ class CWord : public Rasterizer
     bool m_fDrawn;
     CPoint m_p;
     
-    #if defined (_VSMOD) && defined(_LUA)
-    void CustomTransform(CPoint org, CString F);
-    #endif
+#if defined (_VSMOD) && defined(_LUA)
+    void CustomTransform(CPoint org, CString F, int Layer);
+#endif
 
     void Transform(CPoint org);
 
@@ -74,7 +74,13 @@ public:
     virtual CWord* Copy() = 0;
     virtual bool Append(CWord* w);
 
+#if defined (_VSMOD) && defined(_LUA)
+    int    m_entry; // id
+
+    void Paint(CPoint p, CPoint org, int Layer);
+#else
     void Paint(CPoint p, CPoint org);
+#endif
 };
 
 class CText : public CWord
@@ -236,6 +242,10 @@ class CRenderedTextSubtitle : public CSimpleTextSubtitle, public ISubPicProvider
 
     CScreenLayoutAllocator m_sla;
 
+#if defined(_VSMOD) && defined(_LUA)
+    int   m_entry; // Id of line
+#endif
+
     CSize m_size;
     CRect m_vidrect;
 
@@ -255,10 +265,8 @@ class CRenderedTextSubtitle : public CSimpleTextSubtitle, public ISubPicProvider
     bool ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& style, STSStyle& org, bool fAnimate = false);
     bool ParseHtmlTag(CSubtitle* sub, CStringW str, STSStyle& style, STSStyle& org);
 
-#ifdef _VSMOD
-#ifdef _LUA
+#if defined(_VSMOD) && defined(_LUA)
     void ParseLuaTable(CSubtitle* sub, STSStyle& style);
-#endif
 #endif
 
     double CalcAnimation(double dst, double src, bool fAnimate);
