@@ -1040,7 +1040,6 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
         }
         else
         {
-            
             COverlayAlphaMixer<COverlayMixer> Mix(&rnfo, Color, Alpha);
             Mix.Draw(fBody);
         }
@@ -1113,6 +1112,9 @@ byte MOD_MOVEVC::GetAlphaValue(int wx, int wy)
     if(!enable)
     {
 //		return 0xFF;
+        if((wx < 0) || (wx >= spd.cx)) return 0;
+        if((wy <= 0) || (wy > spd.cy)) return 0;
+
         return alphamask[wx+((hfull-wy)*spd.cx)];
     }
     if((wx - pos.x) < -curpos.x + 1) alpham = 0;
