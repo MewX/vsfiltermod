@@ -731,6 +731,7 @@ CWord* CText::Copy()
 #if defined(_VSMOD) && defined(_LUA)
     T->L = L;
     T->LuaLog = LuaLog;
+    T->m_entry = m_entry;
 #endif
     return T;
 }
@@ -2158,10 +2159,18 @@ void CRenderedTextSubtitle::ParseLuaTable(CSubtitle* sub, STSStyle& style)
     }
 
     // Custom modify points before transform
-    style.LuaBeforeTransformHandler = CheckLuaHandler(L"beforetransform");
-    style.LuaAfterTransformHandler = CheckLuaHandler(L"aftertransform");
-    style.LuaCustomTransformHandler = CheckLuaHandler(L"customtransform");
+    {
+        CString LuaBeforeTransformHandler = CheckLuaHandler(L"beforetransform");
+        CString LuaAfterTransformHandler = CheckLuaHandler(L"aftertransform");
+        CString LuaCustomTransformHandler = CheckLuaHandler(L"customtransform");
 
+        if(LuaBeforeTransformHandler.GetLength() > 0)
+            style.LuaBeforeTransformHandler = LuaBeforeTransformHandler;
+        if(LuaAfterTransformHandler.GetLength() > 0)
+            style.LuaAfterTransformHandler = LuaAfterTransformHandler;
+        if(LuaCustomTransformHandler.GetLength() > 0)
+            style.LuaCustomTransformHandler = LuaCustomTransformHandler;
+    }
 }
 #endif
 
