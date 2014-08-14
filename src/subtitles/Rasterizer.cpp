@@ -1015,12 +1015,12 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
     {
         if(fSSE2)
         {
-            COverlayMixer Mix(&rnfo, Color);
+            COverlayMixerSSE2 Mix(&rnfo, Color);
             Mix.Draw(fBody);
         }
         else
         {
-            COverlayMixerSSE2 Mix(&rnfo, Color);
+            COverlayMixer Mix(&rnfo, Color);
             Mix.Draw(fBody);
         }
     }

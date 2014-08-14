@@ -12,7 +12,7 @@ COverlayMixer::COverlayMixer(RasterizerNfo * Info, COverlayGetter * Color)
 
 void COverlayMixer::PixMix(DWORD * dst, DWORD color, BYTE alpha)
 {
-    DWORD a = (alpha * ((color >> 24) >> 6)) & 0xff;
+    DWORD a = ((alpha * (color >> 24)) >> 6) & 0xff;
     DWORD ia = 256 - a;
     a += 1;
 
@@ -75,11 +75,11 @@ void COverlayMixer::Draw(bool Body)
 
 void COverlayMixerSSE2::PixMix(DWORD * dst, DWORD color, BYTE alpha)
 {
-    alpha = (alpha * ((color >> 24) >> 6)) & 0xff;
+    BYTE palpha = ((alpha * (color >> 24)) >> 6) & 0xff;
     color &= 0xffffff;
 
     __m128i zero = _mm_setzero_si128();
-    __m128i a = _mm_set1_epi32(((alpha + 1) << 16) | (0x100 - alpha));
+    __m128i a = _mm_set1_epi32(((palpha + 1) << 16) | (0x100 - palpha));
     __m128i d = _mm_unpacklo_epi8(_mm_cvtsi32_si128(*dst), zero);
     __m128i s = _mm_unpacklo_epi8(_mm_cvtsi32_si128(color), zero);
     __m128i r = _mm_unpacklo_epi16(d, s);
