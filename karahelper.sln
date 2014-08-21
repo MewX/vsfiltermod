@@ -9,7 +9,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "karahelper", "src\karahelpe
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "csri", "src\csri\csri.vcxproj", "{4294BC27-91AC-4642-B5E1-042288478C2A}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lua51", "src\lua51\lua51.vcxproj", "{1809269E-6E14-47E8-A9D0-147877EBCDBC}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lua52", "src\lua52\lua52.vcxproj", "{1809269E-6E14-47E8-A9D0-147877EBCDBC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

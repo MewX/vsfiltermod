@@ -285,7 +285,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug (MOD)|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\include;..\lua51\src;..\BaseClasses;..\zlib;..\libpng;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include;..\lua52\src;..\BaseClasses;..\zlib;..\libpng;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_LUA;WIN32;_WINDOWS;_DEBUG;_USRDLL;ISOLATION_AWARE_ENABLED;_WIN32_WINNT=0x0600;_VSMOD;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions</EnableEnhancedInstructionSet>
       <OpenMPSupport>true</OpenMPSupport>
@@ -296,7 +296,7 @@
     </ResourceCompile>
     <Link>
       <RegisterOutput>true</RegisterOutput>
-      <AdditionalDependencies>strmbaseDU.lib;lua51R.lib;libssfDU.lib;dsutilDU.lib;subtitlesDUM.lib;subpicDU.lib;basevideofilterDU.lib;libpngD.lib;zlibD.lib;Winmm.lib;comsuppwd.lib;ddraw.lib;d3d9.lib;strmiids.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>strmbaseDU.lib;lua52R.lib;libssfDU.lib;dsutilDU.lib;subtitlesDUM.lib;subpicDU.lib;basevideofilterDU.lib;libpngD.lib;zlibD.lib;Winmm.lib;comsuppwd.lib;ddraw.lib;d3d9.lib;strmiids.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName)Mod.dll</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>.\VSFilterMod.def</ModuleDefinitionFile>
@@ -313,7 +313,7 @@ update_version.bat</Command>
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\include;..\lua51\src;..\BaseClasses;..\libpng;..\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include;..\lua52\src;..\BaseClasses;..\libpng;..\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN64;_WINDOWS;_DEBUG;_USRDLL;ISOLATION_AWARE_ENABLED;_WIN32_WINNT=0x0600;_VSMOD;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <OpenMPSupport>true</OpenMPSupport>
       <WarningLevel>Level3</WarningLevel>
@@ -324,7 +324,7 @@ update_version.bat</Command>
       <Culture>0x0409</Culture>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>strmbaseDU.lib;lua51D.lib;libssfDU.lib;dsutilDU.lib;subtitlesDUM.lib;subpicDU.lib;basevideofilterDU.lib;libpngD.lib;zlibD.lib;Winmm.lib;comsuppwd.lib;ddraw.lib;d3d9.lib;strmiids.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>strmbaseDU.lib;lua52D.lib;libssfDU.lib;dsutilDU.lib;subtitlesDUM.lib;subpicDU.lib;basevideofilterDU.lib;libpngD.lib;zlibD.lib;Winmm.lib;comsuppwd.lib;ddraw.lib;d3d9.lib;strmiids.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName)Mod64.dll</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)lib64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>.\VSFilterMod64.def</ModuleDefinitionFile>
@@ -352,7 +352,7 @@ update_version.bat</Command>
     </Midl>
     <ClCompile>
       <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
-      <AdditionalIncludeDirectories>..\..\include;..\lua51\src;..\BaseClasses;..\libpng;..\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include;..\lua52\src;..\BaseClasses;..\libpng;..\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_LUA;WIN32;_WINDOWS;NDEBUG;_USRDLL;ISOLATION_AWARE_ENABLED;_WIN32_WINNT=0x0600;_VSMOD;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -366,7 +366,7 @@ update_version.bat</Command>
       <Culture>0x0409</Culture>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>delayimp.lib;lua51R.lib;strmbaseRU.lib;libssfRU.lib;dsutilRU.lib;subtitlesRUM.lib;subpicRU.lib;basevideofilterRU.lib;libpngR.lib;zlibR.lib;Winmm.lib;comsuppwd.lib;ddraw.lib;d3d9.lib;strmiids.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>delayimp.lib;lua52R.lib;strmbaseRU.lib;libssfRU.lib;dsutilRU.lib;subtitlesRUM.lib;subpicRU.lib;basevideofilterRU.lib;libpngR.lib;zlibR.lib;Winmm.lib;comsuppwd.lib;ddraw.lib;d3d9.lib;strmiids.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName)Mod.dll</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>MSVCRT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
@@ -393,7 +393,7 @@ update_version.bat</Command>
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\include;..\lua51\src;..\BaseClasses;..\libpng;..\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include;..\lua52\src;..\BaseClasses;..\libpng;..\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_VSMOD;WIN64;NDEBUG;_USRDLL;ISOLATION_AWARE_ENABLED;_WIN32_WINNT=0x0600;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BufferSecurityCheck>true</BufferSecurityCheck>
       <OpenMPSupport>true</OpenMPSupport>
@@ -404,7 +404,7 @@ update_version.bat</Command>
       <Culture>0x0409</Culture>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>delayimp.lib;lua51R.lib;libssfRU.lib;strmbaseRU.lib;dsutilRU.lib;subtitlesRUM.lib;subpicRU.lib;basevideofilterRU.lib;libpngR.lib;zlibR.lib;Winmm.lib;comsuppwd.lib;ddraw.lib;d3d9.lib;strmiids.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>delayimp.lib;lua52R.lib;libssfRU.lib;strmbaseRU.lib;dsutilRU.lib;subtitlesRUM.lib;subpicRU.lib;basevideofilterRU.lib;libpngR.lib;zlibR.lib;Winmm.lib;comsuppwd.lib;ddraw.lib;d3d9.lib;strmiids.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName)Mod64.dll</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)lib64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>MSVCRT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>

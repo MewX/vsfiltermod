@@ -1402,8 +1402,7 @@ void CMyLua::LoadLuaFile(CString Filename)
     }
 
     // Find ass_init() function =D
-    lua_pushstring(L, "init");
-    lua_rawget(L, LUA_GLOBALSINDEX);
+    lua_getglobal(L, "init");
 
     LuaError(CString("Lua script loaded: ") + Filename);
     if(lua_isfunction(L, -1))
@@ -1435,6 +1434,12 @@ void CMyLua::LuaError(CString Text)
     Text.ReleaseBuffer();
 }
 
+void CMyLua::LuaAddBoolField(lua_State * L, CStringA Field, bool Value)
+{
+    lua_pushboolean(L, Value);
+    lua_setfield(L, -2, Field);
+}
+
 void CMyLua::LuaAddIntegerField(lua_State * L, CStringA Field, int Value)
 {
     lua_pushinteger(L, Value);
@@ -1444,6 +1449,18 @@ void CMyLua::LuaAddIntegerField(lua_State * L, CStringA Field, int Value)
 void CMyLua::LuaAddNumberField(lua_State * L, CStringA Field, double Value)
 {
     lua_pushnumber(L, Value);
+    lua_setfield(L, -2, Field);
+}
+
+void CMyLua::LuaAddFunctionField(lua_State * L, CStringA Field, lua_CFunction Value)
+{
+    lua_pushcfunction(L, Value);
+    lua_setfield(L, -2, Field);
+}
+
+void CMyLua::LuaAddUserField(lua_State * L, CStringA Field, void * Value)
+{
+    lua_pushlightuserdata(L, Value);
     lua_setfield(L, -2, Field);
 }
 
@@ -1496,8 +1513,7 @@ bool CMyLua::LuaIsFunction(lua_State * L, CString fieldname)
 bool CMyLua::LuaHasFunction(lua_State * L, CString funcname)
 {
     CStringA funcnameA(funcname);
-    lua_pushstring(L, funcnameA);
-    lua_rawget(L, LUA_GLOBALSINDEX);
+    lua_getglobal(L, funcnameA);
     bool Result = lua_isfunction(L, -1);
     lua_pop(L, 1);
     return Result;
@@ -2222,7 +2238,7 @@ CSimpleTextSubtitle::~CSimpleTextSubtitle()
 {
     #ifdef _VSMOD // patch m012. lua
     #ifdef _LUA
-    lua_close(L);
+    if(L) lua_close(L);
    
     try
     {
@@ -3377,6 +3393,8 @@ void STSStyle::SetDefault()
     LuaBeforeTransformHandler = L"";
     LuaAfterTransformHandler = L"";
     LuaCustomTransformHandler = L"";
+    LuaClipStyleHandler = L"";
+    LuaRendererHandler = L"";
 #endif
 #endif
 }
@@ -3416,6 +3434,14 @@ bool STSStyle::operator == (STSStyle& s)
            && mod_distort == s.mod_distort
            // patch m011. jitter
            && mod_jitter == s.mod_jitter
+
+#ifdef _LUA
+           && LuaAfterTransformHandler == s.LuaAfterTransformHandler
+           && LuaBeforeTransformHandler == s.LuaBeforeTransformHandler
+           && LuaCustomTransformHandler == s.LuaCustomTransformHandler
+           && LuaClipStyleHandler == s.LuaClipStyleHandler
+           && LuaRendererHandler == s.LuaRendererHandler
+#endif
 #endif
            && IsFontStyleEqual(s));
 }
@@ -3481,6 +3507,8 @@ void STSStyle::mod_CopyStyleFrom(STSStyle& s)
     LuaBeforeTransformHandler = s.LuaBeforeTransformHandler;
     LuaAfterTransformHandler = s.LuaAfterTransformHandler;
     LuaCustomTransformHandler = s.LuaCustomTransformHandler;
+    LuaClipStyleHandler = s.LuaClipStyleHandler;
+    LuaRendererHandler = s.LuaRendererHandler;
 #endif
     // font
     charSet = s.charSet;
