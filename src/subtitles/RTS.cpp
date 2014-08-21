@@ -28,6 +28,7 @@
 // path m012. Lua animation
 #include <lua.h>
 #include <lualib.h>
+#include <lauxlib.h>
 #endif
 
 // WARNING: this isn't very thread safe, use only one RTS a time.
@@ -272,7 +273,6 @@ void CWord::CustomTransform(CPoint org, CString F, int Layer)
                 if(LuaIsNumber(L, L"y")) mpPathPoints[i].y = LuaGetFloat(L, L"y");
 	        }
         }
-        lua_pop(L, 1);
     }
 }
 #endif
@@ -1155,9 +1155,9 @@ void CClipper::ParseLuaTable(STSStyle& style, CPoint & pos, CPoint & org)
                 else
                 {
                     ParseLuaTable(m_style, pos, org);
+                    lua_pop(L, 1);
                 }
             }
-            lua_pop(L, 1);
         }
     }
 #endif
@@ -2474,9 +2474,9 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
                 {
                     sub->m_fAnimated = true;
                     ParseLuaTable(sub, style);
+                    lua_pop(L, 1);
                 }
             }
-            lua_pop(L, 1);
             continue;
         }
         else
@@ -3206,14 +3206,11 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
         {
             if(params.GetCount() > 0)
             {
-                CStringA Func(params[0]);
-
-                // Find function =D
-                lua_pushstring(L, Func);
-                lua_getglobal(L, Func);
-
-                if(lua_isfunction(L, -1))
+                if(LuaHasFunction(L, params[0]))
                 {
+                    CStringA Func(params[0]);
+                    lua_getglobal(L, Func);
+
                     // Create line table
                     lua_newtable(L);
                     LuaAddIntegerField(L, "time", m_time);
@@ -3257,9 +3254,9 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
                             sub->m_fAnimated = true;
                             ParseLuaTable(sub, style);
                         }
+                        lua_pop(L, 1);
                     }
                 }
-                lua_pop(L, 1);
             }
         }
 #endif

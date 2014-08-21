@@ -155,7 +155,7 @@ void * l_CheckMix(lua_State * L)
 {
     lua_getfield(L, 1, "link");
     void * mix = lua_islightuserdata(L, -1) ? lua_touserdata(L, -1) : NULL;
-    lua_pop(L, -1);
+    lua_pop(L, 1);
     if(mix)
         return mix;
     else
@@ -201,11 +201,15 @@ template<class T> int lua_RendererMix(lua_State * L)
     if(!lua_isnumber(L, 2)) return lua_Error(L, "Argument #2 is invalid (need number 'x')");
     if(!lua_isnumber(L, 3)) return lua_Error(L, "Argument #3 is invalid (need number 'y')");
     if(!lua_isnumber(L, 4)) return lua_Error(L, "Argument #4 is invalid (need number 'color')");
-
+    if(!lua_isnumber(L, 5)) return lua_Error(L, "Argument #5 is invalid (need number 'alpha')");
+   
+    int x = lua_tointeger(L, 2);
+    int y = lua_tointeger(L, 3);
+    int color = lua_tointeger(L, 4) & 0xFFFFFF;
+    int alpha = lua_tointeger(L, 5) & 0xFF;
     COverlayLuaMixer<T> * Mix = (COverlayLuaMixer<T> *)l_CheckMix(L);
-    int x = lua_tonumber(L, 2);
-    int y = lua_tonumber(L, 3);
-    int color = lua_tonumber(L, 4);
+
+    color |= (alpha << 24);
 
     if(((x < Mix->Info->w) || (x >= 0)) &&
        ((y < Mix->Info->h) || (y >= 0)))
@@ -235,12 +239,11 @@ template<class T> void COverlayLuaMixer<T>::Draw(bool Body)
     m_body = Body;
 
     CStringA Func(Function);
-
-    // Find function =D
-    lua_getglobal(L, Func);
-
-    if(lua_isfunction(L, -1))
+    if(LuaHasFunction(L, Function))
     {
+        // Find function =D
+        lua_getglobal(L, Func);
+
         // Create line table
         lua_newtable(L);
         LuaAddIntegerField(L, "id", m_entry);
@@ -248,7 +251,11 @@ template<class T> void COverlayLuaMixer<T>::Draw(bool Body)
         LuaAddIntegerField(L, "height", Info->h);
         LuaAddIntegerField(L, "width", Info->w);
         LuaAddIntegerField(L, "gran", (Info->sw[1] == 0xffffffff) ? Info->w : min(Info->sw[3] + 1 - Info->xo, Info->w));
-            
+        
+        // Colors
+        LuaAddIntegerField(L, "c1", Info->sw[0]);
+        LuaAddIntegerField(L, "c2", Info->sw[2]);
+
         // Saved user data
         {
             CStringA index;
@@ -276,7 +283,6 @@ template<class T> void COverlayLuaMixer<T>::Draw(bool Body)
             LuaError(ErrorText + LuaErrorText);
         }
     }
-    lua_pop(L, 1);
 }
 
 template void COverlayLuaMixer<COverlayMixer>::Draw(bool Body);

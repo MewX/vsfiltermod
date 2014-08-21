@@ -1401,11 +1401,8 @@ void CMyLua::LoadLuaFile(CString Filename)
         return;
     }
 
-    // Find ass_init() function =D
-    lua_getglobal(L, "init");
-
     LuaError(CString("Lua script loaded: ") + Filename);
-    if(lua_isfunction(L, -1))
+    if(LuaHasFunction(L, L"init"))
     {
         if (lua_pcall(L, 0, 0, 0) != 0)
         {
@@ -1416,7 +1413,6 @@ void CMyLua::LoadLuaFile(CString Filename)
             LuaError(ErrorText + LuaErrorText);
         }
     }
-    lua_pop(L, 1);
 
     aFilename.ReleaseBuffer();
 }
@@ -2238,7 +2234,10 @@ CSimpleTextSubtitle::~CSimpleTextSubtitle()
 {
     #ifdef _VSMOD // patch m012. lua
     #ifdef _LUA
-    if(L) lua_close(L);
+    try
+    {
+        if(L) lua_close(L);
+    } catch(...) {}
    
     try
     {
