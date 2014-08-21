@@ -129,6 +129,7 @@ public:
     // Custom function name
     CString Function;
     int     m_entry;
+    int     m_layer;
 
     // Alpha of layers
     COverlayGetter * Alpha;

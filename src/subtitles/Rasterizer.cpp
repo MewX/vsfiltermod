@@ -1023,6 +1023,7 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
             Mix.L = L;
             Mix.LuaLog = LuaLog;
             Mix.m_entry = m_entry;
+            Mix.m_layer = m_layer;
             Mix.Function = LuaRendererHandler;
             Mix.Draw(fBody);
         }
@@ -1032,6 +1033,7 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
             Mix.L = L;
             Mix.LuaLog = LuaLog;
             Mix.m_entry = m_entry;
+            Mix.m_layer = m_layer;
             Mix.Function = LuaRendererHandler;
             Mix.Draw(fBody);
         }

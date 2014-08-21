@@ -120,6 +120,9 @@ void CWord::Paint(CPoint p, CPoint org, int Layer)
 void CWord::Paint(CPoint p, CPoint org)
 #endif
 {
+#if defined (_VSMOD) && defined(_LUA)
+    m_layer = Layer;
+#endif
     if(!m_str) return;
 
     if(!m_fDrawn)

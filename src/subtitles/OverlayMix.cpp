@@ -247,6 +247,7 @@ template<class T> void COverlayLuaMixer<T>::Draw(bool Body)
         // Create line table
         lua_newtable(L);
         LuaAddIntegerField(L, "id", m_entry);
+        LuaAddIntegerField(L, "layer", m_layer);
         LuaAddBoolField(L, "body", Body);
         LuaAddIntegerField(L, "height", Info->h);
         LuaAddIntegerField(L, "width", Info->w);
