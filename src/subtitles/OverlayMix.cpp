@@ -254,8 +254,10 @@ template<class T> void COverlayLuaMixer<T>::Draw(bool Body)
         LuaAddIntegerField(L, "gran", (Info->sw[1] == 0xffffffff) ? Info->w : min(Info->sw[3] + 1 - Info->xo, Info->w));
         
         // Colors
-        LuaAddIntegerField(L, "c1", Info->sw[0]);
-        LuaAddIntegerField(L, "c2", Info->sw[2]);
+        LuaAddIntegerField(L, "c1", Info->sw[0] & 0xffffff);
+        LuaAddIntegerField(L, "c2", Info->sw[2] & 0xffffff);
+        LuaAddIntegerField(L, "a1", (Info->sw[0] >> 24) & 0xff);
+        LuaAddIntegerField(L, "a2", (Info->sw[2] >> 24) & 0xff);
 
         // Saved user data
         {
