@@ -1326,7 +1326,7 @@ CRect CLine::PaintShadow(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CPo
             DWORD a = 0xff - w->m_style.alpha[3];
             if(alpha > 0) a = MulDiv(a, 0xff - alpha, 0xff);
             COLORREF shadow = revcolor(w->m_style.colors[3]) | (a << 24);
-            DWORD sw[6] = {shadow, -1};
+
 
 #ifdef _VSMOD // patch m011. jitter
             CPoint mod_jitter = w->m_style.mod_jitter.getOffset(rt);
@@ -1343,6 +1343,15 @@ CRect CLine::PaintShadow(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CPo
 #else
             w->Paint(CPoint(x, y), org);
 #endif
+            
+#if defined (_VSMOD) && defined(_LUA)
+            DWORD sw[6] = {shadow, 0, shadow};
+            // karaoke
+            CalcKaraokePos(time, &sw[0], w);
+#else
+            DWORD sw[6] = {shadow, -1};
+#endif
+
             if(w->m_style.borderStyle == 0)
             {
 #ifdef _VSMOD // patch m004. gradient colors
@@ -1397,8 +1406,7 @@ CRect CLine::PaintOutline(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CP
             DWORD aoutline = w->m_style.alpha[2];
             if(alpha > 0) aoutline += MulDiv(alpha, 0xff - w->m_style.alpha[2], 0xff);
             COLORREF outline = revcolor(w->m_style.colors[2]) | ((0xff - aoutline) << 24);
-            DWORD sw[6] = {outline, -1};
-
+           
 #ifdef _VSMOD // patch m011. jitter
             CPoint mod_jitter = w->m_style.mod_jitter.getOffset(rt);
             x += mod_jitter.x;
@@ -1414,6 +1422,14 @@ CRect CLine::PaintOutline(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CP
             w->Paint(CPoint(x, y), org, 3);
 #else
             w->Paint(CPoint(x, y), org);
+#endif
+
+#if defined (_VSMOD) && defined(_LUA)
+            DWORD sw[6] = {outline, 0, outline};
+            // karaoke
+            CalcKaraokePos(time, &sw[0], w);
+#else
+            DWORD sw[6] = {outline, -1};
 #endif
 
             if(w->m_style.borderStyle == 0)
@@ -1471,50 +1487,6 @@ CRect CLine::PaintBody(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CPoin
         if(alpha > 0) asecondary += MulDiv(alpha, 0xff - w->m_style.alpha[1], 0xff);
         COLORREF secondary = revcolor(w->m_style.colors[1]) | ((0xff - asecondary) << 24);
 
-        DWORD sw[6] = {primary, 0, secondary};
-
-        // karaoke
-
-        double t;
-
-        if(w->m_ktype == 0 || w->m_ktype == 2)
-        {
-            t = time < w->m_kstart ? 0 : 1;
-        }
-        else if(w->m_ktype == 1)
-        {
-            if(time < w->m_kstart) t = 0;
-            else if(time < w->m_kend)
-            {
-                t = 1.0 * (time - w->m_kstart) / (w->m_kend - w->m_kstart);
-
-                double angle = fmod(w->m_style.fontAngleZ, 360.0);
-                if(angle > 90 && angle < 270)
-                {
-                    t = 1 - t;
-                    COLORREF tmp = sw[0];
-                    sw[0] = sw[2];
-                    sw[2] = tmp;
-                }
-            }
-            else t = 1.0;
-        }
-
-        if(t >= 1)
-        {
-            sw[1] = 0xFFFFFFF;
-        }
-
-        // move dividerpoint
-        int bluradjust = 0;
-        if(w->m_style.fGaussianBlur > 0)
-            bluradjust += (int)(w->m_style.fGaussianBlur * 3 * 8 + 0.5) | 1;
-        if(w->m_style.fBlur)
-            bluradjust += 8;
-        double tx = w->m_style.fontAngleZ;
-        sw[4] = sw[2];
-        sw[5] = 0x00ffffff;
-
 #ifdef _VSMOD // patch m011. jitter
         CPoint mod_jitter = w->m_style.mod_jitter.getOffset(rt);
         x += mod_jitter.x;
@@ -1527,12 +1499,14 @@ CRect CLine::PaintBody(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CPoin
 #endif
 
 #if defined (_VSMOD) && defined(_LUA)
-            w->Paint(CPoint(x, y), org, 1);
+        w->Paint(CPoint(x, y), org, 1);
 #else
-            w->Paint(CPoint(x, y), org);
+        w->Paint(CPoint(x, y), org);
 #endif
-
-        sw[3] = (int)(w->m_style.outlineWidthX + t * w->getOverlayWidth() + t * bluradjust) >> 3;
+        
+        DWORD sw[6] = {primary, 0, secondary};
+        // karaoke
+        CalcKaraokePos(time, &sw[0], w);
 
 #ifdef _VSMOD // patch m004. gradient colors
         bbox |= w->Draw(spd, clipRect, pAlphaMask, x, y, sw, true, false, 0, w->m_style.mod_grad, mod_vc);
@@ -1545,6 +1519,49 @@ CRect CLine::PaintBody(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CPoin
     return(bbox);
 }
 
+void CLine::CalcKaraokePos(int time, DWORD * sw, CWord* w)
+{
+    double t;
+
+    if(w->m_ktype == 0 || w->m_ktype == 2)
+    {
+        t = time < w->m_kstart ? 0 : 1;
+    }
+    else if(w->m_ktype == 1)
+    {
+        if(time < w->m_kstart) t = 0;
+        else if(time < w->m_kend)
+        {
+            t = 1.0 * (time - w->m_kstart) / (w->m_kend - w->m_kstart);
+
+            double angle = fmod(w->m_style.fontAngleZ, 360.0);
+            if(angle > 90 && angle < 270)
+            {
+                t = 1 - t;
+                COLORREF tmp = sw[0];
+                sw[0] = sw[2];
+                sw[2] = tmp;
+            }
+        }
+        else t = 1.0;
+    }
+
+    if(t >= 1)
+    {
+        sw[1] = 0xFFFFFFF;
+    }
+
+    // move dividerpoint
+    int bluradjust = 0;
+    if(w->m_style.fGaussianBlur > 0)
+        bluradjust += (int)(w->m_style.fGaussianBlur * 3 * 8 + 0.5) | 1;
+    if(w->m_style.fBlur)
+        bluradjust += 8;
+        
+    sw[3] = (int)(w->m_style.outlineWidthX + t * w->getOverlayWidth() + t * bluradjust) >> 3;
+    sw[4] = sw[2];
+    sw[5] = 0x00ffffff;
+}
 
 // CSubtitle
 

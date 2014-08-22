@@ -143,6 +143,8 @@ public:
 
     void Compact();
 
+    void CalcKaraokePos(int time, DWORD * sw, CWord* w);
+
 #ifdef _VSMOD // patch m006. moveable vector clip
     CRect PaintShadow(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CPoint p, CPoint org, int time, int alpha, MOD_MOVEVC& mod_vc, REFERENCE_TIME rt);
     CRect PaintOutline(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CPoint p, CPoint org, int time, int alpha, MOD_MOVEVC& mod_vc, REFERENCE_TIME rt);
