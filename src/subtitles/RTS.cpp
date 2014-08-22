@@ -299,6 +299,8 @@ void CWord::Transform(CPoint org)
     double zrnd = m_style.mod_rand.Z * 100;
 
     srand(m_style.mod_rand.Seed);
+#endif
+
     // CPUID from VDub
     bool fSSE2 = !!(g_cpuid.m_flags & CCpuID::sse2);
 
@@ -318,6 +320,7 @@ void CWord::Transform(CPoint org)
         __m128 __xsz = _mm_setzero_ps();
         __m128 __ysz = _mm_setzero_ps();
 
+#ifdef _VSMOD
         __m128 __dst1x, __dst1y, __dst213x, __dst213y, __dst3x, __dst3y;
 
         __m128 __miny;
@@ -356,6 +359,7 @@ void CWord::Transform(CPoint org)
             __dst213y = _mm_sub_ps(__dst213y, __dst1y);
             __dst213y = _mm_sub_ps(__dst213y, __dst3y); 
         }
+#endif
 
         __m128 __caz = _mm_set_ps1(caz);
         __m128 __saz = _mm_set_ps1(saz);
@@ -397,6 +401,8 @@ void CWord::Transform(CPoint org)
                 __pointx = _mm_set_ps(mpPathPoints[4 * i + 0].x, mpPathPoints[4 * i + 1].x, mpPathPoints[4 * i + 2].x, mpPathPoints[4 * i + 3].x);
                 __pointy = _mm_set_ps(mpPathPoints[4 * i + 0].y, mpPathPoints[4 * i + 1].y, mpPathPoints[4 * i + 2].y, mpPathPoints[4 * i + 3].y);
             }
+
+#ifdef _VSMOD
             __m128 __pointz = _mm_set_ps1(m_style.mod_z);
 
             // distort
@@ -468,6 +474,9 @@ void CWord::Transform(CPoint org)
                     __pointz = _mm_add_ps(__pointz, __rz);
                 }
             }
+#else
+            __m128 __pointz = _mm_set_ps1(0);
+#endif
 
             // scale and shift
             __m128 __tmpx;
@@ -565,6 +574,7 @@ void CWord::Transform(CPoint org)
         double dst1x, dst1y, dst2x, dst2y, dst3x, dst3y;
         int minx = INT_MAX, miny = INT_MAX, maxx = -INT_MAX, maxy = -INT_MAX;
 
+#ifdef _VSMOD
         bool is_dist = m_style.mod_distort.enabled;
         if(is_dist)
         {
