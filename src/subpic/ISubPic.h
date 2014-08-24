@@ -225,6 +225,10 @@ interface ISubPicProvider : public IUnknown
 
 	STDMETHOD_(bool, IsAnimated) (POSITION pos) PURE;
 
+#if defined(_VSMOD) && defined (_LUA)
+    STDMETHOD (SetReferenceVideo) (SubPicDesc& spd) PURE;
+#endif
+
 	STDMETHOD (Render) (SubPicDesc& spd, REFERENCE_TIME rt, double fps, RECT& bbox) PURE;
 	STDMETHOD (GetTextureSize) (POSITION pos, SIZE& MaxTextureSize, SIZE& VirtualSize, POINT& VirtualTopLeft) PURE;
 };
@@ -233,6 +237,10 @@ class ISubPicProviderImpl : public CUnknown, public ISubPicProvider
 {
 protected:
 	CCritSec* m_pLock;
+
+#if defined(_VSMOD) && defined (_LUA)
+    SubPicDesc * m_video;
+#endif
 
 public:
 	ISubPicProviderImpl(CCritSec* pLock);
@@ -251,6 +259,10 @@ public:
 
 	STDMETHODIMP_(REFERENCE_TIME) GetStart(POSITION pos, double fps) = 0;
 	STDMETHODIMP_(REFERENCE_TIME) GetStop(POSITION pos, double fps) = 0;
+
+#if defined(_VSMOD) && defined (_LUA)
+    STDMETHODIMP SetReferenceVideo (SubPicDesc& spd);
+#endif
 
 	STDMETHODIMP Render(SubPicDesc& spd, REFERENCE_TIME rt, double fps, RECT& bbox) = 0;
 	STDMETHODIMP GetTextureSize (POSITION pos, SIZE& MaxTextureSize, SIZE& VirtualSize, POINT& VirtualTopLeft) { return E_NOTIMPL; };

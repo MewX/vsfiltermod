@@ -66,6 +66,11 @@ public:
     int xo;
     int yo;
 
+#if defined (_VSMOD) && defined(_LUA)
+    int x;
+    int y;
+#endif
+
     const DWORD* sw;
     byte* s;
     byte* src;
@@ -134,8 +139,9 @@ private:
     static void _OverlapRegion(tSpanBuffer& dst, tSpanBuffer& src, int dx, int dy);
 public:
 #if defined (_VSMOD) && defined(_LUA)
-    int     m_entry; // id
-    int     m_layer;
+    int          m_entry; // id
+    int          m_layer;
+    SubPicDesc * m_video;
     CString LuaRendererHandler;
 #endif
 

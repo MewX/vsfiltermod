@@ -1,6 +1,7 @@
 
 #include "stdafx.h"
 #include "OverlayMix.h"
+#include "../subpic/MemSubPic.h"
 #include <math.h>
 
 // COverlayMixer class
@@ -177,12 +178,13 @@ template<class T> int lua_RendererGet(lua_State * L)
     int y = lua_tonumber(L, 3);
 
     int Alpha = 0;
-    int Color = 0xff000000;
+    int Color = 0x000000;
     if(((x < Mix->Info->w) || (x >= 0)) &&
        ((y < Mix->Info->h) || (y >= 0)))
     {
         Alpha = Mix->Info->s[x*2 + 2 *  Mix->Info->overlayp * (Mix->Info->h - y - 1)];
-        Color = *(DWORD*)((char *)&Mix->Info->dst[0] + Mix->Info->pitch * (Mix->Info->h - y - 1));
+        Color = Mix->GetVideoReference(x, y);
+        //Color = (DWORD*)((char *)&Mix->Info->dst[0] + Mix->Info->pitch * (Mix->Info->h - y - 1))[x] & 0xffffff;
     }
     
     lua_pushinteger(L, Alpha);
@@ -285,6 +287,29 @@ template<class T> void COverlayLuaMixer<T>::Draw(bool Body)
 
             LuaError(ErrorText + LuaErrorText);
         }
+    }
+}
+
+template<class T> DWORD COverlayLuaMixer<T>::GetVideoReference(int x, int y)
+{
+    if(!m_video) return 0x000000;
+
+    BYTE * s = (BYTE*)m_video->bits + m_video->pitch * Info->y + Info->x * 4;
+    switch(m_video->type)
+    {
+    case MSP_RGBA:
+        {
+            DWORD s2 = ((DWORD*)(s + m_video->pitch * (Info->h - y - 1)))[x];
+            return s2 >> 8;
+        }
+    case MSP_RGB32:
+        return ((DWORD*)(s + m_video->pitch * y))[x] & 0xffffff;
+    case MSP_RGB24:
+//        break;
+    case MSP_RGB16:
+//        break;
+    default:
+        return 0x000000;
     }
 }
 

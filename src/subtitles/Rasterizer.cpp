@@ -972,7 +972,10 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
     // How would this differ from src?
     rnfo.dst = (DWORD*)((char *)spd.bits + (spd.pitch * y)) + x;
     rnfo.sw = switchpts;
-
+#if defined (_VSMOD) && defined(_LUA)
+    rnfo.x = x;
+    rnfo.y = y;
+#endif
     rnfo.w = w;
     rnfo.h = h;
     rnfo.xo = xo;
@@ -1024,6 +1027,7 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
             Mix.LuaLog = LuaLog;
             Mix.m_entry = m_entry;
             Mix.m_layer = m_layer;
+            Mix.m_video = m_video;
             Mix.Function = LuaRendererHandler;
             Mix.Draw(fBody);
         }
@@ -1034,6 +1038,7 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
             Mix.LuaLog = LuaLog;
             Mix.m_entry = m_entry;
             Mix.m_layer = m_layer;
+            Mix.m_video = m_video;
             Mix.Function = LuaRendererHandler;
             Mix.Draw(fBody);
         }

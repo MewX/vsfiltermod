@@ -744,6 +744,7 @@ CWord* CText::Copy()
     T->L = L;
     T->LuaLog = LuaLog;
     T->m_entry = m_entry;
+    T->m_video = m_video;
     T->LuaRendererHandler = LuaRendererHandler;
 #endif
     return T;
@@ -824,6 +825,8 @@ CWord* CPolygon::Copy()
     T->L = L;
     T->LuaLog = LuaLog;
     T->m_entry = m_entry;
+    T->m_layer = m_layer;
+    T->m_video = m_video;
     T->LuaRendererHandler = LuaRendererHandler;
 #endif
     return T;
@@ -1674,10 +1677,6 @@ CLine* CSubtitle::GetNextLine(POSITION& pos, int maxwidth)
     CLine* ret = DNew CLine();
     if(!ret) return(NULL);
 
-#if defined(_VSMOD) && defined(_LUA)
-
-#endif
-
     ret->m_width = ret->m_ascent = ret->m_descent = ret->m_borderX = ret->m_borderY = 0;
 
     maxwidth = GetWrapWidth(pos, maxwidth);
@@ -2176,6 +2175,7 @@ void CRenderedTextSubtitle::ParseString(CSubtitle* sub, CStringW str, STSStyle& 
                 w->L = L;
                 w->LuaLog = LuaLog;
                 w->m_entry = m_entry;
+                w->m_video = m_video;
                 w->LuaRendererHandler = style.LuaRendererHandler;
 #endif
                 sub->m_words.AddTail(w);
@@ -2191,6 +2191,7 @@ void CRenderedTextSubtitle::ParseString(CSubtitle* sub, CStringW str, STSStyle& 
                 w->L = L;
                 w->LuaLog = LuaLog;
                 w->m_entry = m_entry;
+                w->m_video = m_video;
                 w->LuaRendererHandler = style.LuaRendererHandler;
 #endif
                 sub->m_words.AddTail(w);
@@ -2205,6 +2206,7 @@ void CRenderedTextSubtitle::ParseString(CSubtitle* sub, CStringW str, STSStyle& 
                 w->L = L;
                 w->LuaLog = LuaLog;
                 w->m_entry = m_entry;
+                w->m_video = m_video;
                 w->LuaRendererHandler = style.LuaRendererHandler;
 #endif
                 sub->m_words.AddTail(w);
@@ -2228,6 +2230,7 @@ void CRenderedTextSubtitle::ParsePolygon(CSubtitle* sub, CStringW str, STSStyle&
         w->L = L;
         w->LuaLog = LuaLog;
         w->m_entry = m_entry;
+        w->m_video = m_video;
         w->LuaRendererHandler = style.LuaRendererHandler;
 #endif
         sub->m_words.AddTail(w);

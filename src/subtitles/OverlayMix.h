@@ -77,7 +77,6 @@ protected:
 
 public:
     RasterizerNfo * Info;
-    
     COverlayMixer(RasterizerNfo * Info, COverlayGetter * Color);
     
     // Mixer
@@ -127,9 +126,10 @@ template<class T> class COverlayLuaMixer : public T, public CMyLua
 {
 public:
     // Custom function name
-    CString Function;
-    int     m_entry;
-    int     m_layer;
+    CString      Function;
+    int          m_entry;
+    int          m_layer;
+    SubPicDesc * m_video;
 
     // Alpha of layers
     COverlayGetter * Alpha;
@@ -139,6 +139,7 @@ public:
         : T(Info, Color) { this->Alpha = Alpha; }
 
     void Draw(bool Body);
+    DWORD GetVideoReference(int x, int y);
 };
 
 #endif

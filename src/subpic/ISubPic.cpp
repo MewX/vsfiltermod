@@ -270,6 +270,9 @@ ISubPicProviderImpl::ISubPicProviderImpl(CCritSec* pLock)
     : CUnknown(NAME("ISubPicProviderImpl"), NULL)
     , m_pLock(pLock)
 {
+#if defined(_VSMOD) && defined (_LUA)
+    m_video = NULL;
+#endif
 }
 
 ISubPicProviderImpl::~ISubPicProviderImpl()
@@ -294,6 +297,15 @@ STDMETHODIMP ISubPicProviderImpl::Unlock()
 {
     return m_pLock ? m_pLock->Unlock(), S_OK : E_FAIL;
 }
+
+#if defined(_VSMOD) && defined (_LUA)
+STDMETHODIMP ISubPicProviderImpl::SetReferenceVideo (SubPicDesc& spd)
+{
+    m_video = &spd;
+
+    return S_OK;
+}
+#endif
 
 //
 // ISubPicQueueImpl

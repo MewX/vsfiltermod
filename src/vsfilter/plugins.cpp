@@ -95,6 +95,10 @@ public:
         }
 
         CComPtr<ISubPic> pSubPic;
+
+#if defined (_VSMOD) && defined(_LUA)
+        m_pSubPicProvider->SetReferenceVideo(dst);
+#endif
         if(!m_pSubPicQueue->LookupSubPic(rt, pSubPic))
             return(false);
 
